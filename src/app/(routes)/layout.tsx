@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
-import "./globals.css";
+import "@/app/styles/globals.css";
 
 const jetBrainsMono = JetBrains_Mono({
 	subsets: ["latin"],
@@ -10,7 +10,7 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
 	title: "Financial Literacy App",
-	description: "Learn more about financial literacy!",
+	description: "Learn more about financial literacy",
 };
 
 export default function RootLayout({
