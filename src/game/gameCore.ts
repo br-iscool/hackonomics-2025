@@ -1,12 +1,11 @@
 import { GameState } from './types';
 import { loadGameState, saveGameState } from './loadState';
 
-gameState = {
-
-}
+var gameState;
 
 export function initializeGame(): GameState {
-  return loadGameState();
+  gameState = loadGameState();
+  return gameState
 }
 
 export function nextTurn(state: GameState): GameState {
@@ -16,8 +15,13 @@ export function nextTurn(state: GameState): GameState {
 }
 
 export function playTurn(state: GameState): GameState {
-  // Implement the logic to play a turn in the game
-  // This is a placeholder implementation
-  const newState = { ...state, turn: state.turn + 1 };
-  return newState;
+    // Placeholder for game logic
+    state.age += 1;
+    state.cash += Math.floor(Math.random() * 100); // Random cash increase
+    state.assets.push(`Asset ${state.age}`); // Add a new asset
+    state.expenses.push(`Expense ${state.age}`); // Add a new expense
+    state.products.push(`Product ${state.age}`); // Add a new product
+    state.decisions.push(`Decision ${state.age}`); // Add a new decision
+    
+    return state;
 }
