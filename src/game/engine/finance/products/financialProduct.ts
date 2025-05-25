@@ -24,5 +24,5 @@ export abstract class FinancialProduct {
   abstract nextTurn(): void;
 
   // OPTIONAL: method to make a payment or deposit
-  abstract transact(amount: number): void;
+  transact?(amount: number): void;
 }
