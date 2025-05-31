@@ -1,4 +1,5 @@
 import ActionButton from "@/app/components/ActionButton"
+import AgeUp from "@/app/components/AgeUp"
 import ProfileIcon from "@/app/components/ProfileIcon"
 
 export default function Game() {
@@ -9,6 +10,8 @@ export default function Game() {
                     <ProfileIcon name="John Doe" stress={10} money={250}/>
                 </div>
                 
+                <AgeUp />
+
                 <div className="flex">
                     <ul>
                         <li><ActionButton text="Education" /></li>
