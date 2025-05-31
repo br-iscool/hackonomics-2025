@@ -1,33 +1,29 @@
-import { FinancialProduct } from "./financialProduct";
+import { SavingsAccData } from "@/game/state/types/finance";
+import { useGameStore } from "@/game/state";
 
-export interface SavingsAccountProps {
-  id: string;
-  name: string;
-  balance: number;
-  interestRate: number;
-}
+export class SavingsAccount {
+  public data: SavingsAccData;
 
-export class SavingsAccount extends FinancialProduct {
-  constructor(props: SavingsAccountProps) {
-    const { id, name, balance, interestRate } = props;
-    super(id, name, balance, interestRate);
+  constructor(props: SavingsAccData) {
+    useGameStore.getState().finance.products.savings;
+    this.data = useGameStore.getState().finance.products.savings || props;
   }
 
   nextTurn() {
-    if (!this.active) return;
+    if (!this.data.active) return;
 
-    const monthlyInterest = this.balance * (this.interestRate / 12);
-    this.balance += monthlyInterest;
+    const monthlyInterest = this.data.balance * (this.data.interestRate / 12);
+    this.data.balance += monthlyInterest;
   }
 
   deposit(amount: number) {
     if (amount <= 0) return;
-    this.balance += amount;
+    this.data.balance += amount;
   }
 
   withdraw(amount: number) {
-    if (amount <= 0 || amount > this.balance) return false;
-    this.balance -= amount;
+    if (amount <= 0 || amount > this.data.balance) return false;
+    this.data.balance -= amount;
     return true;
   }
 }

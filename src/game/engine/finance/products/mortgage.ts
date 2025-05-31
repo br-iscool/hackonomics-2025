@@ -1,51 +1,35 @@
-import { FinancialProduct } from "./financialProduct";
+import { useGameStore } from "@/game/state";
+import { MortgageData } from "@/game/state/types/finance";
 
-export interface MortgageProps {
-  id: string;
-  name: string;
-  balance: number;       // current mortgage balance
-  interestRate: number;  // annual interest rate
-  termYears: number;    // mortgage duration in years
-  annualPayment: number;
-  downPayment: number;   // initial down payment amount
-}
+export class Mortgage {
+  public data: MortgageData;
 
-export class Mortgage extends FinancialProduct {
-  termYears: number;
-  annualPayment: number;
-  downPayment: number;
-  yearsElapsed: number = 0;
-
-  constructor(props: MortgageProps) {
-    const { id, name, balance, interestRate, termYears, annualPayment, downPayment } = props;
-    super(id, name, balance, interestRate);
-
-    this.termYears = termYears;
-    this.annualPayment = annualPayment;
-    this.downPayment = downPayment;
+  constructor(props: MortgageData) {
+    useGameStore.getState().finance.addMortgage(props);
+    this.data = useGameStore.getState().finance.products.mortgage || props;
   }
 
   nextTurn() {
-    if (!this.active) return;
+    if (!this.data.active) return;
 
-    this.yearsElapsed++;
+    this.data.yearsElapsed++;
 
     // Calculate annual interest
-    const annualInterest = this.balance * (this.interestRate);
-    this.balance += annualInterest;
+    const annualInterest = this.data.balance * (this.data.interestRate);
+    this.data.balance += annualInterest;
 
     // Make annual payment
-    this.balance -= this.annualPayment;
+    this.data.balance -= this.data.annualPayment;
 
-    if (this.balance <= 0 || this.yearsElapsed >= this.termYears) {
-      this.balance = 0;
-      this.active = false; // mortgage paid off or term ended
+    if (this.data.balance <= 0 || this.data.yearsElapsed >= this.data.termYears) {
+      this.data.balance = 0;
+      this.data.active = false; // mortgage paid off or term ended
     }
   }
 
   transact(amount: number) {
     // Extra payment towards mortgage principal
-    this.balance -= amount;
-    if (this.balance < 0) this.balance = 0;
+    this.data.balance -= amount;
+    if (this.data.balance < 0) this.data.balance = 0;
   }
 }

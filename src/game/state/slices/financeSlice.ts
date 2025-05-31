@@ -1,21 +1,20 @@
 import { StateCreator } from "zustand";
-import { Finance } from "../types/finance";
+import { Finance, CreditCardData, LoanData, InsuranceData, MortgageData } from "../types/finance";
 
 export interface FinanceSlice {
-  finance: Finance;
-  updateDebt: (amount: number) => void;
-  addLoan: (loan: unknown /* Loan */) => void;
-  addCreditCard: (card: unknown /* CreditCard */) => void;
-  // etc, etc
+  finance: Finance & {
+    updateDebt: (amount: number) => void;
+    addLoan: (loan: LoanData) => void;
+    addCreditCard: (card: CreditCardData) => void;
+    addInsurance: (insurance: InsuranceData) => void;
+    addMortgage: (mortgage: MortgageData) => void;
+  };
 }
 
 export const initialFinance: Finance = {
   products: {
-    creditCard: undefined,
     loans: [],
-    savings: { balance: 0, interestRate: 0 },
-    mortgage: undefined,
-    insurance: undefined,
+    savings: { name: "basic", balance: 0, interestRate: 0 },
     investments: [],
   },
   summary: {
@@ -38,29 +37,54 @@ export const initialFinance: Finance = {
 };
 
 export const createFinanceSlice: StateCreator<FinanceSlice, [], [], FinanceSlice> = (set) => ({
-  finance: initialFinance,
-  updateDebt: (amount) =>
-    set((state) => ({
-      finance: {
-        ...state.finance,
-        summary: {
-          ...state.finance.summary,
-          debt: state.finance.summary.debt + amount,
+  finance: {
+    ...initialFinance,
+    updateDebt: (amount) =>
+      set((state) => ({
+        finance: {
+          ...state.finance,
+          summary: {
+            ...state.finance.summary,
+            debt: state.finance.summary.debt + amount,
+          },
         },
-      },
-    })),
-  addLoan: (loan) =>
-    set((state) => ({
-      finance: {
-        ...state.finance,
-        loans: [], //[...state.finance.loans, loan],
-      },
-    })),
-  addCreditCard: (card) =>
-    set((state) => ({
-      finance: {
-        ...state.finance,
-        creditCards: [], //[...state.finance.creditCards, card],
-      },
-    })),
+      })),
+    addLoan: (loan) =>
+      set((state) => ({
+        finance: {
+          ...state.finance,
+          loans: [...state.finance.products.loans, loan],
+        },
+      })),
+    addCreditCard: (card) =>
+      set((state) => ({
+        finance: {
+          ...state.finance,
+          products: {
+            ...state.finance.products,
+            creditCard: card,
+          },
+        },
+      })),
+    addInsurance: (insurance) =>
+      set((state) => ({
+        finance: {
+          ...state.finance,
+          products: {
+            ...state.finance.products,
+            insurance,
+          },
+        },
+      })),
+    addMortgage: (mortgage) =>
+      set((state) => ({
+        finance: {
+          ...state.finance,
+          products: {
+            ...state.finance.products,
+            mortgage,
+          },
+        },
+      })),
+  },
 });

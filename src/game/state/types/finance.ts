@@ -1,5 +1,5 @@
 export interface CreditCardData {
-  id: string;
+  active: boolean;
   name: string;
   balance: number;
   interestRate: number;
@@ -7,13 +7,52 @@ export interface CreditCardData {
   interestFreePeriod: number;
 }
 
+export interface LoanData {
+  active: boolean;
+  id: string;
+  name: string;
+  balance: number; // current loan amount
+  interestRate: number; // annual interest rate
+  termMonths: number; // loan duration in months
+  monthlyPayment: number; // monthly payment amount
+}
+
+export interface SavingsAccData {
+  active: boolean;
+  name: string;
+  balance: number;
+  interestRate: number;
+}
+
+export interface MortgageData {
+  id: string;
+  name: string;
+  balance: number; // current mortgage balance
+  interestRate: number; // annual interest rate
+  termYears: number; // mortgage duration in years
+  annualPayment: number;
+  downPayment: number; // initial down payment amount
+  yearsElapsed: number; // years since mortgage started
+  active: boolean; // whether the mortgage is still active
+}
+
+export interface InsuranceData {
+  active: boolean;
+  id: string;
+  name: string;
+  coverageAmount: number; // Amount paid out on claim
+  premium: number; // Monthly premium payment
+  monthsElapsed: number; // Months since policy started
+  termMonths?: number; // Optional fixed term length
+}
+
 export interface Finance {
   products: {
-    creditCard: unknown; // CreditCard
-    loans: unknown[]; // Loan[]
-    savings: unknown; // SavingsAccount
-    mortgage?: unknown; // Mortgage
-    insurance?: unknown; // InsurancePolicy
+    creditCard?: CreditCardData;
+    loans: LoanData[];
+    savings: SavingsAccData;
+    mortgage?: MortgageData;
+    insurance?: InsuranceData;
     investments?: unknown[]; // Investment[]
   };
 
