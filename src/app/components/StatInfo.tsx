@@ -1,5 +1,3 @@
-// components/StatInfo.tsx
-
 interface StatInfoProps {
   stress: number;
   money: number;
