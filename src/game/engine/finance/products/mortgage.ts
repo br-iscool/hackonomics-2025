@@ -5,39 +5,39 @@ export interface MortgageProps {
   name: string;
   balance: number;       // current mortgage balance
   interestRate: number;  // annual interest rate
-  termMonths: number;    // mortgage duration in months (e.g., 360 for 30 years)
-  monthlyPayment: number;
+  termYears: number;    // mortgage duration in years
+  annualPayment: number;
   downPayment: number;   // initial down payment amount
 }
 
 export class Mortgage extends FinancialProduct {
-  termMonths: number;
-  monthlyPayment: number;
+  termYears: number;
+  annualPayment: number;
   downPayment: number;
-  monthsElapsed: number = 0;
+  yearsElapsed: number = 0;
 
   constructor(props: MortgageProps) {
-    const { id, name, balance, interestRate, termMonths, monthlyPayment, downPayment } = props;
+    const { id, name, balance, interestRate, termYears, annualPayment, downPayment } = props;
     super(id, name, balance, interestRate);
 
-    this.termMonths = termMonths;
-    this.monthlyPayment = monthlyPayment;
+    this.termYears = termYears;
+    this.annualPayment = annualPayment;
     this.downPayment = downPayment;
   }
 
   nextTurn() {
     if (!this.active) return;
 
-    this.monthsElapsed++;
+    this.yearsElapsed++;
 
-    // Calculate monthly interest
-    const monthlyInterest = this.balance * (this.interestRate / 12);
-    this.balance += monthlyInterest;
+    // Calculate annual interest
+    const annualInterest = this.balance * (this.interestRate);
+    this.balance += annualInterest;
 
-    // Make monthly payment
-    this.balance -= this.monthlyPayment;
+    // Make annual payment
+    this.balance -= this.annualPayment;
 
-    if (this.balance <= 0 || this.monthsElapsed >= this.termMonths) {
+    if (this.balance <= 0 || this.yearsElapsed >= this.termYears) {
       this.balance = 0;
       this.active = false; // mortgage paid off or term ended
     }
