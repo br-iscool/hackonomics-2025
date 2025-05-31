@@ -2,11 +2,12 @@ import Image from "next/image";
 
 interface ProfileIconProps {
 	name: string;
+	job: string;
 	stress: number;
 	money: number;
 }
 
-export default function ProfileIcon({ name, stress, money }: ProfileIconProps) {
+export default function ProfileIcon({ name, job, stress, money }: ProfileIconProps) {
 	const stressColor = stress < 40 ? "bg-green-500" : stress < 70 ? "bg-yellow-500" : "bg-red-500";
 
 	return (
@@ -16,7 +17,7 @@ export default function ProfileIcon({ name, stress, money }: ProfileIconProps) {
 
 				<div>
 					<p className="text-sm font-medium text-white">{ name }</p>
-					<p className="text-xs text-gray-500">Software Engineer</p>
+					<p className="text-xs text-gray-500">{ job }</p>
 				</div>
 
 				<div className="w-px h-12 bg-white"></div>

@@ -2,7 +2,7 @@ export default function Home() {
 	return (
 		<main className="px-6 py-12">
 			<section className="max-w-6xl mx-auto">
-				<h1 className="text-4xl font-bold text-gray-800 mb-4">Game of Life - Finance</h1>
+				<h1 className="text-4xl font-bold text-gray-800 mb-4">Balancing Act - Finance Game</h1>
 				<p className="text-lg text-gray-600 mb-8">A financial life simulator where every choice matters. From 16 to 65, balance stress, manage money, and shape your future.</p>
 
 				 <div className="bg-white p-6 rounded-xl shadow-md mb-12">
@@ -25,7 +25,7 @@ export default function Home() {
 						<li>Stats: Stress Level, Money</li>
 						<li>Life Stages: Education, Job, Marriage, Retirement (ends at 65)</li>
 						<li>Financial Market: Insurance, Credit Cards, Savings, Loans, Property, Investments</li>
-						<li>Events: Trips, Recessions, Life surprises</li>
+						<li>Events: Trips, Recessions, Surprises</li>
 						<li>Careers: Trades, Part-time Jobs, University, Grad School</li>
 					</ul>
 				</div>
@@ -36,9 +36,13 @@ export default function Home() {
 					<div className="aspect-video bg-gray-300 rounded-lg flex items-center justify-center text-gray-600">[Youtube Embed]</div>
 				</div>
 
-				<div className="text-center pt-10">
+				<div className="text-center flex gap-5 justify-center pt-10">
 					<a href="/game" className="inline-block bg-blue-500 text-white text-lg font-semibold px-6 py-3 rounded-full hover:bg-blue-600 transition-all duration-300">
 						Play the Game
+					</a>
+
+					<a href="/info" className="inline-block bg-blue-500 text-white text-lg font-semibold px-6 py-3 rounded-full hover:bg-blue-600 transition-all duration-300">
+						Learn More
 					</a>
 				</div>
 			</section>

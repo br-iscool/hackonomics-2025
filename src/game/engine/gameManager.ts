@@ -1,4 +1,4 @@
-import { useGameStore } from '@/game/state';
+import { useGameStore } from '../state';
 
 export const GameManager = {
   nextTurn() {
@@ -6,6 +6,6 @@ export const GameManager = {
     const { stats, finance/*, life*/ } = GameState;
 
     GameState.age += 1;
-
+    
   },
 };
