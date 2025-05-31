@@ -1,3 +1,5 @@
+"use client";
+
 import { useGameStore } from "@/game/state"
 import { useState } from "react";
 
@@ -18,7 +20,7 @@ export default function Game() {
         <>
             <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen">
                 <div className="p-5">
-                    <ProfileIcon name={GameState.playerName} stress={10} money={250}/>
+                    <ProfileIcon name="John Doe" job="Software Engineer" stress={10} money={250}/>
                 </div>
                 
                 <AgeUp />
