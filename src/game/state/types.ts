@@ -1,7 +1,6 @@
 export interface Stats {
   stress: number;
   money: number;
-  age: number;
   happiness: number;
 }
 
@@ -43,14 +42,13 @@ export interface Life {
 
 export interface GameState {
   playerName: string;
-  turn: number;
+  age: number;
 
   stats: Stats;
   finance: Finance;
   life: Life;
 
   settings: {
-    difficulty: "easy" | "medium" | "hard";
     autosave: boolean;
   };
 }

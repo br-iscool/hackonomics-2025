@@ -1,4 +1,5 @@
-import { FinancialProduct } from "./financialProduct";
+import { FinanceSlice } from "@/game/state/slices/financeSlice";
+import { useGameStore } from "@/game/state";
 
 export interface DebtProps {
   id: string;
@@ -8,13 +9,11 @@ export interface DebtProps {
   minimumPayment: number;
 }
 
-export class Debt extends FinancialProduct {
+export class Debt {
   minimumPayment: number;
 
-  constructor(props: DebtProps) {
-    const { id, name, balance, interestRate, minimumPayment } = props;
-    super(id, name, balance, interestRate);
-    this.minimumPayment = minimumPayment;
+  constructor(public data: DebtProps) {
+    useGameStore.getState().finance.Add
   }
 
   nextTurn() {

@@ -1,9 +1,11 @@
 import { useGameStore } from '../state';
 
 export const GameManager = {
-  ageUp() {
-    const { stats, increaseStress } = useGameStore.getState();
-    increaseStress(5);
-    console.log(`Aging up! Current age: ${stats.age}`);
+  nextTurn() {
+    const GameState = useGameStore.getState();
+    const { stats, finance/*, life*/ } = GameState;
+
+    GameState.age += 1;
+    
   },
 };
