@@ -1,25 +1,9 @@
-import { FinancialProduct } from "./financialProduct";
+import { CreditCardData } from "@/game/state/types/finance";
+import { useGameStore } from "@/game/state";
 
-export interface CreditCardProps {
-  id: string;
-  name: string;
-  balance: number;
-  interestRate: number;
-  creditLimit: number;
-  interestFreePeriod: number;
-}
-
-export class CreditCard extends FinancialProduct {
-  creditLimit: number;
-  interestFreePeriod: number; // number of turns before interest applies
-
-  constructor(props: CreditCardProps) {
-    const { id, name, balance, interestRate, creditLimit, interestFreePeriod } = props;
-
-    super(id, name, balance, interestRate);
-    
-    this.creditLimit = creditLimit;
-    this.interestFreePeriod = interestFreePeriod;
+export class CreditCard {
+  constructor(props: CreditCardData) {
+    this.data = useGameStore.getState().finance.products.creditCards.find(card => card.id === props.id) || props;
   }
 
   nextTurn() {

@@ -1,16 +1,15 @@
 import { StateCreator } from 'zustand';
-import { GameState } from '../types';
+import { Stats } from '../types/stats';
 
 export interface StatsSlice {
-  stats: GameState['stats'];
+  stats: Stats;
   increaseStress: (amount: number) => void;
   earnMoney: (amount: number) => void;
 }
 
-export const initialStats: StatsSlice['stats'] = {
+export const initialStats: Stats = {
   stress: 0,
   money: 0,
-  age: 16,
   happiness: 100,
 };
 

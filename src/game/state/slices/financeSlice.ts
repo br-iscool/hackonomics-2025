@@ -1,14 +1,5 @@
 import { StateCreator } from "zustand";
-
-export interface Finance {
-  creditCards: unknown; // CreditCard[]
-  loans: unknown; // Loan[]
-  savings: unknown; // SavingsAccount
-  debt: number;
-  mortgage?: unknown; // Mortgage
-  insurance?: unknown; // InsurancePolicy
-  investments?: unknown; // Investment[]
-}
+import { Finance } from "../types/finance";
 
 export interface FinanceSlice {
   finance: Finance;
@@ -19,13 +10,31 @@ export interface FinanceSlice {
 }
 
 export const initialFinance: Finance = {
-  creditCards: [],
-  loans: [],
-  savings: { balance: 0, interestRate: 0 },
-  debt: 0,
-  mortgage: undefined,
-  insurance: undefined,
-  investments: [],
+  products: {
+    creditCard: undefined,
+    loans: [],
+    savings: { balance: 0, interestRate: 0 },
+    mortgage: undefined,
+    insurance: undefined,
+    investments: [],
+  },
+  summary: {
+    income: 0,
+    expenses: 0,
+    budget: 0,
+    creditScore: 0,
+    debt: 0,
+    netWorth: 0,
+  },
+
+  context: {
+    hasJob: false,
+    isMarried: false,
+    educationLevel: "none",
+    householdIncome: 0,
+    propertyOwned: false,
+    age: 0,
+  },
 };
 
 export const createFinanceSlice: StateCreator<FinanceSlice, [], [], FinanceSlice> = (set) => ({
@@ -34,7 +43,10 @@ export const createFinanceSlice: StateCreator<FinanceSlice, [], [], FinanceSlice
     set((state) => ({
       finance: {
         ...state.finance,
-        debt: amount,
+        summary: {
+          ...state.finance.summary,
+          debt: state.finance.summary.debt + amount,
+        },
       },
     })),
   addLoan: (loan) =>

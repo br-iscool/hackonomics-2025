@@ -1,12 +1,15 @@
-export interface Stats {
-  stress: number;
-  money: number;
-  happiness: number;
+export interface CreditCardData {
+  id: string;
+  name: string;
+  balance: number;
+  interestRate: number;
+  creditLimit: number;
+  interestFreePeriod: number;
 }
 
 export interface Finance {
   products: {
-    creditCards: unknown[]; // CreditCard[]
+    creditCard: unknown; // CreditCard
     loans: unknown[]; // Loan[]
     savings: unknown; // SavingsAccount
     mortgage?: unknown; // Mortgage
@@ -31,24 +34,5 @@ export interface Finance {
     householdIncome: number;
     propertyOwned: boolean;
     age: number;
-  };
-}
-export interface Life {
-  job?: unknown; //Job;
-  education?: unknown; //Education;
-  family: unknown; //FamilyStatus;
-  events: unknown; //GameEvent[];
-}
-
-export interface GameState {
-  playerName: string;
-  age: number;
-
-  stats: Stats;
-  finance: Finance;
-  life: Life;
-
-  settings: {
-    autosave: boolean;
   };
 }
