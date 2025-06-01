@@ -1,6 +1,6 @@
-import {Stats} from './stats';
-import {Finance} from './finance';
-import {Life} from './life';
+import { Stats } from "./stats";
+import { Finance } from "./finance";
+import { Life } from "./life";
 
 export interface GameState {
   playerName: string;
@@ -13,4 +13,13 @@ export interface GameState {
   settings: {
     autosave: boolean;
   };
+}
+
+export interface GameEvent {
+  name: string;
+  condition?: () => boolean;
+  type: "scheduled" | "random";
+  triggerAge?: number; // for scheduled
+  weight?: number; // for random
+  execute: () => void;
 }
