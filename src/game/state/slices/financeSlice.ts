@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { Finance, CreditCardData, LoanData, InsuranceData, MortgageData } from "../types/finance";
+import { Finance, CreditCardData, LoanData, InsuranceData, MortgageData } from "../../types/finance";
 
 export interface FinanceSlice {
   finance: Finance & {
@@ -14,7 +14,7 @@ export interface FinanceSlice {
 export const initialFinance: Finance = {
   products: {
     loans: [],
-    savings: { name: "basic", balance: 0, interestRate: 0 },
+    savings: { active: true, name: "basic", balance: 0, interestRate: 0 },
     investments: [],
   },
   summary: {

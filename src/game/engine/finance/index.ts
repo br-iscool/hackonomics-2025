@@ -1,5 +1,4 @@
 import { useGameStore } from '@/game/state';
-import { FinancialProduct } from './products/financialProduct';
 const GameState = useGameStore.getState();
 const { finance } = GameState;
 

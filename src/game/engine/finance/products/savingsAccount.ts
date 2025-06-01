@@ -1,4 +1,4 @@
-import { SavingsAccData } from "@/game/state/types/finance";
+import { SavingsAccData } from "@/game/types/finance";
 import { useGameStore } from "@/game/state";
 
 export class SavingsAccount {

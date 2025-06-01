@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { Stats } from '../types/stats';
+import { Stats } from '../../types/stats';
 
 export interface StatsSlice {
   stats: Stats;

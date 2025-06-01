@@ -1,4 +1,4 @@
-import { CreditCardData } from "@/game/state/types/finance";
+import { CreditCardData } from "@/game/types/finance";
 import { useGameStore } from "@/game/state";
 
 export class CreditCard {

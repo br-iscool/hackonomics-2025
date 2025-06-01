@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { Life } from "../types/life";
+import { Life } from "../../types/life";
 
 export interface LifeSlice {
   life: Life;

@@ -13,8 +13,9 @@ export interface LoanData {
   name: string;
   balance: number; // current loan amount
   interestRate: number; // annual interest rate
-  termMonths: number; // loan duration in months
-  monthlyPayment: number; // monthly payment amount
+  termYears: number; // loan duration
+  annualPayment: number;
+  yearsElapsed: number;
 }
 
 export interface SavingsAccData {

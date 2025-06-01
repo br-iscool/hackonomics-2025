@@ -1,4 +1,4 @@
-import { InsuranceData } from "@/game/state/types/finance";
+import { InsuranceData } from "@/game/types/finance";
 import { useGameStore } from "@/game/state";
 
 export class Insurance {

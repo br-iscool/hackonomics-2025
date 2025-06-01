@@ -1,5 +1,7 @@
-import { LoanData } from "@/game/state/types/finance";
+import { LoanData } from "@/game/types/finance";
 import { useGameStore } from "@/game/state";
+
+
 
 export class Loan {
   public data: LoanData;
@@ -12,33 +14,33 @@ export class Loan {
   nextTurn() {
     if (!this.data.active) return;
 
-    this.data.monthsElapsed++;
+    this.data.yearsElapsed++;
 
     // Calculate interest for the month
     const interest = this.data.balance * (this.data.interestRate / 12);
     this.data.balance += interest;
 
-    const success = this.data.makePayment();
+    const success = this.makePayment();
     if (!success) {
-      this.data.gameRef.modifyCreditScore(-20);
-      if (this.data.gameRef.ownsProperty()) {
-        this.data.gameRef.repossessProperty();
-      }
+      // modifyCreditScore(-20);
+      // if (ownsProperty()) {
+      //   repossessProperty();
+      // }
     }
 
-    if (this.data.balance <= 0 || this.data.monthsElapsed >= this.data.termMonths) {
+    if (this.data.balance <= 0 || this.data.yearsElapsed >= this.data.termYears) {
       this.data.balance = 0;
       this.data.active = false; // loan paid off or term ended
     }
 
-    this.data.gameRef.modifyStats({ stress: 5 });
+    // modifyStats({ stress: 5 });
   }
 
   makePayment(): boolean {
     const canAfford = true; // query player.money or pass function
     if (!canAfford) return false;
 
-    this.data.balance -= this.data.monthlyPayment;
+    this.data.balance -= this.data.annualPayment;
     return true;
   }
 

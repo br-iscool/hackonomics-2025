@@ -1,5 +1,5 @@
 import { useGameStore } from "@/game/state";
-import { MortgageData } from "@/game/state/types/finance";
+import { MortgageData } from "@/game/types/finance";
 
 export class Mortgage {
   public data: MortgageData;
