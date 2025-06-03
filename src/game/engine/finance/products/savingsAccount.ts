@@ -1,19 +1,24 @@
+//TODO: Implement high-yields savings account
+
 import { SavingsAccData } from "@/game/types/finance";
-import { useGameStore } from "@/game/state";
 
 export class SavingsAccount {
   public data: SavingsAccData;
 
-  constructor(props: SavingsAccData) {
-    useGameStore.getState().finance.products.savings;
-    this.data = useGameStore.getState().finance.products.savings || props;
+  constructor(props : SavingsAccData) {
+    this.data = props;
   }
 
   nextTurn() {
     if (!this.data.active) return;
 
-    const monthlyInterest = this.data.balance * (this.data.interestRate / 12);
-    this.data.balance += monthlyInterest;
+    let interest = this.data.interestRate;
+    if (Array.isArray(interest)) {
+      const [min, max] = interest;
+      interest = min + Math.random() * (max - min);
+    }
+
+    this.data.balance *= interest;
   }
 
   deposit(amount: number) {
@@ -21,7 +26,7 @@ export class SavingsAccount {
     this.data.balance += amount;
   }
 
-  withdraw(amount: number) {
+  withdraw(amount: number) : boolean {
     if (amount <= 0 || amount > this.data.balance) return false;
     this.data.balance -= amount;
     return true;

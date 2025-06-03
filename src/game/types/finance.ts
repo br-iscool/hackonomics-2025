@@ -22,7 +22,7 @@ export interface SavingsAccData {
   active: boolean;
   name: string;
   balance: number;
-  interestRate: number;
+  interestRate: number | [number, number];
 }
 
 export interface MortgageData {

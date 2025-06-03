@@ -33,7 +33,6 @@ export class FinanceManager {
 
         this.loans.forEach(loan => loan.nextTurn());
         this.savings.nextTurn();
-
         if (this.mortgage) this.mortgage.nextTurn();
         if (this.insurance) this.insurance.nextTurn();
 

@@ -1,22 +1,20 @@
 import { InsuranceData } from "@/game/types/finance";
-import { useGameStore } from "@/game/state";
 
 export class Insurance {
   data: InsuranceData;
 
   constructor(props: InsuranceData) {
-    useGameStore.getState().finance.addInsurance(props);
-    this.data = useGameStore.getState().finance.products.insurance || props;
+    this.data = props;
   }
 
   nextTurn() {
     if (!this.data.active) return;
 
-    this.data.monthsElapsed++;
+    this.data.yearsElapsed++;
 
     // Premium payment could be deducted from player’s cash in game logic
     // Here, we just track term expiration if applicable
-    if (this.data.termMonths && this.data.monthsElapsed >= this.data.termMonths) {
+    if (this.data.termYears && this.data.yearsElapsed >= this.data.termYears) {
       this.data.active = false; // policy expired
     }
   }
