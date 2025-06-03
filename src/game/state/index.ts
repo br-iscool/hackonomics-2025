@@ -6,7 +6,7 @@ import { GameState } from "../types/game";
 
 export const useGameStore = create<StatsSlice & FinanceSlice & LifeSlice & GameState>()((...a) => ({
   playerName: "Player",
-  age: 18,
+  age: 16,
 
   ...createStatsSlice(...a),
   ...createFinanceSlice(...a),

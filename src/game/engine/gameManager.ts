@@ -1,11 +1,19 @@
 import { useGameStore } from '../state';
+import { FinanceManager } from './finance/financeManager';
 
-export const GameManager = {
+const GameState = useGameStore.getState();
+
+export class GameManager {
+  public financeManager :FinanceManager;
+
+  constructor() {
+    this.financeManager = new FinanceManager(GameState.finance);
+  }
+
   nextTurn() {
-    const GameState = useGameStore.getState();
-    const { stats, finance, life } = GameState;
+    GameState.age++;
 
-    GameState.age += 1;
+    this.financeManager.nextTurn();
     
   },
 };

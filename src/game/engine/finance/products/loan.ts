@@ -1,14 +1,13 @@
 import { LoanData } from "@/game/types/finance";
-import { useGameStore } from "@/game/state";
-
-
 
 export class Loan {
   public data: LoanData;
+  annualPayment : number;
 
   constructor(props: LoanData) {
-    useGameStore.getState().finance.addLoan(props);
-    this.data = useGameStore.getState().finance.products.loans[0] || props; // TODO
+    this.data = props;
+    const r = this.data.interestRate, n = this.data.termYears;
+    this.annualPayment = this.data.principal * (r * (1 + r) ** n) / ((1 + r) ** n - 1);
   }
 
   nextTurn() {
@@ -16,17 +15,10 @@ export class Loan {
 
     this.data.yearsElapsed++;
 
-    // Calculate interest for the month
-    const interest = this.data.balance * (this.data.interestRate / 12);
+    // Calculate interest for the year
+    const interest = this.data.balance * this.data.interestRate;
     this.data.balance += interest;
-
-    const success = this.makePayment();
-    if (!success) {
-      // modifyCreditScore(-20);
-      // if (ownsProperty()) {
-      //   repossessProperty();
-      // }
-    }
+    this.data.balance -= this.annualPayment;
 
     if (this.data.balance <= 0 || this.data.yearsElapsed >= this.data.termYears) {
       this.data.balance = 0;
@@ -34,19 +26,5 @@ export class Loan {
     }
 
     // modifyStats({ stress: 5 });
-  }
-
-  makePayment(): boolean {
-    const canAfford = true; // query player.money or pass function
-    if (!canAfford) return false;
-
-    this.data.balance -= this.data.annualPayment;
-    return true;
-  }
-
-  transact(amount: number) {
-    // Allow additional payment towards loan
-    this.data.balance -= amount;
-    if (this.data.balance < 0) this.data.balance = 0;
   }
 }

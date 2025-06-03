@@ -11,10 +11,10 @@ export interface LoanData {
   active: boolean;
   id: string;
   name: string;
-  balance: number; // current loan amount
+  principal: number; // original amt loaned
+  balance : number; // current loan amount
   interestRate: number; // annual interest rate
   termYears: number; // loan duration
-  annualPayment: number;
   yearsElapsed: number;
 }
 
@@ -42,9 +42,9 @@ export interface InsuranceData {
   id: string;
   name: string;
   coverageAmount: number; // Amount paid out on claim
-  premium: number; // Monthly premium payment
-  monthsElapsed: number; // Months since policy started
-  termMonths?: number; // Optional fixed term length
+  premium: number; // Annual premium payment
+  yearsElapsed: number; // Years since policy started
+  termYears?: number; // Optional fixed term length
 }
 
 export interface Finance {
