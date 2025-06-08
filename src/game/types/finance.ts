@@ -56,16 +56,21 @@ export interface Finance {
     insurance?: InsuranceData;
     investments?: unknown[]; // Investment[]
   };
-
+  
   summary: {
     income: number;
     expenses: number;
     budget: number;
-    creditScore: number;
     debt: number;
     netWorth: number;
-  };
 
+    creditScore: number;
+    paymentHistory: number;
+    totalPayments: number;
+    onTimePayments: number;
+    yearsCredit: number;
+  };
+  
   // Hooks into external life context that influence finance
   context: {
     hasJob: boolean;

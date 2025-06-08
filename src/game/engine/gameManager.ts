@@ -1,5 +1,5 @@
 import { useGameStore } from '../state';
-import { FinanceManager } from './finance/financeManager';
+import { FinanceManager } from './financeManager';
 
 const GameState = useGameStore.getState();
 
@@ -15,5 +15,5 @@ export class GameManager {
 
     this.financeManager.nextTurn();
     
-  },
+  }
 };
