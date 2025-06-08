@@ -13,7 +13,9 @@ export default function Game() {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault(); // Prevent page reload
+        console.log(GameState)
         GameState.playerName = inputName;
+        console.log("Player name set to:", GameState.playerName);
     }
 
     return (
@@ -37,7 +39,7 @@ export default function Game() {
             <div className="h-full w-full bg-black/50 p-4">
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="nameInput" className="block text-white">Name:</label>
-                    <input type="text" id="nameInput" value={inputName} className="p-2 rounded" />
+                    <input type="text" id="nameInput" value={inputName} className="p-2 rounded bg-white" />
                     <button type="submit"> Go</button>
                 </form>
             </div>
