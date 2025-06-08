@@ -14,7 +14,7 @@ export default function Transcripts({messages} : Transcripts) {
 
 	return (
 		<>
-        <div className="p-5 h-96 w-[20rem] bg-gray-600 rounded-xl absolute">
+        <div className="p-5 h-96 w-[20rem] bg-gray-600 rounded-xl">
             {messages.map((msg, i) => (
                 <Message key={i} text={msg} />
             ))}

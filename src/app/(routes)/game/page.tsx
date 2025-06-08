@@ -27,18 +27,20 @@ export default function Game() {
                 <div className="p-5">
                     <ProfileIcon name="John Doe" job="Software Engineer" stress={10} money={250} />
                 </div>
-                
-                <AgeUp />
 
-                <div className="flex">
-                    <ul>
-                        <li><ActionButton text="Education" /></li>
-                        <li><ActionButton text="Job" /></li>
-                        <li><ActionButton text="Assets" /></li>
-                    </ul>
+                <div className="flex justify-between">
+                    <div className="flex">
+                        <ul>
+                            <li><ActionButton text="Education" /></li>
+                            <li><ActionButton text="Job" /></li>
+                            <li><ActionButton text="Assets" /></li>
+                        </ul>
+                    </div>
+                    
+                    <AgeUp />
+
+                    <Transcripts messages={life.events} />
                 </div>
-
-                <Transcripts messages={life.events} />
             </div>
 
             <PopUp name="Test Event" description=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum excepturi dolore voluptates dolores magnam nemo possimus vero illum exercitationem nobis! Facilis quod provident sunt esse sapiente eum quos itaque ratione." icon="🚀" />
