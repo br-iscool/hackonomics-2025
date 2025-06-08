@@ -6,7 +6,7 @@ export default function Transcripts({messages} : Transcripts) {
     function Message({text} : {text : string}) {
         console.log(text);
         return (
-            <div className="w-5/6 bg-blue-800 rounded-4xl text-white">
+            <div className="w-5/6 bg-blue-800 px-2 py-1 rounded-xl text-white">
                 {text}
             </div>
         )
@@ -14,7 +14,7 @@ export default function Transcripts({messages} : Transcripts) {
 
 	return (
 		<>
-        <div className="p-5 h-5/6 w-[20rem] bg-gray-600 rounded-xl absolute">
+        <div className="p-5 h-96 w-[20rem] bg-gray-600 rounded-xl absolute">
             {messages.map((msg, i) => (
                 <Message key={i} text={msg} />
             ))}

@@ -7,9 +7,11 @@ import ActionButton from "@/app/components/ActionButton"
 import AgeUp from "@/app/components/AgeUp"
 import ProfileIcon from "@/app/components/ProfileIcon"
 import PopUp from "@/app/components/events/Event";
+import Transcripts from "@/app/components/Transcripts";
 
 export default function Game() {
     const GameState = useGameStore.getState();
+    const { life } = GameState
     const [inputName, useInputState] = useState();
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -35,6 +37,8 @@ export default function Game() {
                         <li><ActionButton text="Assets" /></li>
                     </ul>
                 </div>
+
+                <Transcripts messages={life.events} />
             </div>
 
             <PopUp name="Test Event" description=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum excepturi dolore voluptates dolores magnam nemo possimus vero illum exercitationem nobis! Facilis quod provident sunt esse sapiente eum quos itaque ratione." icon="🚀" />
