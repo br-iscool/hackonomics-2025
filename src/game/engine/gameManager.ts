@@ -15,5 +15,5 @@ export class GameManager {
 
     this.financeManager.nextTurn();
     
-  },
+  }
 };
