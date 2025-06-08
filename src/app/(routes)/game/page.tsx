@@ -6,6 +6,7 @@ import { useState } from "react";
 import ActionButton from "@/app/components/ActionButton"
 import AgeUp from "@/app/components/AgeUp"
 import ProfileIcon from "@/app/components/ProfileIcon"
+import PopUp from "@/app/components/events/Event";
 
 export default function Game() {
     const GameState = useGameStore.getState();
@@ -36,6 +37,9 @@ export default function Game() {
                 </div>
             </div>
 
+            <PopUp name="Test Event" description=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum excepturi dolore voluptates dolores magnam nemo possimus vero illum exercitationem nobis! Facilis quod provident sunt esse sapiente eum quos itaque ratione." icon="🚀" />
+
+            {/* 
             <div className="h-full w-full bg-black/50 p-4">
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="nameInput" className="block text-white">Name:</label>
@@ -43,6 +47,7 @@ export default function Game() {
                     <button type="submit"> Go</button>
                 </form>
             </div>
+            */}
         </>
     )
 }
