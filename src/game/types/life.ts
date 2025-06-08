@@ -2,5 +2,5 @@ export interface Life {
   job?: unknown; //Job;
   education?: unknown; //Education;
   family: unknown; //FamilyStatus;
-  events: unknown; //GameEvent[];
+  events: string[]; //GameEvent[];
 }

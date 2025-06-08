@@ -9,7 +9,7 @@ export const initialLife: Life = {
   job: undefined, // Job
   education: undefined, // Education
   family: { status: "single", children: [] }, // FamilyStatus
-  events: [], // GameEvent[]
+  events: ["hello"],
 };
 
 export const createLifeSlice: StateCreator<LifeSlice, [], [], LifeSlice> = (set) => ({
