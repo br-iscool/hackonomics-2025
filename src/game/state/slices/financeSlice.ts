@@ -21,9 +21,14 @@ export const initialFinance: Finance = {
     income: 0,
     expenses: 0,
     budget: 0,
-    creditScore: 0,
     debt: 0,
     netWorth: 0,
+    
+    creditScore: 0,
+    paymentHistory: 0,
+    totalPayments: 0,
+    onTimePayments: 0,
+    yearsCredit: 0,
   },
 
   context: {
