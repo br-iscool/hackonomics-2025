@@ -15,7 +15,7 @@ export default function Game() {
     const [inputName, useInputState] = useState();
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault(); // Prevent page reload
+        e.preventDefault();
         console.log(GameState)
         GameState.playerName = inputName;
         console.log("Player name set to:", GameState.playerName);
