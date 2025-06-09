@@ -3,11 +3,11 @@
 import { useGameStore } from "@/game/state"
 import { useState } from "react";
 
-import ActionButton from "@/app/components/ActionButton"
-import AgeUp from "@/app/components/AgeUp"
-import ProfileIcon from "@/app/components/ProfileIcon"
+import ActionButton from "@/app/components/ui/ActionButton"
+import AgeUp from "@/app/components/ui/AgeUp"
+import ProfileIcon from "@/app/components/ui/ProfileIcon"
 import PopUp from "@/app/components/events/Event";
-import Transcripts from "@/app/components/Transcripts";
+import Transcripts from "@/app/components/ui/Transcripts";
 
 export default function Game() {
     const GameState = useGameStore.getState();
@@ -28,18 +28,18 @@ export default function Game() {
                     <ProfileIcon name="John Doe" job="Software Engineer" stress={10} money={250} />
                 </div>
 
-                <div className="flex justify-between">
-                    <div className="flex">
-                        <ul>
-                            <li><ActionButton text="Education" /></li>
-                            <li><ActionButton text="Job" /></li>
-                            <li><ActionButton text="Assets" /></li>
-                        </ul>
-                    </div>
-                    
-                    <AgeUp />
+                <div className="flex">
+                    <ul>
+                        <li><ActionButton text="Education" /></li>
+                        <li><ActionButton text="Job" /></li>
+                        <li><ActionButton text="Assets" /></li>
+                        <li className="p-4"><AgeUp /></li>
+                    </ul>
 
-                    <Transcripts messages={life.events} />
+                    {/* Right content */}
+                    <div className="flex flex-1 justify-end items-start p-8">
+                        <Transcripts messages={life.events} />
+                    </div>
                 </div>
             </div>
 
