@@ -7,6 +7,7 @@ export class FinanceManager {
   public savings: products.SavingsAccount;
   public mortgage?: products.Mortgage;
   public insurance?: products.Insurance;
+  
   public summary: {
     income: number;
     expenses: number;
