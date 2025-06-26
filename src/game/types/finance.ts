@@ -46,38 +46,3 @@ export interface InsuranceData {
   yearsElapsed: number; // Years since policy started
   termYears?: number; // Optional fixed term length
 }
-
-export interface Finance {
-  products: {
-    creditCard?: CreditCardData;
-    loans: LoanData[];
-    savings: SavingsAccData;
-    mortgage?: MortgageData;
-    insurance?: InsuranceData;
-    investments?: unknown[]; // Investment[]
-  };
-  
-  summary: {
-    income: number;
-    expenses: number;
-    budget: number;
-    debt: number;
-    netWorth: number;
-
-    creditScore: number;
-    paymentHistory: number;
-    totalPayments: number;
-    onTimePayments: number;
-    yearsCredit: number;
-  };
-  
-  // Hooks into external life context that influence finance
-  context: {
-    hasJob: boolean;
-    isMarried: boolean;
-    educationLevel: "none" | "highschool" | "university" | "grad";
-    householdIncome: number;
-    propertyOwned: boolean;
-    age: number;
-  };
-}

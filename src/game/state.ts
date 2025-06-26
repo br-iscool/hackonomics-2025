@@ -1,7 +1,7 @@
 import { proxy } from 'valtio';
 
 export const state = proxy({
-  playerName: '',
+  name: '',
   age: 0,
 
   job: undefined as any,         // Replace with actual Job type/interface

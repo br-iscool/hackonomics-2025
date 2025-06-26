@@ -1,6 +1,7 @@
 "use client";
 
-import { useGameStore } from "@/game/state"
+import { state } from "@/game/state"
+import { useSnapshot } from "valtio";
 import { useState } from "react";
 
 import ActionButton from "@/app/components/ui/ActionButton"
@@ -10,22 +11,21 @@ import PopUp from "@/app/components/events/Event";
 import Transcripts from "@/app/components/ui/Transcripts";
 
 export default function Game() {
-    const GameState = useGameStore.getState();
-    const { life } = GameState
-    const [inputName, useInputState] = useState();
+    const snap = useSnapshot(state);
+    const [inputName, useInputState] = useState("");
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log(GameState)
-        GameState.playerName = inputName;
-        console.log("Player name set to:", GameState.playerName);
+        console.log(snap)
+        state.name = inputName;
+        console.log("Player name set to:", snap.name);
     }
 
     return (
         <>
             <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen">
                 <div className="p-5">
-                    <ProfileIcon name="John Doe" job="Software Engineer" stress={10} money={250} />
+                    <ProfileIcon name={snap.name} job="Software Engineer" stress={snap.stress} money={snap.money} />
                 </div>
 
                 <div className="flex">
@@ -38,7 +38,7 @@ export default function Game() {
 
                     {/* Right content */}
                     <div className="flex flex-1 justify-end items-start p-8">
-                        <Transcripts messages={life.events} />
+                        <Transcripts messages={snap.events} />
                     </div>
                 </div>
             </div>

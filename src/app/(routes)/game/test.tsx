@@ -3,7 +3,7 @@ import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
 import { gameLoop } from "@/game/logic";
 
-const FinanceGameUI: React.FC = () => {
+const FinanceGameUI = () => {
   const snap = useSnapshot(state);
 
   return (
@@ -11,7 +11,7 @@ const FinanceGameUI: React.FC = () => {
       <h1 className="text-2xl font-bold">Finance Life</h1>
 
       <div className="space-y-1">
-        <p><strong>Name:</strong> {snap.playerName}</p>
+        <p><strong>Name:</strong> {snap.name}</p>
         <p><strong>Age:</strong> {snap.age}</p>
         <p><strong>Money:</strong> ${snap.money.toFixed(2)}</p>
         <p><strong>Net Worth:</strong> ${snap.netWorth.toFixed(2)}</p>
