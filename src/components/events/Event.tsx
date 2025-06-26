@@ -28,7 +28,9 @@ export default function Event({ event }: EventProps) {
                         <Button
                             key={index}
                             onClick={() => {
-                                const res = choice.execute(); // handle logic later
+                                if (!choice.execute) return;
+                                const res = choice.execute(event.eventData); // handle logic later
+                                //display res as formatted body too
                             }}
                         >
                             {choice.label}

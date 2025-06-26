@@ -7,6 +7,7 @@ export function gameLoop() {
   console.log(`Aging up to ${state.age}`);
 
   // Tick products
+  if (state.job) state.job.yearsEmployed++;
   if (state.products.mortgage) new Mortgage(state.products.mortgage).tick();
   state.products.loans.forEach((loanData) => new Loan(loanData).tick());
   if (state.products.creditCard) new CreditCard(state.products.creditCard).tick();

@@ -1,7 +1,7 @@
 export interface GameChoice {
   label: string;
   condition?: () => boolean | null;
-  execute: (() => void | string) | null;
+  execute?: ((eventData : any) => void | string) | null;
 }
 
 export type GameEventType = "scheduled" | "random";
