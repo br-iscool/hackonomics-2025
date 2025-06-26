@@ -1,57 +1,25 @@
 import { state } from "@/game/state";
-import { GameEvent } from "@/game/types";
+import { GameChoice, GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
 
 export const gameEvents: GameEvent[] = [
-  {
-    name: "Tax Audit",
-    type: "scheduled",
-    triggerAge: 30,
-    execute: () => {
-      console.log("Tax audit occurred!");
-    },
-  },
-  {
-    name: "Surprise Bonus",
-    type: "random",
-    weight: 0.1,
-    execute: () => {
-      console.log("You received a surprise bonus!");
-    },
-  },
-  {
-    name: "Stress Breakdown",
-    type: "random",
-    weight: 0.05,
-    condition: () => true, //getPlayerStress() > 80,
-    execute: () => {
-      console.log("You had a stress breakdown!");
-    },
-  },
-  {
-    name: "Job Opportunity",
-    type: "random",
-    weight: 3,
-    choices: [
+  new RandomEvent(
+    "Part-time Job",
+    () => {return 0.05}, //gets employability from state
+    () => {},
+    () => {return state.job == null},
+    [
       {
-        label: "Take job as Engineer",
-        effect: () => {
-          state.job = "Engineer";
-          state.events.push("Started working as an Engineer.");
-        },
+        label : "Yes",
+        effect : () => {
+          //gives player a job
+        }
       },
       {
-        label: "Take job as Teacher",
-        effect: () => {
-          state.job = "Teacher";
-          state.events.push("Started working as a Teacher.");
-        },
+        label : "No",
+        effect : () => {
+          return null // do nothing.
+        }
       },
-      {
-        label: "Reject all offers",
-        effect: () => {
-          state.events.push("Skipped job opportunity.");
-        },
-      },
-    ],
-  },
+    ]
+  )
 ];

@@ -12,7 +12,7 @@ export const state = proxy({
 
   stress: 0,
   money: 0,
-  happiness: 0,
+  qualityOfLife: 0,
 
   products: {
     creditCard: undefined as any,     // CreditCard

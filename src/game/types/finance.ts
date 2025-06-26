@@ -1,3 +1,14 @@
+export interface Job {
+  name : string;
+  salary : number;
+  yearsEmployed : number;
+}
+
+export interface Education {
+  level : "Highschool" | "Vocational" | "Undergrad" | "Grad";
+  field : string | null;
+}
+
 export interface CreditCardData {
   active: boolean;
   name: string;
