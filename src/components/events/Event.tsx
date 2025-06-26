@@ -24,8 +24,16 @@ export default function Event({ event }: EventProps) {
                 </DialogHeader>
 
                 <DialogFooter className="flex justify-center gap-4 pt-4">
-                    <Button variant="default">Accept</Button>
-                    <Button variant="secondary">Decline</Button>
+                    {event.choices?.map((choice, index) => (
+                        <Button
+                            key={index}
+                            onClick={() => {
+                                const res = choice.execute(); // handle logic later
+                            }}
+                        >
+                            {choice.label}
+                        </Button>
+                    ))}
                 </DialogFooter>
             </DialogContent>
         </Dialog>
