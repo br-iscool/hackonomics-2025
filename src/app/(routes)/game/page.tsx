@@ -2,7 +2,6 @@
 
 import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
-import { useState } from "react";
 
 import { Button } from "@/components/ui/button"
 
@@ -14,14 +13,6 @@ import Event from "@/components/events/Event";
 
 export default function Game() {
     const snap = useSnapshot(state);
-    const [inputName, useInputState] = useState("");
-
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        console.log(snap);
-        state.name = inputName;
-        console.log("Player name set to:", snap.name);
-    }
 
     return (
         <>
@@ -37,28 +28,26 @@ export default function Game() {
 
                 <div className="flex">
                     <ul>
-                        <li>
-                            <ActionButton text="Education" />
-                        </li>
-                        <li>
-                            <ActionButton text="Job" />
-                        </li>
-                        <li>
-                            <ActionButton text="Assets" />
-                        </li>
+                        {["Education", "Job", "Assets"].map((text) => (
+                            <li key={text}>
+                                <ActionButton text={text} />
+                            </li>
+                        ))}
                         <li className="p-4">
                             <AgeUp />
                         </li>
                     </ul>
 
-                    {snap.event && <Event event={snap.event} />}
+                    {snap.event && <Event key={snap.event.name} event={snap.event} />}
 
                     {/* Right content */}
                     <div className="flex flex-1 justify-end items-start p-8">
                         <Transcripts messages={state.events} />
                     </div>
+
                 </div>
             </div>
+            <Button className="fixed bottom-4 left-4" variant="outline" onClick={() => { console.log(snap.event) }}>Test</Button>
             <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { state.stress += 20; }}>Test - increase stress button</Button>
         </>
     );

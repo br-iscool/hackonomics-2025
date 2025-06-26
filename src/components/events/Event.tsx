@@ -1,12 +1,15 @@
 import { GameEvent } from "@/game/logic/events/eventsClasses";
+import { useState } from "react";
+
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-    DialogFooter,
-} from "@/components/ui/dialog";
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
 interface EventProps {
@@ -14,30 +17,35 @@ interface EventProps {
 }
 
 export default function Event({ event }: EventProps) {
-    console.trace("Rendering Event component with event:", event);
-    return (
-        <Dialog open>
-            <DialogContent className="max-w-lg">
-                <DialogHeader>
-                    <DialogTitle>{event.name}</DialogTitle>
-                    <DialogDescription contentEditable='true' dangerouslySetInnerHTML={{ __html: event.getFormattedBody() }} />
-                </DialogHeader>
+    const [isOpen, setIsOpen] = useState(true);
 
-                <DialogFooter className="flex justify-center gap-4 pt-4">
+    return (
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+            <AlertDialogContent className="max-w-lg">
+                <AlertDialogHeader>
+                    <AlertDialogTitle>{event.name}</AlertDialogTitle>
+                    <AlertDialogDescription
+                        dangerouslySetInnerHTML={{ __html: event.getFormattedBody() }}
+                    />
+                </AlertDialogHeader>
+
+                <AlertDialogFooter className="flex justify-center gap-4 pt-4">
                     {event.choices?.map((choice, index) => (
-                        <Button
-                            key={index}
-                            onClick={() => {
-                                if (!choice.execute) return;
-                                const res = choice.execute(event.eventData); // handle logic later
-                                //display res as formatted body too
-                            }}
-                        >
-                            {choice.label}
-                        </Button>
+                        <AlertDialogAction asChild key={index}>
+                            <Button
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    if (!choice.execute) return;
+                                    const res = choice.execute(event.eventData);
+                                    // You can handle the result here if needed
+                                }}
+                            >
+                                {choice.label}
+                            </Button>
+                        </AlertDialogAction>
                     ))}
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 }
