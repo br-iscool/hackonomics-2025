@@ -3,7 +3,7 @@ import { GameEvent } from "./logic/events/eventsClasses";
 
 export const state = proxy({
   name: "",
-  age: 0,
+  age: 16,
 
   job: undefined as any, // Replace with actual Job type/interface
   education: undefined as any, // Replace with actual Education type

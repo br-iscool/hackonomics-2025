@@ -9,18 +9,19 @@ export const gameEvents: GameEvent[] = [
     null,
     `You have been offered the position of a <b>{eventData.job}</b>
     at the local {eventData.location}
-    for a starting salary of <b>{eventData.salary}</b>. Do you accept?`,
+    for a starting salary of <b>\${eventData.salary}</b>. Do you accept?`,
     () => state.job == null,
     [
       {
-        label: "Yes",
-        effect: () => {
+        label: "Accept",
+        execute: () => {
+          
           //gives player a job
         }
       },
       {
-        label: "No",
-        effect: () => {
+        label: "Decline",
+        execute: () => {
           return null // do nothing.
         }
       },
@@ -32,7 +33,7 @@ export const gameEvents: GameEvent[] = [
       return {
         job: chooseRandom(jobs),
         location: chooseRandom(locations),
-        salary: randomInterval(16000, 25000),
+        salary: randomInterval(16, 25) * 1000,
       }
     }
   )
