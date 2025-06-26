@@ -1,43 +1,31 @@
-import { useGameStore } from '../state';
+import { state } from "@/game/state";
+import { Mortgage, Loan, CreditCard } from "@/game/engine/financeManager/products";
+import { handleEvents } from "@/game/engine/events";
 
-const GameState = useGameStore.getState();
+export function gameLoop() {
+  state.age += 1;
 
-export class GameManager {
+  // Tick products
+  if (state.products.mortgage) new Mortgage(state.products.mortgage).tick();
+  state.products.loans.forEach((loanData) => new Loan(loanData).tick());
+  if (state.products.creditCard) new CreditCard(state.products.creditCard).tick();
 
-  nextTurn() {
-    GameState.age++;
-  }
-};
+  updateCreditScore();
 
-class Mortgage {
-  public data: MortgageData;
+  // Recalculate financial stats
+  state.debt =
+    (state.products.mortgage?.principal || 0) +
+    state.products.loans.reduce((acc, l) => acc + l.amount, 0) +
+    (state.products.creditCard?.balance || 0);
+  state.netWorth = state.money + state.products.savings - state.debt;
 
-  constructor(props: MortgageData) {
-    useGameStore.getState().finance.addMortgage(props);
-    this.data = useGameStore.getState().finance.products.mortgage || props;
-  }
+  // Trigger events
+  handleEvents(state.age);
+}
 
-  nextTurn() {
-    if (!this.data.active) return;
+function updateCreditScore() {
+  state.paymentHistory = state.onTimePayments / state.totalPayments;
+  const creditHistory = state.yearsCredit / 10; // approximate
 
-    this.data.yearsElapsed++;
-
-    // Calculate annual interest
-    const annualInterest = this.data.balance * (this.data.interestRate);
-    this.data.balance += annualInterest;
-
-    // Make annual payment
-    this.data.balance -= this.data.annualPayment;
-
-    if (this.data.balance <= 0 || this.data.yearsElapsed >= this.data.termYears) {
-      this.data.balance = 0;
-      this.data.active = false; // mortgage paid off or term ended
-    }
-  }
-
-  transact(amount: number) {
-    // Extra payment towards mortgage principal
-    this.data.balance -= amount;
-    if (this.data.balance < 0) this.data.balance = 0;
-  }
+  state.creditScore = (state.paymentHistory * 0.7 + creditHistory * 0.3) * 600 + 300;
 }

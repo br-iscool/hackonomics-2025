@@ -20,23 +20,27 @@ export interface GameState {
     investments?: unknown; // Investment[]
   };
 
-  summary: {
-    income: number;
-    expenses: number;
-    budget: number;
-    debt: number;
-    netWorth: number;
+  income: number;
+  expenses: number;
+  budget: number;
+  debt: number;
+  netWorth: number;
 
-    creditScore: number;
-    paymentHistory: number;
-    totalPayments: number;
-    onTimePayments: number;
-    yearsCredit: number;
-  };
+  creditScore: number;
+  paymentHistory: number;
+  totalPayments: number;
+  onTimePayments: number;
+  yearsCredit: number;
 
   settings: {
     autosave: boolean;
   };
+}
+
+export interface GameChoice {
+  label: string,
+  condition?: () => boolean,
+  effect: () => void,
 }
 
 export interface GameEvent {
@@ -45,5 +49,6 @@ export interface GameEvent {
   type: "scheduled" | "random";
   triggerAge?: number; // for scheduled
   weight?: number; // for random
-  execute: () => void;
+  execute?: () => void;
+  choices?: GameChoice[];
 }
