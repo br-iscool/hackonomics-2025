@@ -98,7 +98,7 @@ export const gameEvents: GameEvent[] = [
     null,
     `You hear knocking at the door and are approached by a representative of {eventData.bank}.
     He offers you a deal to open a High Interest Savings Account, with an annual interest rate of
-    {eventData.rate * 100}%. Do you:`,
+    {eventData.rate}%. Do you:`,
     () => state.age > 17,
     [
       {
@@ -107,9 +107,9 @@ export const gameEvents: GameEvent[] = [
           state.products.savings = {
             active: true,
             name: eventData.bank,
-            interestRate: eventData.rate,
+            interestRate: eventData.rate / 100,
           }
-          return `You are now the proud owner of a bank account with a rate of ${eventData.rate * 100}% yearly.</b>`
+          return `You are now the proud owner of a bank account with a rate of ${eventData.rate}% yearly.</b>`
         }
       },
       {
@@ -118,7 +118,7 @@ export const gameEvents: GameEvent[] = [
     ],
     () => {
       const banks = ["TDBank", "the National Bank"];
-      return { bank: chooseRandom(banks), rate: randomDecimal(0.03, 0.07) }
+      return { bank: chooseRandom(banks), rate : randomInterval(3,7) }
     },
     true // repeatable
   ),
