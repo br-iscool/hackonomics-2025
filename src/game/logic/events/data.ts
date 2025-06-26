@@ -10,7 +10,7 @@ export const gameEvents: GameEvent[] = [
     `You have been offered the position of a <b>{eventData.job}</b>
     at the local {eventData.location}
     for a starting salary of <b>{eventData.salary}</b>. Do you accept?`,
-    () => state.job == null && state.education == "Highschool",
+    () => state.job == null,
     [
       {
         label: "Yes",

@@ -3,6 +3,7 @@ import { Mortgage, Loan, CreditCard } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
 
 export function gameLoop() {
+  console.log("Game loop tick");
   state.age += 1;
   console.log(`Aging up to ${state.age}`);
 

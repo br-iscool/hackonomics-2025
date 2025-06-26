@@ -14,6 +14,7 @@ function isRandomEvent(event: GameEvent): event is RandomEvent {
 }
 
 export function handleEvents(currentAge: number) {
+  console.log(`Handling events for age ${currentAge}`);
   let eventsQueue = new Queue<GameEvent>();
 
   // Scheduled Events
