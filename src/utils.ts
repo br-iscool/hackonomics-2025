@@ -18,6 +18,16 @@ export function pickWeighted<T extends { weight: number | (() => number) }>(item
   return null;
 }
 
+export function chooseRandom<T>(arr: T[]): T | undefined {
+  if (arr.length === 0) return undefined;
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
+}
+
+export function randomInterval(min : number, max : number): number { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 interface IQueue<T> {
   enqueue(item: T): void;
   dequeue(): T | undefined;

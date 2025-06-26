@@ -1,7 +1,7 @@
 export interface GameChoice {
   label: string;
   condition?: () => boolean | null;
-  effect: (() => void) | null;
+  effect: (() => void | string) | null;
 }
 
 export type GameEventType = "scheduled" | "random";
@@ -9,16 +9,33 @@ export type GameEventType = "scheduled" | "random";
 export abstract class GameEvent {
   name: string;
   type: GameEventType;
+  body: string;
   condition?: () => boolean;
   choices?: GameChoice[];
+  setVars?: () => void;
+  eventData: any = {};
 
-  constructor(name: string, type: GameEventType, condition?: () => boolean, choices?: GameChoice[]) {
+  constructor(
+    name: string,
+    type: GameEventType,
+    body: string,
+    condition?: () => boolean,
+    choices?: GameChoice[],
+    setVars?: () => void
+  ) {
     this.name = name;
     this.type = type;
+    this.body = body;
     this.condition = condition;
     this.choices = choices;
+    this.setVars = setVars;
   }
 
+  getFormattedBody(): string {
+    return this.body.replace(/\{eventData\.(\w+)\}/g, (_, key) => {
+      return this.eventData?.[key] ?? `[missing ${key}]`;
+    });
+  }
   abstract shouldTrigger(age: number): boolean;
   abstract execute(): void;
 }
@@ -31,10 +48,12 @@ export class ScheduledEvent extends GameEvent {
     name: string,
     triggerAge: number,
     onExecute: () => void,
+    body: string,
     condition?: () => boolean,
-    choices?: GameChoice[]
+    choices?: GameChoice[],
+    setVars?: () => void
   ) {
-    super(name, "scheduled", condition, choices);
+    super(name, "scheduled", body, condition, choices, setVars);
     this.triggerAge = triggerAge;
     this.onExecute = onExecute;
   }
@@ -44,6 +63,8 @@ export class ScheduledEvent extends GameEvent {
   }
 
   execute() {
+    if (this.setVars) this.setVars();
+
     if (this.choices && this.choices.length > 0) {
       // Hook into UI to choose
     } else {
@@ -54,16 +75,18 @@ export class ScheduledEvent extends GameEvent {
 
 export class RandomEvent extends GameEvent {
   weight: number | (() => number);
-  onExecute: () => void;
+  onExecute: null | (() => void | string);
 
   constructor(
     name: string,
     weight: number | (() => number),
-    onExecute: () => void,
+    onExecute: null | (() => void | string),
+    body: string,
     condition?: () => boolean,
-    choices?: GameChoice[]
+    choices?: GameChoice[],
+    setVars?: () => void
   ) {
-    super(name, "random", condition, choices);
+    super(name, "random", body, condition, choices, setVars);
     this.weight = weight;
     this.onExecute = onExecute;
   }
@@ -73,10 +96,12 @@ export class RandomEvent extends GameEvent {
   }
 
   execute() {
+    if (this.setVars) this.setVars();
+
     if (this.choices && this.choices.length > 0) {
       // Hook into UI to choose
     } else {
-      this.onExecute();
+      if (this.onExecute) this.onExecute();
     }
   }
 }
