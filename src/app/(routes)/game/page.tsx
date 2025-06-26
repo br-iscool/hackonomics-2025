@@ -51,17 +51,18 @@ export default function Game() {
                         </li>
                     </ul>
 
+                    {snap.event && <Event event={snap.event} />}
+                    
                     {/* Right content */}
                     <div className="flex flex-1 justify-end items-start p-8">
                         <Transcripts messages={state.events} />
                     </div>
                 </div>
             </div>
-            <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => {state.stress+=20;}}>Test - increase stress button</Button>
+            <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { state.stress += 20; }}>Test - increase stress button</Button>
 
-            {snap.event && <Event event={snap.event} />}
-            
-           
+
+
         </>
     );
 }

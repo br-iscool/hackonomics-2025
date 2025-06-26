@@ -25,7 +25,6 @@ export function handleEvents(currentAge: number) {
       !triggeredEvents.has(event.name)
     ) {
       eventsQueue.enqueue(event);
-      triggeredEvents.add(event.name);
     }
   }
 
@@ -41,11 +40,9 @@ export function handleEvents(currentAge: number) {
 
     const picked = pickWeighted(eligibleRandomEvents);
     if (picked) {
-      picked.execute();
-      triggeredEvents.add(picked.name);
+      eventsQueue.enqueue(picked);
     }
   }
-  console.log(`Random event picked:`, triggeredEvents);
 
 
   // Execute functions
@@ -54,6 +51,7 @@ export function handleEvents(currentAge: number) {
     if (event) {
       event.execute();
       state.event = event;
+      triggeredEvents.add(event.name);
     }
   }
 }
