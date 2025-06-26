@@ -34,6 +34,11 @@ export const state = proxy({
   onTimePayments: 0,
   yearsCredit: 0,
 
+  context: {
+    householdIncome: 0,
+    householdExpenses: 0,
+  },
+
   settings: {
     autosave: true,
   }

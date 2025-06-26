@@ -1,4 +1,3 @@
-// lib/EventManager.ts
 import { gameEvents } from "./data";
 import { pickWeighted } from "@/utils";
 
@@ -12,11 +11,10 @@ export function handleEvents(currentAge: number) {
       event.triggerAge === currentAge &&
       !triggeredEvents.has(event.name)
     ) {
-      event.execute();
+      if (event.execute) event.execute();
       triggeredEvents.add(event.name);
     }
   }
-
 
   // Random Events
   const eligibleRandomEvents = gameEvents.filter(
@@ -29,7 +27,7 @@ export function handleEvents(currentAge: number) {
 
   const picked = pickWeighted(eligibleRandomEvents);
   if (picked) {
-    picked.execute();
+    if (picked.execute) picked.execute();
     triggeredEvents.add(picked.name);
   }
 }
