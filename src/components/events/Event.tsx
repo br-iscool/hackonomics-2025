@@ -1,5 +1,5 @@
 import { GameEvent } from "@/game/logic/events/eventsClasses";
-import EventButton from "./EventButton";
+import { Button } from "../ui/button";
 
 
 interface EventProps {
@@ -7,11 +7,6 @@ interface EventProps {
 }
 
 export default function Event({ event }: EventProps) {
-    console.trace("Called from");
-    if (!event) {
-        return null; // or some fallback UI
-    }
-
     return (
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-5 rounded-lg bg-gray-900/75 w-96 z-50">
             <div className="items-center justify-center text-white">
@@ -23,8 +18,8 @@ export default function Event({ event }: EventProps) {
                 <hr className="p-2" />
 
                 <div className="flex items-center justify-center">
-                    <EventButton text="Accept" />
-                    <EventButton text="Decline" />
+                    <Button> <p>"Accept"</p></Button>
+                    <Button> <p>"Decline"</p></Button>
                 </div>
             </div>
         </div>

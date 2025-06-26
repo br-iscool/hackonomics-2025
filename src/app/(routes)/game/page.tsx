@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import ActionButton from "@/components/ActionButton";
 import AgeUp from "@/components/AgeUp";
 import ProfileIcon from "@/components/ProfileIcon";
-import PopUp from "@/components/events/Event";
 import Transcripts from "@/components/Transcripts";
 import Event from "@/components/events/Event";
 
@@ -59,12 +58,6 @@ export default function Game() {
                 </div>
             </div>
             <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => {state.stress+=20;}}>Test - increase stress button</Button>
-
-            <PopUp
-                name="Test Event"
-                description=" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum excepturi dolore voluptates dolores magnam nemo possimus vero illum exercitationem nobis! Facilis quod provident sunt esse sapiente eum quos itaque ratione."
-                icon="🚀"
-            />
 
             {snap.event && <Event event={snap.event} />}
             
