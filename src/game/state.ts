@@ -8,6 +8,7 @@ export const state = proxy({
   education: undefined as any,   // Replace with actual Education type
   family: {} as any,             // Replace with FamilyStatus
   events: [] as string[],        // Replace string[] with GameEvent[] if needed
+  event: undefined as any, // Replace with GameEvent type if needed
 
   stress: 0,
   money: 0,
