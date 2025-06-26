@@ -12,7 +12,6 @@ export abstract class GameEvent {
   body: string;
   condition?: () => boolean;
   choices?: GameChoice[];
-  setVars?: () => void;
   eventData: any = {};
 
   constructor(
@@ -28,7 +27,7 @@ export abstract class GameEvent {
     this.body = body;
     this.condition = condition;
     this.choices = choices;
-    this.setVars = setVars;
+    if (setVars) this.eventData = setVars();
   }
 
   getFormattedBody(): string {
@@ -51,7 +50,7 @@ export class ScheduledEvent extends GameEvent {
     body: string,
     condition?: () => boolean,
     choices?: GameChoice[],
-    setVars?: () => void
+    setVars?: () => any
   ) {
     super(name, "scheduled", body, condition, choices, setVars);
     this.triggerAge = triggerAge;
@@ -63,8 +62,6 @@ export class ScheduledEvent extends GameEvent {
   }
 
   execute() {
-    if (this.setVars) this.setVars();
-
     if (this.choices && this.choices.length > 0) {
       // Hook into UI to choose
     } else {
@@ -84,7 +81,7 @@ export class RandomEvent extends GameEvent {
     body: string,
     condition?: () => boolean,
     choices?: GameChoice[],
-    setVars?: () => void
+    setVars?: () => any
   ) {
     super(name, "random", body, condition, choices, setVars);
     this.weight = weight;
@@ -96,8 +93,6 @@ export class RandomEvent extends GameEvent {
   }
 
   execute() {
-    if (this.setVars) this.setVars();
-
     if (this.choices && this.choices.length > 0) {
       // Hook into UI to choose
     } else {
