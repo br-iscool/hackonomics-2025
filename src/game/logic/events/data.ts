@@ -1,6 +1,7 @@
 import { state } from "@/game/state";
+import { CreditCard } from "@/game/logic/products"
 import { GameChoice, GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
-import { chooseRandom, randomInterval } from "@/utils";
+import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
 
 export const gameEvents: GameEvent[] = [
   new RandomEvent(
@@ -15,7 +16,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Accept",
         execute: (eventData) => {
-          state.job = {role : eventData.role, salary: eventData.salary, yearsEmployed : 0};
+          state.job = { role: eventData.role, salary: eventData.salary, yearsEmployed: 0 };
           return `Congrats! You are now employed as a <b>${eventData.role}.</b>`
         }
       },
@@ -32,7 +33,8 @@ export const gameEvents: GameEvent[] = [
         location: chooseRandom(locations),
         salary: randomInterval(6, 12) * 1000,
       }
-    }
+    },
+    true // repeatable
   ),
   new ScheduledEvent(
     "Choose an educational path",
@@ -57,14 +59,14 @@ export const gameEvents: GameEvent[] = [
       {
         label: "University",
         execute: (eventData) => {
-          state.education = {inSchooling : true, tuition: eventData.uniTuition, level : "Undergrad", yearsUntilGrad : 4};
+          state.education = { inSchooling: true, tuition: eventData.uniTuition, level: "Undergrad", yearsUntilGrad: 4 };
           return `Congratulations! You are now an undergraduate studying at ${eventData.university}`
         }
       },
       {
         label: "Trade School",
         execute: (eventData) => {
-          state.education = {inSchooling : true, tuition: eventData.uniTuition, level : "Vocational", yearsUntilGrad : 2};
+          state.education = { inSchooling: true, tuition: eventData.uniTuition, level: "Vocational", yearsUntilGrad: 2 };
           return `Congratulations! You are now studying to be an
           <b>${eventData.tradeProfession}</b> at ${eventData.tradeSchool}.`
         }
@@ -83,13 +85,73 @@ export const gameEvents: GameEvent[] = [
       const universities = ["Rutgers University", "Cambrodge College", "McHarvard University"];
 
       return {
-        tradeSchool : chooseRandom(tradeSchools),
-        university : chooseRandom(universities),
-        uniTuition : randomInterval(4,6)*1000,
-        tradeTuition : randomInterval(2,4)*1000,
+        tradeSchool: chooseRandom(tradeSchools),
+        university: chooseRandom(universities),
+        uniTuition: randomInterval(4, 6) * 1000,
+        tradeTuition: randomInterval(2, 4) * 1000,
       }
     }
   ),
-
-  
+  new RandomEvent(
+    "Open a Savings Account",
+    () => state.products.savings ? 0.2 : 0.4,
+    null,
+    `You hear knocking at the door and are approached by a representative of {eventData.bank}.
+    He offers you a deal to open a High Interest Savings Account, with an annual interest rate of
+    {eventData.rate * 100}%. Do you:`,
+    () => state.age > 17,
+    [
+      {
+        label: "Accept the deal?",
+        execute: (eventData) => {
+          state.products.savings = {
+            active: true,
+            name: eventData.bank,
+            interestRate: eventData.rate,
+          }
+          return `You are now the proud owner of a bank account with a rate of ${eventData.rate * 100}% yearly.</b>`
+        }
+      },
+      {
+        label: "Decline",
+      },
+    ],
+    () => {
+      const banks = ["TDBank", "the National Bank"];
+      return { bank: chooseRandom(banks), rate: randomDecimal(0.03, 0.07) }
+    },
+    true // repeatable
+  ),
+  new RandomEvent(
+    "Get a Credit Card",
+    0.2,
+    null,
+    `It's about time you got a credit card! Getting a credit card gives you access to
+    having a <b>credit score</b>, which may be used to evaluate your eligibility in applying for loans,
+    owning cars, and getting a mortgage for a house. Do you`,
+    () => state.age > 17 && state.products.savings,
+    [
+      {
+        label: "Get a credit card now?",
+        execute: (eventData) => {
+          state.products.creditCard = new CreditCard({
+            active: true,
+            balance: 100, //placeholder, prob will remove this value later
+            interestRate: 1.05,
+            creditLimit: 1000,
+            interestFreePeriod: 1, //idk
+          })
+          return `You now have a credit card! But be careful, with great power comes great responsibility...`
+        }
+      },
+      {
+        label: "Wait for later",
+      },
+    ],
+  ),
+  /*new RandomEvent(
+    "Purchase a car",
+    0.2,
+    
+  )*/
 ];

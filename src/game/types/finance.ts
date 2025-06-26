@@ -14,7 +14,6 @@ export interface Education {
 
 export interface CreditCardData {
   active: boolean;
-  name: string;
   balance: number;
   interestRate: number;
   creditLimit: number;
@@ -35,7 +34,6 @@ export interface LoanData {
 export interface SavingsAccData {
   active: boolean;
   name: string;
-  balance: number;
   interestRate: number | [number, number];
 }
 

@@ -51,7 +51,7 @@ export function handleEvents(currentAge: number) {
     if (event) {
       event.execute();
       state.event = event;
-      triggeredEvents.add(event.name);
+      if (!event.repeatable) triggeredEvents.add(event.name);
     }
   }
 }

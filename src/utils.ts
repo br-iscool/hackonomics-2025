@@ -28,6 +28,10 @@ export function randomInterval(min : number, max : number): number { // min and 
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+export function randomDecimal(min : number, max : number): number {
+  return Math.random() * (max - min) + min;
+}
+
 interface IQueue<T> {
   enqueue(item: T): void;
   dequeue(): T | undefined;

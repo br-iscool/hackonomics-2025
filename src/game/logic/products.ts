@@ -56,7 +56,7 @@ export class CreditCard {
       this.data.interestFreePeriod -= 1;
       return;
     }
-    const interest = this.data.balance * (this.data.interestRate / 12);
+    const interest = this.data.balance * (this.data.interestRate);
     this.data.balance += interest;
     const minPayment = Math.min(this.data.balance, this.data.balance * 0.05);
     if (state.money >= minPayment) {

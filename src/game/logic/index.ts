@@ -8,6 +8,10 @@ export function gameLoop() {
 
   // Tick products
   if (state.job) state.job.yearsEmployed++;
+  if (state.education.inSchooling) {
+    if (state.education.tuition) state.money -= state.education.tuition;
+    if (state.education.yearsUntilGrad) state.education.yearsUntilGrad--;
+  }
   if (state.products.mortgage) new Mortgage(state.products.mortgage).tick();
   state.products.loans.forEach((loanData) => new Loan(loanData).tick());
   if (state.products.creditCard) new CreditCard(state.products.creditCard).tick();
@@ -36,7 +40,7 @@ function updateCreditScore() {
 
 function updateIncome() {
   const baseSalary = getJobSalary(state.job);
-  const eduBoost = getEducationMultiplier(state.education);
+  const eduBoost = getEducationMultiplier(state.education.level);
   state.income = Math.floor(baseSalary * eduBoost);
   state.money += state.income;
   state.context.householdIncome = state.income;
@@ -54,9 +58,10 @@ function getJobSalary(job: string | undefined): number {
 
 function getEducationMultiplier(edu: string | undefined): number {
   switch (edu) {
-    case "highschool": return 1.0;
-    case "university": return 1.2;
-    case "grad": return 1.5;
+    case "Highschool": return 0.7;
+    case "Vocational": return 1.2;
+    case "Undergrad": return 1.4;
+    case "Graduate": return 2.5;
     default: return 0.7;
   }
 }

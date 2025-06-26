@@ -12,6 +12,7 @@ export abstract class GameEvent {
   body: string;
   condition?: () => boolean;
   choices?: GameChoice[];
+  repeatable? : boolean;
   eventData: any = {};
 
   constructor(
@@ -20,7 +21,8 @@ export abstract class GameEvent {
     body: string,
     condition?: () => boolean,
     choices?: GameChoice[],
-    setVars?: () => void
+    setVars?: () => void,
+    repeatable? :boolean,
   ) {
     this.name = name;
     this.type = type;
@@ -28,6 +30,7 @@ export abstract class GameEvent {
     this.condition = condition;
     this.choices = choices;
     if (setVars) this.eventData = setVars();
+    this.repeatable = repeatable;
   }
 
   getFormattedBody(): string {
@@ -50,9 +53,10 @@ export class ScheduledEvent extends GameEvent {
     body: string,
     condition?: () => boolean,
     choices?: GameChoice[],
-    setVars?: () => any
+    setVars?: () => any,
+    repeatable?: boolean,
   ) {
-    super(name, "scheduled", body, condition, choices, setVars);
+    super(name, "scheduled", body, condition, choices, setVars, repeatable);
     this.triggerAge = triggerAge;
     this.onExecute = onExecute;
   }
@@ -81,9 +85,10 @@ export class RandomEvent extends GameEvent {
     body: string,
     condition?: () => boolean,
     choices?: GameChoice[],
-    setVars?: () => any
+    setVars?: () => any,
+    repeatable?: boolean,
   ) {
-    super(name, "random", body, condition, choices, setVars);
+    super(name, "random", body, condition, choices, setVars, repeatable);
     this.weight = weight;
     this.onExecute = onExecute;
   }
