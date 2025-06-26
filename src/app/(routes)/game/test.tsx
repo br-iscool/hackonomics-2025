@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
 import { gameLoop } from "@/game/logic";

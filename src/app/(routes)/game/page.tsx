@@ -65,7 +65,7 @@ export default function Game() {
                 icon="🚀"
             />
 
-            {/* 
+            {/* snap.event &&
             <div className="h-full w-full bg-black/50 p-4">
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="nameInput" className="block text-white">Name:</label>
