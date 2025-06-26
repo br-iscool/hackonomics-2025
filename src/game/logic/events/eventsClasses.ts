@@ -1,7 +1,7 @@
 export interface GameChoice {
   label: string;
-  condition?: () => boolean;
-  effect: () => void;
+  condition?: () => boolean | null;
+  effect: (() => void) | null;
 }
 
 export type GameEventType = "scheduled" | "random";
@@ -53,12 +53,12 @@ export class ScheduledEvent extends GameEvent {
 }
 
 export class RandomEvent extends GameEvent {
-  weight: number;
+  weight: number | (() => number);
   onExecute: () => void;
 
   constructor(
     name: string,
-    weight: number,
+    weight: number | (() => number),
     onExecute: () => void,
     condition?: () => boolean,
     choices?: GameChoice[]
