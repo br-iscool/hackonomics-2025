@@ -16,7 +16,7 @@ export const gameEvents: GameEvent[] = [
         label: "Accept",
         execute: (eventData) => {
           state.job = {role : eventData.role, salary: eventData.salary, yearsEmployed : 0};
-          return `Congrats! You are now employed as a {eventData.role}.`
+          return `Congrats! You are now employed as a <b>${eventData.role}.</b>`
         }
       },
       {
@@ -58,7 +58,7 @@ export const gameEvents: GameEvent[] = [
         label: "University",
         execute: (eventData) => {
           state.education = {inSchooling : true, tuition: eventData.uniTuition, level : "Undergrad", yearsUntilGrad : 4};
-          return `Congratulations! You are now an undergraduate studying at {eventData.university}`
+          return `Congratulations! You are now an undergraduate studying at ${eventData.university}`
         }
       },
       {
@@ -66,7 +66,7 @@ export const gameEvents: GameEvent[] = [
         execute: (eventData) => {
           state.education = {inSchooling : true, tuition: eventData.uniTuition, level : "Vocational", yearsUntilGrad : 2};
           return `Congratulations! You are now studying to be an
-          <b>{eventData.tradeProfession}</b> at {eventData.tradeSchool}.`
+          <b>${eventData.tradeProfession}</b> at ${eventData.tradeSchool}.`
         }
       },
       {
