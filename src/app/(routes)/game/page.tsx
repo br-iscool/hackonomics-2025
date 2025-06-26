@@ -11,6 +11,7 @@ import AgeUp from "@/components/AgeUp";
 import ProfileIcon from "@/components/ProfileIcon";
 import PopUp from "@/components/events/Event";
 import Transcripts from "@/components/Transcripts";
+import Event from "@/components/events/Event";
 
 export default function Game() {
     const snap = useSnapshot(state);
@@ -65,15 +66,9 @@ export default function Game() {
                 icon="🚀"
             />
 
-            {/* snap.event &&
-            <div className="h-full w-full bg-black/50 p-4">
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="nameInput" className="block text-white">Name:</label>
-                    <input type="text" id="nameInput" value={inputName} className="p-2 rounded bg-white" />
-                    <button type="submit"> Go</button>
-                </form>
-            </div>
-            */}
+            {snap.event && <Event event={snap.event} />}
+            
+           
         </>
     );
 }
