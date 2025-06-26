@@ -51,7 +51,4 @@ export class Queue<T> implements IQueue<T> {
   size(): number {
     return this.storage.length;
   }
-  empty() : boolean {
-    return this.storage.length > 0;
-  }
 }

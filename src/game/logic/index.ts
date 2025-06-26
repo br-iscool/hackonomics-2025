@@ -4,6 +4,7 @@ import { handleEvents } from "@/game/logic/events";
 
 export function gameLoop() {
   state.age += 1;
+  console.log(`Aging up to ${state.age}`);
 
   // Tick products
   if (state.products.mortgage) new Mortgage(state.products.mortgage).tick();

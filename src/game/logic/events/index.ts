@@ -1,6 +1,7 @@
 import { gameEvents } from "./data";
 import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
 import { pickWeighted, Queue } from "@/utils";
+import { state } from "@/game/state";
 
 let triggeredEvents = new Set<string>();
 
@@ -26,8 +27,9 @@ export function handleEvents(currentAge: number) {
       triggeredEvents.add(event.name);
     }
   }
+  console.log(`Scheduled events for age ${currentAge}:`, eventsQueue);
 
-  if (eventsQueue.empty()) {
+  if (eventsQueue.size() > 0) {
     // Random Events
     const eligibleRandomEvents = gameEvents.filter(
       (event): event is RandomEvent =>
@@ -43,9 +45,15 @@ export function handleEvents(currentAge: number) {
       triggeredEvents.add(picked.name);
     }
   }
+  console.log(`Random event picked:`, triggeredEvents);
+
 
   // Execute functions
-  while(!eventsQueue.empty()) {
-    eventsQueue.dequeue()?.execute();
+  while(eventsQueue.size() > 0) {
+    const event = eventsQueue.dequeue();
+    if (event) {
+      event.execute();
+      state.event = event;
+    }
   }
 }

@@ -6,11 +6,11 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button"
 
-import ActionButton from "@/app/components/ui/ActionButton";
-import AgeUp from "@/app/components/ui/AgeUp";
-import ProfileIcon from "@/app/components/ui/ProfileIcon";
-import PopUp from "@/app/components/events/Event";
-import Transcripts from "@/app/components/ui/Transcripts";
+import ActionButton from "@/components/ActionButton";
+import AgeUp from "@/components/AgeUp";
+import ProfileIcon from "@/components/ProfileIcon";
+import PopUp from "@/components/events/Event";
+import Transcripts from "@/components/Transcripts";
 
 export default function Game() {
     const snap = useSnapshot(state);
