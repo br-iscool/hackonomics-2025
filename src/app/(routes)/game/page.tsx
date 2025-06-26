@@ -4,6 +4,8 @@ import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button"
+
 import ActionButton from "@/app/components/ui/ActionButton";
 import AgeUp from "@/app/components/ui/AgeUp";
 import ProfileIcon from "@/app/components/ui/ProfileIcon";
@@ -55,6 +57,7 @@ export default function Game() {
                     </div>
                 </div>
             </div>
+            <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => {state.stress+=20;}}>Test - increase stress button</Button>
 
             <PopUp
                 name="Test Event"
