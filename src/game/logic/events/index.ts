@@ -28,9 +28,8 @@ export function handleEvents(currentAge: number) {
       triggeredEvents.add(event.name);
     }
   }
-  console.log(`Scheduled events for age ${currentAge}:`, eventsQueue);
 
-  if (eventsQueue.size() > 0) {
+  if (eventsQueue.size() == 0) {
     // Random Events
     const eligibleRandomEvents = gameEvents.filter(
       (event): event is RandomEvent =>
