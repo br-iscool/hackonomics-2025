@@ -44,12 +44,12 @@ export abstract class GameEvent {
 
 export class ScheduledEvent extends GameEvent {
   triggerAge: number;
-  onExecute: () => void;
+  onExecute: null | ((eventData : any) => void | string);
 
   constructor(
     name: string,
     triggerAge: number,
-    onExecute: () => void,
+    onExecute: null | ((eventData : any) => void | string),
     body: string,
     condition: () => boolean,
     choices: GameChoice[],
@@ -69,19 +69,19 @@ export class ScheduledEvent extends GameEvent {
     if (this.choices && this.choices.length > 0) {
       // Hook into UI to choose
     } else {
-      this.onExecute();
+      if (this.onExecute) this.onExecute(this.eventData);
     }
   }
 }
 
 export class RandomEvent extends GameEvent {
   weight: number | (() => number);
-  onExecute: null | (() => void | string);
+  onExecute: null | ((eventData : any) => void | string);
 
   constructor(
     name: string,
     weight: number | (() => number),
-    onExecute: null | (() => void | string),
+    onExecute: null | ((eventData : any) => void | string),
     body: string,
     condition: () => boolean,
     choices: GameChoice[],
@@ -101,7 +101,7 @@ export class RandomEvent extends GameEvent {
     if (this.choices && this.choices.length > 0) {
       // Hook into UI to choose
     } else {
-      if (this.onExecute) this.onExecute();
+      if (this.onExecute) this.onExecute(this.eventData);
     }
   }
 }
