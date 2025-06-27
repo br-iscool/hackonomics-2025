@@ -39,7 +39,9 @@ function updateCreditScore() {
 }
 
 function updateIncome() {
-  const baseSalary = getJobSalary(state.job);
+  if (!state.job) return;
+
+  const baseSalary = state.job.salary;
   const eduBoost = getEducationMultiplier(state.education.level);
   state.income = Math.floor(baseSalary * eduBoost);
   state.money += state.income;
@@ -48,20 +50,30 @@ function updateIncome() {
 
 function getJobSalary(job: string | undefined): number {
   switch (job) {
-    case "Engineer": return 80000;
-    case "Teacher": return 50000;
-    case "Doctor": return 120000;
-    case "Retail": return 30000;
-    default: return 0;
+    case "Engineer":
+      return 80000;
+    case "Teacher":
+      return 50000;
+    case "Doctor":
+      return 120000;
+    case "Retail":
+      return 30000;
+    default:
+      return 0;
   }
 }
 
 function getEducationMultiplier(edu: string | undefined): number {
   switch (edu) {
-    case "Highschool": return 0.7;
-    case "Vocational": return 1.2;
-    case "Undergrad": return 1.4;
-    case "Graduate": return 2.5;
-    default: return 0.7;
+    case "Highschool":
+      return 0.7;
+    case "Vocational":
+      return 1.2;
+    case "Undergrad":
+      return 1.4;
+    case "Graduate":
+      return 2.5;
+    default:
+      return 0.7;
   }
 }

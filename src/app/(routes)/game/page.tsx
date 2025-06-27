@@ -18,12 +18,7 @@ export default function Game() {
         <>
             <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen">
                 <div className="p-5">
-                    <ProfileIcon
-                        name={snap.name}
-                        job="Software Engineer"
-                        stress={snap.stress}
-                        money={snap.money}
-                    />
+                    <ProfileIcon />
                 </div>
 
                 <div className="flex">
