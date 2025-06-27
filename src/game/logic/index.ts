@@ -4,7 +4,6 @@ import { handleEvents } from "@/game/logic/events";
 
 export function gameLoop() {
   state.age += 1;
-  console.log(`Aging up to ${state.age}`);
 
   // Tick products
   if (state.job) state.job.yearsEmployed++;
@@ -28,7 +27,8 @@ export function gameLoop() {
 
   // Trigger events
   handleEvents(state.age);
-  console.log(state.event);
+
+  
 }
 
 function updateCreditScore() {
