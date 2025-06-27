@@ -52,6 +52,6 @@ export default function EventManager({ event }: EventManagerProps) {
   const currentDialog = dialogQueue[0];
 
   return currentDialog ? (
-    <EventDialog dialog={currentDialog} onClose={closeTopDialog} />
+    <EventDialog key={currentDialog.title} dialog={currentDialog} onClose={closeTopDialog} />
   ) : null;
 }

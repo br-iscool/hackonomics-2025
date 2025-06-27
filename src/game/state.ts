@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 import { GameEvent } from "./logic/events/eventsClasses";
-import { Education, Job, Housing } from "./types";
+import { Education, Job, Housing, FamilyStatus } from "./types";
 
 export const state = proxy({
   alive: true,
@@ -10,7 +10,7 @@ export const state = proxy({
   job: null as Job | null,
   education: {inSchooling : true, level : "Highschool"} as Education,
   housing : {type : "Parents"} as Housing,
-  family: {} as any, // Replace with FamilyStatus
+  family: {status: "Single"} as FamilyStatus,
   transcript: [] as string[],
   event: null as GameEvent | null,
 
@@ -38,11 +38,6 @@ export const state = proxy({
   totalPayments: 0,
   onTimePayments: 0,
   yearsCredit: 0,
-
-  context: {
-    householdIncome: 0,
-    householdExpenses: 0,
-  },
 
   settings: {
     autosave: true,

@@ -1,3 +1,22 @@
+export interface FamilyMember {
+  age: number;
+  name: string;
+  relationship: "Child" | "Spouse" | "Dating" | "Parent" | "Sibling" | "Other";
+  health: "Healthy" | "Sick" | "Disabled" | "Deceased";
+  job?: Job;
+  deficit: number;
+}
+
+export interface FamilyStatus {
+  status: "Single" | "Married" | "Divorced" | "Widowed";
+  value: number;
+  spouse?: FamilyMember;
+  children?: FamilyMember[];
+  totalIncome?: number; 
+  totalDeficit?: number; 
+  netIncome?: number; 
+}
+
 export interface Job {
   role : string;
   salary : number;

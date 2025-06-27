@@ -346,7 +346,7 @@ export const gameEvents: GameEvent[] = [
     you feel that now is the time to purchase a home. However, owning a house, much less
     the process of buying a house, can be a tedious, expensive, and time-consuming process.
     Do you go ahead with the search?`,
-    () => state.age > 30 && state.family && state.creditScore > 680 && state.income > 50000 && !state.housing, //be married
+    () => state.age > 30 &&(!!state.family.children?.length) && state.creditScore > 680 && state.income > 50000 && !state.housing, //be married
     [
       {
         label: "Accept",
@@ -371,7 +371,7 @@ export const gameEvents: GameEvent[] = [
     to your family in the case of an untimely death. If the 30 years expires, you get to collect <b>all of the money you paid, 
     and some extra.</b> This seems like an extremely lucrative deal, especially if you're looking for financial security. 
     Do you take it?`,
-    () => state.age > 30 && state.family && !state.products.insurance, //check if family
+    () => state.age > 30 && (!!state.family.children?.length) && !state.products.insurance, //check if family
     [
       {
         label: "Get insurance",
@@ -498,12 +498,12 @@ export const gameEvents: GameEvent[] = [
     `Uh oh! Looks like it's that time of the year again, and your child caught an unfortunate case 
     of the flu. It looks pretty serious, maybe it's time to get it checked out just to make sure it's okay.
     Do you pay a visit to the doctor?`,
-    () => state.family, //if has kids
+    () => (!!state.family.children?.length), //if has kids
     [
       {
         label: "Go",
         execute: (eventData) => {
-          state.family += 5;
+          state.family.value += 5;
           state.money -= 100;
           return `Your child gets checked out by the doctor, he prescribes some medicine, and their flu appears cured.`
         }
@@ -511,7 +511,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't go",
         execute: (eventData) => {
-          state.family -= 15;
+          state.family.value -= 15;
           return `Unluckily, the flu didn't get any better by itself, and your child's health 
           got a bit worse. Was the money you saved worth it?`
         }
@@ -527,12 +527,12 @@ export const gameEvents: GameEvent[] = [
     `While on a walk, your child has been eyeing the {eventData.product} behind the shop window for a while now,
     but it looks pretty expensive. They ask you if you could purchase for them.
     Do you buy it for them?`,
-    () => state.family, //if has kids
+    () => (!!state.family.children?.length), //if has kids
     [
       {
         label: "Yes",
         execute: (eventData) => {
-          state.family += 5;
+          state.family.value += 5;
           state.money -= 150;
           return `Your child loves the ${eventData.product} which you bought, and they come home with a bright
           gleaming smile on their face.`
@@ -541,7 +541,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "No",
         execute: (eventData) => {
-          state.family -= 5;
+          state.family.value -= 5;
           return `You don't want to spoil your child. Sometimes, they have to learn that not everything
           in life is guaranteed.`
         }
@@ -559,12 +559,12 @@ export const gameEvents: GameEvent[] = [
     `At your workplace, you won the raffle for a trip to the Bahamas! It covers the airplane flight fees for
     all of your family, and your boss has agreed to give you leave for those days. However, going might mean missing out
     on some work days, and you would still have to pay for the other expenses. Do you go?`,
-    () => state.family, //if has kids
+    () => ( !!state.family.children?.length), //if has kids
     [
       {
         label: "Go",
         execute: (eventData) => {
-          state.family += 15;
+          state.family.value += 15;
           state.stress -= 20;
           state.money -= 5000;
           return `You seize the opportunity and make the most of it. The trip is a blast
@@ -575,7 +575,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't",
         execute: (eventData) => {
-          state.family -= 5;
+          state.family.value -= 5;
         }
       },
     ],
@@ -589,7 +589,7 @@ export const gameEvents: GameEvent[] = [
     `Feeling sick of your singleness, you decide that it might be time to enter the dating
     market. Although there may be added responsibility and stress, this may be a good opportunity
     to find new human connection. What do you do?`,
-    () => !state.family, //if single
+    () => !state.family.spouse, //if single
     [
       {
         label: "Search for a potential date",
@@ -614,7 +614,7 @@ export const gameEvents: GameEvent[] = [
     null,
     `Having sufficient time to get to know you, your partner asks youif you would like to get engaged.
     What do you do?`,
-    () => state.family, //if dating
+    () => state.family.spouse?.relationship=="Dating", //if dating
     [
       {
         label: "Yes",
@@ -635,7 +635,7 @@ export const gameEvents: GameEvent[] = [
     0.1,
     null,
     `Your partner asks if you if you would like to have kids. What do you say?`,
-    () => state.family, //if married
+    () => state.family.spouse?.relationship=="Spouse", //if married
     [
       {
         label: "Yes",

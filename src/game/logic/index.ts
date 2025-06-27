@@ -50,7 +50,6 @@ function updateIncome() {
   const eduBoost = getEducationMultiplier(state.education.level);
   state.income = Math.floor(baseSalary * eduBoost);
   state.money += state.income;
-  state.context.householdIncome = state.income;
 }
 
 function checkBankruptcy() {
