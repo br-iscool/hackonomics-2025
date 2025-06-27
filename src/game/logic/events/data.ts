@@ -2,6 +2,7 @@ import { state } from "@/game/state";
 import { CreditCard } from "@/game/logic/products"
 import { GameChoice, GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
 import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
+import { eventNames } from "process";
 
 export const gameEvents: GameEvent[] = [
   new RandomEvent(
@@ -118,7 +119,7 @@ export const gameEvents: GameEvent[] = [
     ],
     () => {
       const banks = ["TDBank", "the National Bank"];
-      return { bank: chooseRandom(banks), rate : randomInterval(3,7) }
+      return { bank: chooseRandom(banks), rate: randomInterval(3, 7) }
     },
     true // repeatable
   ),
@@ -173,7 +174,7 @@ export const gameEvents: GameEvent[] = [
       </li>
       <li><h3>stick with public transport 🤷‍♂️</h3></li>
     </ol>`,
-    () => state.age>21, //check if has car
+    () => state.age > 21, //check if has car
     //you dont have money -- apply for a loan.
     [
       {
@@ -213,13 +214,13 @@ export const gameEvents: GameEvent[] = [
       const cheapCars = ["Honda X", "Subaru V", "Toyota"];
       const averageCars = ["Ford Ranger", "Subaru VI"];
       const luxuryCars = ["Mustard", "Limouseine"];
-      return { 
-        cheapCar : chooseRandom(cheapCars),
-        averageCar : chooseRandom(averageCars),
-        luxuryCar : chooseRandom(luxuryCars),
-        cheapPrice : randomInterval(25, 30) * 1000,
-        averagePrice : randomInterval(35, 45) * 1000,
-        luxuryPrice : randomInterval(100, 120) * 1000,
+      return {
+        cheapCar: chooseRandom(cheapCars),
+        averageCar: chooseRandom(averageCars),
+        luxuryCar: chooseRandom(luxuryCars),
+        cheapPrice: randomInterval(25, 30) * 1000,
+        averagePrice: randomInterval(35, 45) * 1000,
+        luxuryPrice: randomInterval(100, 120) * 1000,
       }
     }
   ),
@@ -240,7 +241,7 @@ export const gameEvents: GameEvent[] = [
       Is the added comfort worth the cost?
       </li>
     </ol>`,
-    () => state.age>21, //check if has car
+    () => state.age > 21, //check if has car
     //you dont have money -- apply for a loan.
     [
       {
@@ -262,13 +263,11 @@ export const gameEvents: GameEvent[] = [
         }
       },
     ],
-    () => {
-      return { 
-        averageCost : randomInterval(12, 15) * 100,
-        cheapCost : randomInterval(7, 9) * 900,
-      }
-    }
-  ), 
+    () => ({
+      averageCost: randomInterval(12, 15) * 100,
+      cheapCost: randomInterval(7, 9) * 900,
+    })
+  ),
   new ScheduledEvent(
     "Choose a career path",
     22,
@@ -293,38 +292,38 @@ export const gameEvents: GameEvent[] = [
       you'll be able to avoid paying years of costly tuition.
       </li>
     </ol>`,
-    () => state.education.level==="Grad"&&state.education.yearsUntilGrad===4,
+    () => state.education.level === "Grad" && state.education.yearsUntilGrad === 4,
     [
       {
-        label:"Med School",
+        label: "Med School",
         execute: (eventData) => {
           state.education = {
-            inSchooling : true,
-            level : "Grad",
+            inSchooling: true,
+            level: "Grad",
             tuition: eventData.medCost,
-            yearsUntilGrad : 10,
-            field : "Medicine"
+            yearsUntilGrad: 10,
+            field: "Medicine"
           }
           return `Congratulations on being accepted into med school! For the next 10 years, you will
           work towards becoming a doctor!`
         }
       },
       {
-        label:"Law School",
+        label: "Law School",
         execute: (eventData) => {
           state.education = {
-            inSchooling : true,
-            level : "Grad",
+            inSchooling: true,
+            level: "Grad",
             tuition: eventData.lawCost,
-            yearsUntilGrad : 4,
-            field : "Law"
+            yearsUntilGrad: 4,
+            field: "Law"
           }
           return `Congratulations on being accepted into law school! For the next 4 years, you will
           work towards becoming a lawyer!`
         }
       },
       {
-        label:"Find a job",
+        label: "Find a job",
         execute: (eventData) => {
           state.education.field = "Computer Science";
           return `Higher education isn't for everyone- and you know what you're really after- getting the money early.
@@ -334,8 +333,8 @@ export const gameEvents: GameEvent[] = [
     ],
     () => {
       return {
-        medCost : randomInterval(16, 20) * 1000,
-        lawCost : randomInterval(22, 24) * 1000,
+        medCost: randomInterval(16, 20) * 1000,
+        lawCost: randomInterval(22, 24) * 1000,
       }
     }
   ),
@@ -347,7 +346,7 @@ export const gameEvents: GameEvent[] = [
     you feel that now is the time to purchase a home. However, owning a house, much less
     the process of buying a house, can be a tedious, expensive, and time-consuming process.
     Do you go ahead with the search?`,
-    () => state.age>30 && state.family && state.creditScore>680 && state.income>50000, //be married
+    () => state.age > 30 && state.family && state.creditScore > 680 && state.income > 50000 && !state.housing, //be married
     [
       {
         label: "Accept",
@@ -362,7 +361,40 @@ export const gameEvents: GameEvent[] = [
     undefined,
     true // repeatable
   ),
-  
+  new RandomEvent(
+    "Insurance Offer",
+    0.1,
+    null,
+    `You hear knocking at the door and are approached by an insurance salesman. 
+    He says that purchasing a <b>Term Life Insurance Plan</b> will give you financial security. If you purchase 
+    now, you will pay annual premiums amounting to \${eventData.premium} for the next 30 years, and a payment will be given
+    to your family in the case of an untimely death. If the 30 years expires, you get to collect <b>all of the money you paid, 
+    and some extra.</b> This seems like an extremely lucrative deal, especially if you're looking for financial security. 
+    Do you take it?`,
+    () => state.age > 30 && state.family && !state.products.insurance, //check if family
+    [
+      {
+        label: "Get insurance",
+        execute: (eventData) => {
+          /*state.products.insurance = new Insurance({
+            active: true,
+            balance: 100, //placeholder, prob will remove this value later
+            interestRate: 1.05,
+            creditLimit: 1000,
+            interestFreePeriod: 1, //idk
+          })*/
+          return `Your next 30 years are now insured!`
+        }
+      },
+      {
+        label: "Maybe later",
+      },
+    ],
+    () => ({
+      premium: randomInterval(13, 20) * 100
+    }),
+    true //repeatable
+  ),
 
 
   // All the random, lifestyle events
@@ -394,12 +426,10 @@ export const gameEvents: GameEvent[] = [
         }
       },
     ],
-    () => {
-      return {
-        product : chooseRandom(["iPhone X", "Samsung TV", "Louis Vutton"]),
-        price : randomInterval(3, 5) * 1000,
-      }
-    },
+    () => ({
+      product: chooseRandom(["iPhone X", "Samsung TV", "Louis Vutton"]),
+      price: randomInterval(3, 5) * 1000,
+    }),
     true, //repeats
   ),
   new RandomEvent(
@@ -426,12 +456,10 @@ export const gameEvents: GameEvent[] = [
         }
       },
     ],
-    () => {
-      return {
-        product : chooseRandom(["cellphone", "car"]),
-        price : randomInterval(20, 80) * 100,
-      }
-    },
+    () => ({
+      product: chooseRandom(["cellphone", "car"]),
+      price: randomInterval(20, 80) * 100,
+    }),
     true, //repeats
   ),
   new RandomEvent(
@@ -460,7 +488,7 @@ export const gameEvents: GameEvent[] = [
         }
       },
     ],
-    () => {},
+    () => { },
     true, //repeats
   ),
   new RandomEvent(
@@ -489,7 +517,7 @@ export const gameEvents: GameEvent[] = [
         }
       },
     ],
-    () => {},
+    () => { },
     true, //repeats
   ),
   new RandomEvent(
@@ -519,13 +547,13 @@ export const gameEvents: GameEvent[] = [
         }
       },
     ],
-    () => {
-      product : chooseRandom(["Nutcracker", "Hot Wheels", "Lego"])
-    },
+    () => ({
+      product: chooseRandom(["Nutcracker", "Hot Wheels", "Lego"])
+    }),
     true, //repeats
   ),
   new RandomEvent(
-    "Dating",
+    "Surprise vacation",
     0.05,
     null,
     `At your workplace, you won the raffle for a trip to the Bahamas! It covers the airplane flight fees for
@@ -551,41 +579,128 @@ export const gameEvents: GameEvent[] = [
         }
       },
     ],
-    () => {
-      product : chooseRandom(["Nutcracker", "Hot Wheels", "Lego"])
-    },
+    () => { },
     true, //repeats
   ),
   new RandomEvent(
-    "To buy or not?",
-    0.05,
+    "Dating",
+    0.1,
     null,
-    `While on a walk, your child has been eyeing the {eventData.product} behind the shop window for a while now,
-    but it looks pretty expensive. They ask you if you could purchase for them.
-    Do you buy it for them?`,
-    () => state.family, //if has kids
+    `Feeling sick of your singleness, you decide that it might be time to enter the dating
+    market. Although there may be added responsibility and stress, this may be a good opportunity
+    to find new human connection. What do you do?`,
+    () => !state.family, //if single
     [
       {
-        label: "Yes",
+        label: "Search for a potential date",
         execute: (eventData) => {
-          state.family += 5;
-          state.money -= 150;
-          return `Your child loves the ${eventData.product} which you bought, and they come home with a bright
-          gleaming smile on their face.`
+          //Activates date looking thing, 50 50 chance of finding one
         }
       },
       {
         label: "No",
         execute: (eventData) => {
-          state.family -= 5;
-          return `You don't want to spoil your child. Sometimes, they have to learn that not everything
-          in life is guaranteed.`
+          return `You value being a bachelor. After all, you get more time for yourself, and
+          for your hobbies.`
         }
       },
     ],
-    () => {
-      product : chooseRandom(["Nutcracker", "Hot Wheels", "Lego"])
-    },
+    () => { },
     true, //repeats
   ),
+  new RandomEvent(
+    "Proposal",
+    0.1,
+    null,
+    `Having sufficient time to get to know you, your partner asks youif you would like to get engaged.
+    What do you do?`,
+    () => state.family, //if dating
+    [
+      {
+        label: "Yes",
+        execute: (eventData) => {
+          //Changes family state to marriage
+          return `You get happily married!`
+        }
+      },
+      {
+        label: "No",
+      },
+    ],
+    () => { },
+    true, //repeats
+  ),
+  new RandomEvent(
+    "Kids?",
+    0.1,
+    null,
+    `Your partner asks if you if you would like to have kids. What do you say?`,
+    () => state.family, //if married
+    [
+      {
+        label: "Yes",
+        execute: (eventData) => {
+          //Adds kids to family, n stuff
+        }
+      },
+      {
+        label: "No",
+      },
+    ],
+    () => { },
+    true, //repeats
+  ),
+  new RandomEvent(
+    "Promotion",
+    () => 0.05 * (state.job ? Math.max(state.job?.yearsEmployed, 4) : 1),
+    (eventData) => {
+      if (state.job) state.job.salary += eventData.raise;
+    },
+    `Seeing the good work you've done for the company, your boss rewards you with a raise of
+    \${eventData.raise}. He then pats you on the back and tells you to keep up your efforts.`,
+    () => state.job != null, //has a job
+    [
+      {
+        label: "Continue",
+      },
+    ],
+    () => ({
+      raise: randomInterval(4, 5) * 1000
+    }),
+    true, //repeats
+  ),
+
+
+
+  // Illnesses and Stuff
+  new RandomEvent(
+    "Major Illness",
+    () => 0.1 * (1 / state.qualityOfLife),
+    (eventData) => {
+      state.qualityOfLife -= 40;
+    },
+    `Oh no! You've developed a serious case of {eventData.illness}, and needed to be hospitalized for the 
+    next few weeks. Your doctor says that the symptoms are not persistent, but you may require 
+    to undergo special treatment in order to fully cure of it. However, it will cost you \${eventData.cost}. 
+    Do you take it?`,
+    () => state.age > 30, //always can happen
+    [
+      {
+        label: "Yes",
+        execute: (eventData) => {
+          state.qualityOfLife += 45;
+          state.money -= eventData.cost;
+        }
+      },
+      {
+        label: "No"
+      }
+    ],
+    () => ({
+      illness: chooseRandom(["Lymphoma", "Kidney Disease", "Type 1 Diabetes"]),
+      cost: randomInterval(10, 20) * 1000
+    }),
+    true, //repeats
+  ),
+ 
 ];
