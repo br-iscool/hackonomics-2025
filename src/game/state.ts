@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 import { GameEvent } from "./logic/events/eventsClasses";
-import { Education, Job } from "./types";
+import { Education, Job, Housing } from "./types";
 
 export const state = proxy({
   name: "",
@@ -8,6 +8,7 @@ export const state = proxy({
 
   job: null as Job | null,
   education: {inSchooling : true, level : "Highschool"} as Education,
+  housing : {type : "Parents"} as Housing,
   family: {} as any, // Replace with FamilyStatus
   events: [] as string[], // Replace string[] with GameEvent[] if needed
   event: null as GameEvent | null, // Replace with GameEvent type if needed

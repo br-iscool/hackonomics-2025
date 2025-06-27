@@ -7,9 +7,14 @@ export interface Job {
 export interface Education {
   inSchooling : boolean;
   level : "Highschool" | "Vocational" | "Undergrad" | "Grad";
-  tuition? : number,
+  tuition? : number;
   field? : string;
   yearsUntilGrad? : number;
+}
+
+export interface Housing {
+  type : "Parents" | "Apartment" | "House";
+  rent? : number;
 }
 
 export interface CreditCardData {

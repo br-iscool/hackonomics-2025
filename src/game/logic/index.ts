@@ -6,12 +6,15 @@ export function gameLoop() {
   state.age += 1;
   console.log(`Aging up to ${state.age}`);
 
-  // Tick products
+  //Life stuff
   if (state.job) state.job.yearsEmployed++;
   if (state.education.inSchooling) {
     if (state.education.tuition) state.money -= state.education.tuition;
     if (state.education.yearsUntilGrad) state.education.yearsUntilGrad--;
   }
+  if (state.housing.type==="Apartment" && state.housing.rent) state.money -= state.housing.rent;
+
+  // Tick products
   if (state.products.mortgage) new Mortgage(state.products.mortgage).tick();
   state.products.loans.forEach((loanData) => new Loan(loanData).tick());
   if (state.products.creditCard) new CreditCard(state.products.creditCard).tick();
