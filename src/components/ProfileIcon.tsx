@@ -1,7 +1,6 @@
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 export default function ProfileIcon() {

@@ -10,8 +10,8 @@ export const state = proxy({
   education: {inSchooling : true, level : "Highschool"} as Education,
   housing : {type : "Parents"} as Housing,
   family: {} as any, // Replace with FamilyStatus
-  events: [] as string[], // Replace string[] with GameEvent[] if needed
-  event: null as GameEvent | null, // Replace with GameEvent type if needed
+  transcript: [] as string[],
+  event: null as GameEvent | null,
 
   stress: 0,
   money: 0,
