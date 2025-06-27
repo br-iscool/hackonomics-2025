@@ -54,7 +54,7 @@ export const gameEvents: GameEvent[] = [
       </li>
       <li><h3>go straight into the workforce 🤷‍♂️</h3></li>
     </ol>`,
-    undefined,
+    () => true,
     [
       {
         label: "University",

@@ -10,8 +10,8 @@ export abstract class GameEvent {
   name: string;
   type: GameEventType;
   body: string;
-  condition?: () => boolean;
-  choices?: GameChoice[];
+  condition: () => boolean;
+  choices: GameChoice[];
   repeatable? : boolean;
   eventData: any = {};
 
@@ -19,8 +19,8 @@ export abstract class GameEvent {
     name: string,
     type: GameEventType,
     body: string,
-    condition?: () => boolean,
-    choices?: GameChoice[],
+    condition: () => boolean,
+    choices: GameChoice[],
     setVars?: () => void,
     repeatable? :boolean,
   ) {
@@ -51,8 +51,8 @@ export class ScheduledEvent extends GameEvent {
     triggerAge: number,
     onExecute: () => void,
     body: string,
-    condition?: () => boolean,
-    choices?: GameChoice[],
+    condition: () => boolean,
+    choices: GameChoice[],
     setVars?: () => any,
     repeatable?: boolean,
   ) {
@@ -83,8 +83,8 @@ export class RandomEvent extends GameEvent {
     weight: number | (() => number),
     onExecute: null | (() => void | string),
     body: string,
-    condition?: () => boolean,
-    choices?: GameChoice[],
+    condition: () => boolean,
+    choices: GameChoice[],
     setVars?: () => any,
     repeatable?: boolean,
   ) {

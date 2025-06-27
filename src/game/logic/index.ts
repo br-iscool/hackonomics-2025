@@ -3,6 +3,8 @@ import { Mortgage, Loan, CreditCard } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
 
 export function gameLoop() {
+  if (!state.alive) return;
+
   state.age += 1;
 
   //Life stuff
@@ -11,7 +13,7 @@ export function gameLoop() {
     if (state.education.tuition) state.money -= state.education.tuition;
     if (state.education.yearsUntilGrad) state.education.yearsUntilGrad--;
   }
-  if (state.housing.type==="Apartment" && state.housing.rent) state.money -= state.housing.rent;
+  if (state.housing.type === "Apartment" && state.housing.rent) state.money -= state.housing.rent;
 
   // Tick products
   if (state.products.mortgage) new Mortgage(state.products.mortgage).tick();
@@ -20,7 +22,7 @@ export function gameLoop() {
 
   updateCreditScore();
   updateIncome();
-  
+
   // Recalculate financial stats
   state.debt =
     (state.products.mortgage?.balance || 0) +
@@ -31,7 +33,7 @@ export function gameLoop() {
   // Trigger events
   handleEvents(state.age);
 
-  
+  checkBankruptcy();
 }
 
 function updateCreditScore() {
@@ -51,18 +53,14 @@ function updateIncome() {
   state.context.householdIncome = state.income;
 }
 
-function getJobSalary(job: string | undefined): number {
-  switch (job) {
-    case "Engineer":
-      return 80000;
-    case "Teacher":
-      return 50000;
-    case "Doctor":
-      return 120000;
-    case "Retail":
-      return 30000;
-    default:
-      return 0;
+function checkBankruptcy() {
+  const criticallyNegativeMoney = state.money < -1000;
+  const hopelessDebt = state.netWorth < -2000 && state.debt > 10000;
+
+  if (criticallyNegativeMoney || hopelessDebt) {
+    state.alive = false;
+    state.transcript.push("You have gone bankrupt and can no longer continue.");
+    // Optionally clear job, stop income, etc.
   }
 }
 
@@ -80,3 +78,21 @@ function getEducationMultiplier(edu: string | undefined): number {
       return 0.7;
   }
 }
+
+export function resetGame() {
+  state.age = 16;
+  state.money = 0;
+  state.job = null;
+  state.education = { inSchooling: true, level: "Highschool" };
+  state.alive = true;
+  state.transcript = [];
+  state.debt = 0;
+  state.netWorth = 0;
+  state.creditScore = 0;
+  state.income = 0;
+  state.expenses = 0;
+  state.totalPayments = 0;
+  state.onTimePayments = 0;
+  state.yearsCredit = 0;
+  // reset other fields as needed
+};

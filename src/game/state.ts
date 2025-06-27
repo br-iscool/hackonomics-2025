@@ -3,6 +3,7 @@ import { GameEvent } from "./logic/events/eventsClasses";
 import { Education, Job, Housing } from "./types";
 
 export const state = proxy({
+  alive: true,
   name: "",
   age: 16,
 
