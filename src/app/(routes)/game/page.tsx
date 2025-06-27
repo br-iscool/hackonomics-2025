@@ -4,45 +4,53 @@ import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
 
 import { Button } from "@/components/ui/button"
-
-import ActionButton from "@/components/ActionButton";
-import AgeUp from "@/components/AgeUp";
-import ProfileIcon from "@/components/ProfileIcon";
-import Transcripts from "@/components/Transcripts";
-import Event from "@/components/events/Event";
+import ProductsDisplay from "@/components/ProductsDisplay";
+import { AgeUp, ProfileIcon, Transcripts, Event, EducationInfo, JobInfo, FinanceInfo } from "@/components";
 
 export default function Game() {
     const snap = useSnapshot(state);
 
     return (
         <>
-            <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen">
+            {snap.event && <Event key={snap.event.name} event={snap.event} />}
+            <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { console.log(snap.event) }}>Test</Button>
+
+            {/* <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen"> */}
+            <div className="min-h-screen">
+                {/* Header */}
                 <div className="p-5">
                     <ProfileIcon />
                 </div>
 
                 <div className="flex">
+                    {/* Left Panel */}
                     <ul>
-                        {["Education", "Job", "Assets"].map((text) => (
-                            <li key={text}>
-                                <ActionButton text={text} />
-                            </li>
-                        ))}
+                        <li className="p-4">
+                            <EducationInfo education={snap.education} />
+                        </li>
+                        {snap.job && <li className="p-4">
+                            <JobInfo job={snap.job} />
+                        </li>}
+                        <li className="p-4">
+                            <FinanceInfo />
+                        </li>
                         <li className="p-4">
                             <AgeUp />
                         </li>
                     </ul>
 
-                    {snap.event && <Event key={snap.event.name} event={snap.event} />}
+                    <div className="flex flex-col items-center flex-1">
+                        <ProductsDisplay />
+                        {snap.event && <Event key={snap.event.name} event={snap.event} />}
+                    </div>
 
-                    {/* Right content */}
+                    {/* Right Panel */}
                     <div className="flex flex-1 justify-end items-start p-8">
                         <Transcripts messages={state.transcript} />
                     </div>
 
                 </div>
             </div>
-            <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { console.log(snap.event) }}>Test</Button>
         </>
     );
 }

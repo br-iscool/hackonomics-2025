@@ -17,7 +17,7 @@ export function gameLoop() {
 
   updateCreditScore();
   updateIncome();
-
+  
   // Recalculate financial stats
   state.debt =
     (state.products.mortgage?.balance || 0) +
