@@ -4,7 +4,7 @@ import { state } from "@/game/state";
 import { CreditCard } from "@/components/products/CreditCard";
 import { SavingsCard } from "./products/SavingsCard";
 
-export default function ProductsDisplay() {
+export default function Products() {
 	const snap = useSnapshot(state);
 	console.log(!!snap.products.savings)
 

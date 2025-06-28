@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 import { FaWallet, FaDollarSign, FaMoneyBillWave, FaScaleBalanced, FaPiggyBank, FaCreditCard, FaChartLine, FaBuildingColumns } from "react-icons/fa6";
 
-export default function FinanceInfoDialog() {
+export default function FinanceDialog() {
 	const snap = useSnapshot(state);
 
 	return (
@@ -20,7 +20,7 @@ export default function FinanceInfoDialog() {
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
-						<FaWallet className="text-muted-foreground" /> Financial Overview
+						<FaWallet className="text-muted-foreground"/> Financial Overview
 					</DialogTitle>
 				</DialogHeader>
 

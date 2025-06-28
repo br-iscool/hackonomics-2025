@@ -1,11 +1,11 @@
 export { default as AgeUp } from '../AgeUp';
 export { default as ProfileIcon } from '../ProfileIcon';
 export { default as Transcripts } from '../Transcripts';
-export { default as Event } from '../EventDialog';
-export { default as EducationInfo } from '../EducationInfo';
+export { default as Event } from '../dialogs/EventDialog';
+export { default as EducationInfo } from '../dialogs/EducationDialog';
 export { default as JobInfo } from '../JobInfo';
-export { default as FinanceInfo } from '../FinanceInfo';
-export { default as GameOverDialog } from '../GameOverDialog';
-export { default as WelcomeDialogue } from '../WelcomeDialogue';
+export { default as FinanceInfo } from '../dialogs/FinanceDialog';
+export { default as GameOverDialog } from '../dialogs/GameOverDialog';
+export { default as WelcomeDialogue } from '../dialogs/WelcomeDialog';
 export { default as ProductsDisplay } from '../ProductsDisplay';
 export { default as EventManager } from '../EventManager';

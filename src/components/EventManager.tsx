@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import EventDialog from "./EventDialog";
+import EventDialog from "./dialogs/EventDialog";
 import { GameEvent } from "@/game/logic/events/eventsClasses";
 
 interface EventManagerProps {

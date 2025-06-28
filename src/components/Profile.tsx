@@ -3,7 +3,7 @@ import { state } from "@/game/state";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 
-export default function ProfileIcon() {
+export default function Profile() {
 	const snap = useSnapshot(state);
 
 	const stressPercent = Math.min(Math.max(snap.stress, 0), 100);

@@ -9,7 +9,7 @@ export interface Job {
 	yearsEmployed: number;
 }
 
-export default function JobInfo({ job }: { job: Job }) {
+export default function JobDialog({ job }: { job: Job }) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
