@@ -271,7 +271,7 @@ export const gameEvents: GameEvent[] = [
     ],
     () => ({
       averageCost: randomInterval(12, 15) * 100,
-      cheapCost: randomInterval(7, 9) * 900,
+      cheapCost: randomInterval(7, 9) * 90,
     })
   ),
   new ScheduledEvent(
