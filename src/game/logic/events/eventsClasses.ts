@@ -11,16 +11,16 @@ export abstract class GameEvent {
   type: GameEventType;
   body: string;
   condition: () => boolean;
-  choices: GameChoice[];
+  choices: ReadonlyArray<GameChoice>;
   repeatable? : boolean;
   eventData: any = {};
 
-  constructor(
+  constructor (
     name: string,
     type: GameEventType,
     body: string,
     condition: () => boolean,
-    choices: GameChoice[],
+    choices: ReadonlyArray<GameChoice>,
     setVars?: () => void,
     repeatable? :boolean,
   ) {

@@ -15,7 +15,7 @@ export const state = proxy({
   event: null as GameEvent | null,
 
   stress: 0,
-  money: 0,
+  money: 5000,
   qualityOfLife: 0,
 
   products: {

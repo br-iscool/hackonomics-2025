@@ -9,7 +9,7 @@ export default function ProductsDisplay() {
 	const { creditCard, loans, savings, mortgage, insurance, investments } = snap.products;
 
 	return (
-		<div className="flex flex-col items-center space-y-4 p-4">
+		<div className="flex items-center space-y-4 p-4">
 			{creditCard && <CreditCard data={creditCard} />}
 			{/* {loans.length > 0 &&
 				loans.map((loan: any, i: number) => <LoanInfo key={i} data={loan} />)}

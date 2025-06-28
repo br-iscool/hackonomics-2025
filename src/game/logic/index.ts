@@ -80,7 +80,7 @@ function getEducationMultiplier(edu: string | undefined): number {
 
 export function resetGame() {
   state.age = 16;
-  state.money = 0;
+  state.money = 5000;
   state.job = null;
   state.education = { inSchooling: true, level: "Highschool" };
   state.alive = true;
