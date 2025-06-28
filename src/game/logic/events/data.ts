@@ -45,15 +45,18 @@ export const gameEvents: GameEvent[] = [
     },
     `Congratulations on surviving 18 years of primary schooling! Now,
     it's time for you to choose an education pathway all for yourself.
-    \nDo you:\n
+    <br />
+    <br />
     <ol>
-      <li><h3>go to university 🏫</h3>
+      <h3>1. Enter university 📚</h3>
+      <li>
       Attend {eventData.university}, with a tuition cost of \${eventData.uniTuition}
       </li>
-      <li><h3>enter a trade school 🔧</h3>
+      <h3>2. Enter a trade school 🔧</h3>
+      <li>
       Attend {eventData.tradeSchool}, with a tuition cost of \${eventData.tradeTuition}
       </li>
-      <li><h3>go straight into the workforce 🤷‍♂️</h3></li>
+      <h3>3. Don't attend higher education 🤷‍♂️</h3>
     </ol>`,
     () => true,
     [
@@ -76,7 +79,7 @@ export const gameEvents: GameEvent[] = [
         label: "Neither!",
         execute: (eventData) => {
           state.education.inSchooling = false;
-          return `Oh well, maybe university isn't for everyone.
+          return `Oh well, university isn't for everyone.
           There are plenty of ways to succeed without higher education!`
         }
       }
@@ -118,7 +121,7 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => {
-      const banks = ["TDBank", "the National Bank"];
+      const banks = ["TDBank", "The National Bank"];
       return { bank: chooseRandom(banks), rate: randomInterval(3, 7) }
     },
     true // repeatable
@@ -230,13 +233,16 @@ export const gameEvents: GameEvent[] = [
     null,
     `Your parents have had enough of you staying in their house. It's time you became your own man!
     But where to begin? You figure you should look around for some apartments to rent, and luckily find 2 suitable candidates.
-    \nDo you:\n
+    <br />
+    <br />
     <ol>
-      <li><h3>room with strangers</h3>
+      <h3>1. Room with strangers 🤔</h3>
+      <li>
       For \${eventData.cheapCost} a month, The room looks... kinda dingy to be honest. And it definitely can fit 3 other roommates, but it won't be 
       comfortable for sure. But, you get what you get for the price, right?
       </li>
-      <li><h3>live by yourself</h3>
+      <h3>2. Live by yourself 🤞🏼</h3>
+      <li>
       For \${eventData.averageCost} a month, this apartment complex has a lot more amenities, and you won't be sharing. But it costs a bit more.
       Is the added comfort worth the cost?
       </li>
@@ -274,20 +280,24 @@ export const gameEvents: GameEvent[] = [
     () => {
       state.education.inSchooling = false;
     },
-    `Now that you've finished with grad school, it's time to decide a career path!
-    \nDo you:\n
+    `Now that you've finished with undergraduate schooling, it's time to decide a career path!
+    <br>
+    <br>
     <ol>
-      <li><h3>Apply for med school 🩺</h3>
-      For the hefty annual tuition of \${eventData.medCost} for 10 years, you will be able 
+      <h3>1. Apply for med school 🩺</h3>
+      <li>
+      For a hefty annual tuition of \${eventData.medCost} for 10 years, you will be able 
       to become a doctor. This guarantees high pay, but potentially high stress and lots of school fees. 
       Is this something you can handle?
       </li>
-      <li><h3>Apply for law school ⚖️</h3>
+      <h3>2. Apply for law school ⚖️</h3>
+      <li>
       For the hefty annual tuition of \${eventData.lawCost} for 3 years, you will be able 
       to become a lawyer. This guarantees high pay, but potentially high stress and lots of school fees. 
       Is this something you can handle?
       </li>
-      <li><h3>Go straight to the workforce</h3>
+      <h3>Go straight to the workforce 💪</h3>
+      <li>
       With an undergraduate degree, you will be able to find a decent job with good wages. Most importantly,
       you'll be able to avoid paying years of costly tuition.
       </li>
@@ -326,7 +336,7 @@ export const gameEvents: GameEvent[] = [
         label: "Find a job",
         execute: (eventData) => {
           state.education.field = "Computer Science";
-          return `Higher education isn't for everyone- and you know what you're really after- getting the money early.
+          return `Higher education isn't for everyone - and you know what you're really after - getting the money early.
           Good luck on finding a job!`
         }
       }

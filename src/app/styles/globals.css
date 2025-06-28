@@ -120,3 +120,8 @@
     @apply bg-background text-foreground;
     }
 }
+
+ol > li {
+    list-style: disc;
+    margin-left: 1rem;
+}
