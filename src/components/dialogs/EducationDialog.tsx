@@ -11,7 +11,7 @@ interface Education {
 	yearsUntilGrad?: number;
 }
 
-export default function EducationInfo({ education }: { education: Education }) {
+export default function EducationDialog({ education }: { education: Education }) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
