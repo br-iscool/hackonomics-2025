@@ -44,7 +44,7 @@ export default function FinanceDialog() {
 						<InfoRow icon={<FaChartLine />} label="Years of Credit" value={snap.yearsCredit} />
 					</Section>
 
-					{/* Payment Performance */}
+					{/* Payment history */}
 					<Section title="Payment History">
 						<InfoRow icon={<FaChartLine />} label="On-time Payments" value={snap.onTimePayments} />
 						<InfoRow icon={<FaChartLine />} label="Total Payments" value={snap.totalPayments} />

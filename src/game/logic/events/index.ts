@@ -21,7 +21,7 @@ export function handleEvents(currentAge: number) {
   for (const event of gameEvents) {
     if (
       isScheduledEvent(event) &&
-      event.triggerAge === currentAge &&
+      event.trigger === currentAge &&
       !triggeredEvents.has(event.name)
     ) {
       eventsQueue.enqueue(event);

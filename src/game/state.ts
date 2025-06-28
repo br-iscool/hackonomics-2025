@@ -4,7 +4,7 @@ import { Education, Job, Housing, FamilyStatus, SavingsAccData, CreditCardData, 
 
 export const state = proxy({
   alive: true,
-  name: "",
+  name: "Player",
   age: 16,
   opened: true,
 

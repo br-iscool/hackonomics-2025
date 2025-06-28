@@ -76,7 +76,7 @@ export const gameEvents: GameEvent[] = [
         execute: (eventData) => {
           state.education = {
             inSchooling: true,
-            tuition: eventData.uniTuition,
+            tuition: eventData.tradeTuition,
             level: "Vocational",
             yearsUntilGrad: 2,
           };

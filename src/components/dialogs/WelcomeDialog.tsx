@@ -37,7 +37,8 @@ export default function WelcomeDialog() {
                             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                                 <li>Start at age 16 with $5,000</li>
                                 <li>Make financial decisions wisely to grow your wealth</li>
-                                <li>The top bar shows your stats</li>
+                                <li>The top bar shows your money, stress, and other stats</li>
+                                <li>Press age up at the bottom to progress</li>
                                 <li>Avoid bankruptcy to keep playing</li>
                             </ul>
                         </div>
