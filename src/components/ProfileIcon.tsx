@@ -7,8 +7,7 @@ export default function ProfileIcon() {
 	const snap = useSnapshot(state);
 
 	const stressPercent = Math.min(Math.max(snap.stress, 0), 100);
-	const stressColor =
-		snap.stress < 40 ? "bg-green-500" : snap.stress < 70 ? "bg-yellow-500" : "bg-red-500";
+	const stressColor = snap.stress < 40 ? "bg-green-500" : snap.stress < 70 ? "bg-yellow-500" : "bg-red-500";
 
 	return (
 		<div className="w-full max-w-2xl bg-gray-900/75 text-white rounded-2xl shadow-xl p-6 flex gap-6 items-start">
@@ -47,22 +46,22 @@ export default function ProfileIcon() {
 							${snap.money.toLocaleString()}
 						</span>
 					</div>
-					<div className="flex justify-between">
-						<span>Net Worth:</span>
-						<span>${state.netWorth.toFixed(2)}</span>
-					</div>
+
 					<div className="flex justify-between">
 						<span>Debt:</span>
 						<span>${state.debt.toFixed(2)}</span>
 					</div>
+
 					<div className="flex justify-between">
 						<span>Income:</span>
 						<span>${state.income.toFixed(2)}</span>
 					</div>
+
 					<div className="flex justify-between">
 						<span>Education:</span>
 						<span>{state.education?.level || "None"}</span>
 					</div>
+
 					<div className="flex justify-between">
 						<span>Credit Score:</span>
 						<span>{Math.round(state.creditScore)}</span>

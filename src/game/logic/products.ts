@@ -1,67 +1,75 @@
 import { state } from "@/game/state";
-import { MortgageData, LoanData, CreditCardData } from "@/game/types";
+import { MortgageData, LoanData, CreditCardData, SavingsAccData } from "@/game/types";
 
-export class Mortgage {
-  data: MortgageData;
+export function tickMortgage(data: MortgageData) {
+  if (!data.active) return;
 
-  constructor(data: MortgageData) {
-    this.data = data;
-  }
+  const annual = data.annualPayment;
 
-  tick() {
-    if (!this.data.active) return;
-    const annual = this.data.annualPayment;
-    if (state.money >= annual) {
-      state.money -= annual;
-      this.data.balance -= annual;
-      this.data.yearsElapsed += 1;
-      if (this.data.yearsElapsed >= this.data.termYears || this.data.balance <= 0) {
-        this.data.active = false;
-      }
+  if (state.money >= annual) {
+    state.money -= annual;
+    data.balance -= annual;
+    data.yearsElapsed += 1;
+
+    if (data.yearsElapsed >= data.termYears || data.balance <= 0) {
+      data.active = false;
     }
   }
 }
 
-export class Loan {
-  data: LoanData;
+export function tickLoan(data: LoanData) {
+  if (!data.active) return;
 
-  constructor(data: LoanData) {
-    this.data = data;
-  }
+  const annualPayment = data.balance * data.interestRate;
 
-  tick() {
-    if (!this.data.active) return;
-    const annualPayment = this.data.balance * this.data.interestRate;
-    if (state.money >= annualPayment) {
-      state.money -= annualPayment;
-      this.data.balance -= annualPayment;
-      this.data.yearsElapsed += 1;
-      if (this.data.yearsElapsed >= this.data.termYears || this.data.balance <= 0) {
-        this.data.active = false;
-      }
+  if (state.money >= annualPayment) {
+    state.money -= annualPayment;
+    data.balance -= annualPayment;
+    data.yearsElapsed += 1;
+
+    if (data.yearsElapsed >= data.termYears || data.balance <= 0) {
+      data.active = false;
     }
   }
 }
 
-export class CreditCard {
-  data: CreditCardData;
+export function tickCreditCard(data: CreditCardData) {
+  if (!data.active) return;
 
-  constructor(data: CreditCardData) {
-    this.data = data;
+  if (data.interestFreePeriod > 0) {
+    data.interestFreePeriod -= 1;
+    return;
   }
 
-  tick() {
-    if (!this.data.active) return;
-    if (this.data.interestFreePeriod > 0) {
-      this.data.interestFreePeriod -= 1;
-      return;
-    }
-    const interest = this.data.balance * (this.data.interestRate);
-    this.data.balance += interest;
-    const minPayment = Math.min(this.data.balance, this.data.balance * 0.05);
-    if (state.money >= minPayment) {
-      state.money -= minPayment;
-      this.data.balance -= minPayment;
-    }
+  const interest = data.balance * data.interestRate;
+  data.balance += interest;
+
+  const minPayment = Math.min(data.balance, data.balance * 0.05);
+
+  if (state.money >= minPayment) {
+    state.money -= minPayment;
+    data.balance -= minPayment;
+  }
+}
+
+export function tickSavings(data: SavingsAccData) {
+  if (!data.active) return;
+
+  const interest = data.balance * data.interestRate;
+  data.balance += interest;
+  data.yearsElapsed = (data.yearsElapsed ?? 0) + 1;
+}
+
+export function depositToSavings(data: SavingsAccData, amount: number) {
+  if (state.money >= amount) {
+    state.money -= amount;
+    data.balance += amount;
+  }
+}
+
+export function withdrawFromSavings(data: SavingsAccData, amount: number) {
+  if (data.balance >= amount) {
+    data.balance -= amount;
+    state.money += amount;
   }
 }

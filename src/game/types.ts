@@ -1,3 +1,22 @@
+export interface FamilyMember {
+  age: number;
+  name: string;
+  relationship: "Child" | "Spouse" | "Dating" | "Parent" | "Sibling" | "Other";
+  health: "Healthy" | "Sick" | "Disabled" | "Deceased";
+  job?: Job;
+  deficit: number;
+}
+
+export interface FamilyStatus {
+  status: "Single" | "Married" | "Divorced" | "Widowed";
+  value: number;
+  spouse?: FamilyMember;
+  children?: FamilyMember[];
+  totalIncome?: number; 
+  totalDeficit?: number; 
+  netIncome?: number; 
+}
+
 export interface Job {
   role : string;
   salary : number;
@@ -21,7 +40,7 @@ export interface CreditCardData {
   active: boolean;
   balance: number;
   interestRate: number;
-  creditLimit: number;
+  limit: number;
   interestFreePeriod: number;
 }
 
@@ -39,7 +58,9 @@ export interface LoanData {
 export interface SavingsAccData {
   active: boolean;
   name: string;
-  interestRate: number | [number, number];
+  interestRate: number;
+  balance: number;
+  yearsElapsed?: number;
 }
 
 export interface MortgageData {

@@ -3,52 +3,51 @@
 import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
 
-import { Button } from "@/components/ui/button"
-import ProductsDisplay from "@/components/ProductsDisplay";
-import { AgeUp, ProfileIcon, Transcripts, Event, EducationInfo, JobInfo, FinanceInfo } from "@/components";
+import {
+    AgeUp,
+    ProfileIcon,
+    Transcripts,
+    EducationInfo,
+    JobInfo,
+    FinanceInfo,
+    ProductsDisplay,
+    GameOverDialog,
+    EventManager,
+} from "@/components/exports";
+import { Notifier } from "@/components/Notifier";
 
 export default function Game() {
     const snap = useSnapshot(state);
 
     return (
         <>
-            {snap.event && <Event key={snap.event.name} event={snap.event} />}
-            <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { console.log(snap.event) }}>Test</Button>
+            <Notifier />
+            <GameOverDialog />
+            {snap.alive && snap.event && <EventManager event={snap.event} />}
 
-            {/* <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen"> */}
-            <div className="min-h-screen">
-                {/* Header */}
-                <div className="p-5">
-                    <ProfileIcon />
+            <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen flex">
+                <div className="w-2/3 min-h-screen flex flex-col justify-between">
+                    {/* Header */}
+                    <div className="p-5 flex items-center justify-between gap-8">
+                        <EducationInfo education={snap.education} />
+                        {snap.job && <JobInfo job={snap.job} />}
+                        <FinanceInfo />
+                        <AgeUp />
+                    </div>
+
+                    {/* Main content */}
+                    <div className="flex-1 p-5">
+                        <ProductsDisplay />
+                    </div>
+
+                    {/* Fixed bottom profile icon */}
+                    <div className="fixed bottom-10 left-5 flex gap-4">
+                        <ProfileIcon />
+                    </div>
                 </div>
 
-                <div className="flex">
-                    {/* Left Panel */}
-                    <ul>
-                        <li className="p-4">
-                            <EducationInfo education={snap.education} />
-                        </li>
-                        {snap.job && <li className="p-4">
-                            <JobInfo job={snap.job} />
-                        </li>}
-                        <li className="p-4">
-                            <FinanceInfo />
-                        </li>
-                        <li className="p-4">
-                            <AgeUp />
-                        </li>
-                    </ul>
-
-                    <div className="flex flex-col items-center flex-1">
-                        <ProductsDisplay />
-                        {snap.event && <Event key={snap.event.name} event={snap.event} />}
-                    </div>
-
-                    {/* Right Panel */}
-                    <div className="flex flex-1 justify-end items-start p-8">
-                        <Transcripts messages={state.transcript} />
-                    </div>
-
+                <div className="w-1/3 min-h-screen p-8">
+                    <Transcripts messages={state.transcript} />
                 </div>
             </div>
         </>

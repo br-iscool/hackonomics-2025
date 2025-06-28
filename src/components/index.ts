@@ -1,9 +1,0 @@
-// components/index.ts
-
-export { default as AgeUp } from './AgeUp';
-export { default as ProfileIcon } from './ProfileIcon';
-export { default as Transcripts } from './Transcripts';
-export { default as Event } from './Event';
-export { default as EducationInfo } from './EducationInfo';
-export { default as JobInfo } from './JobInfo';
-export { default as FinanceInfo } from './FinanceInfo';

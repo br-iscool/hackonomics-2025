@@ -1,28 +1,30 @@
 import { proxy } from "valtio";
 import { GameEvent } from "./logic/events/eventsClasses";
-import { Education, Job, Housing } from "./types";
+import { Education, Job, Housing, FamilyStatus, SavingsAccData, CreditCardData, LoanData, MortgageData, InsuranceData } from "./types";
 
 export const state = proxy({
+  alive: true,
   name: "",
   age: 16,
+  opened: false,
 
   job: null as Job | null,
   education: {inSchooling : true, level : "Highschool"} as Education,
   housing : {type : "Parents"} as Housing,
-  family: {} as any, // Replace with FamilyStatus
+  family: {status: "Single"} as FamilyStatus,
   transcript: [] as string[],
   event: null as GameEvent | null,
 
   stress: 0,
-  money: 0,
+  money: 5000,
   qualityOfLife: 0,
 
   products: {
-    creditCard: undefined as any, // CreditCard
-    loans: [] as any[], // Loan[]
-    savings: {} as any, // SavingsAcc
-    mortgage: undefined as any, // Mortgage
-    insurance: undefined as any, // Insurance
+    creditCard: null as CreditCardData | null , // CreditCard
+    loans: [] as LoanData[], // Loan[]
+    savings: null as SavingsAccData | null,
+    mortgage: null as MortgageData | null, // Mortgage
+    insurance: null as InsuranceData | null, // Insurance
     investments: [] as any[], // Investment[]
   },
 
@@ -30,18 +32,12 @@ export const state = proxy({
   expenses: 0,
   budget: 0,
   debt: 0,
-  netWorth: 0,
 
   creditScore: 0,
   paymentHistory: 0,
   totalPayments: 0,
   onTimePayments: 0,
   yearsCredit: 0,
-
-  context: {
-    householdIncome: 0,
-    householdExpenses: 0,
-  },
 
   settings: {
     autosave: true,

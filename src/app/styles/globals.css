@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 * {
     scroll-behavior: smooth;
 }
@@ -121,4 +119,9 @@
   body {
     @apply bg-background text-foreground;
     }
+}
+
+ol > li {
+    list-style: disc;
+    margin-left: 1rem;
 }
