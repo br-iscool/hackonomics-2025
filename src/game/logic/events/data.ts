@@ -725,4 +725,70 @@ export const gameEvents: GameEvent[] = [
     }),
     true //repeats
   ),
+
+
+  // Punishments
+  new ScheduledEvent(
+    "Health Scare",
+    () => state.qualityOfLife < 40 && state.qualityOfLife > 20,  //and also make sure not ill currently
+    (eventData) => {
+      state.money -= eventData.cost;
+    },
+    `Your poor health has put you into the hospital with an unexpected case of .
+    You pay \${eventData.cost} for your stay.`,
+    () => true, //always
+    [
+      {
+        label: "Continue",
+      },
+    ],
+    () => ({
+      disease: chooseRandom(["influenza", "sinus infection", "hypertension"]),
+      cost: randomInterval(30, 50) * 100
+    }),
+    true, //repeats
+  ),
+  new ScheduledEvent(
+    "Hospitalized",
+    () => state.qualityOfLife <= 20, //and also make sure not ill currently
+    (eventData) => {
+      state.money -= eventData.cost;
+    },
+    `Your extremely poor health has caused you to be hospitalized with {eventData.disease} under critical condition,
+    until your health can finally recover. Because of this episode, you lose your job, and 
+    have no means of supporting yourself temporarily.`,
+    () => true, //always
+    [
+      {
+        label: "Continue",
+      },
+    ],
+    () => ({
+      disease: chooseRandom(["pneumonia", "meningitis", "pancreatitis"]),
+      cost: randomInterval(50, 80) * 100
+    }),
+    true, //repeats
+  ),
+  new ScheduledEvent(
+    "Mental Breakdown",
+    () => state.stress>90,  //and also make sure not ill currently
+    (eventData) => {
+      state.stress -= 30;
+      state.money -= eventData.cost;
+    },
+    `Your sustained high-stress lifestyle caused a {eventData.disease} last night. 
+    You were hospitalized for a week until you could recover.
+    Make sure to take care of your mental health.`,
+    () => true, //always
+    [
+      {
+        label: "Continue",
+      },
+    ],
+    () => ({
+      disease: chooseRandom(["anxious breakdown", "psychotic episode", "panic attack"]),
+      cost: randomInterval(30, 50) * 100
+    }),
+    true, //repeats
+  ),
 ];
