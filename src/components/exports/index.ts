@@ -6,5 +6,6 @@ export { default as EducationInfo } from '../EducationInfo';
 export { default as JobInfo } from '../JobInfo';
 export { default as FinanceInfo } from '../FinanceInfo';
 export { default as GameOverDialog } from '../GameOverDialog';
+export { default as WelcomeDialogue } from '../WelcomeDialogue';
 export { default as ProductsDisplay } from '../ProductsDisplay';
 export { default as EventManager } from '../EventManager';

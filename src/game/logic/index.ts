@@ -65,6 +65,8 @@ function checkBankruptcy() {
 export function resetGame() {
   state.age = 16;
   state.money = 5000;
+  state.name = "";
+  state.opened = true;
   state.job = null;
   state.education = { inSchooling: true, level: "Highschool" };
   state.alive = true;
@@ -77,4 +79,9 @@ export function resetGame() {
   state.onTimePayments = 0;
   state.yearsCredit = 0;
   // reset other fields as needed
+}
+
+export function startGame() {
+  state.opened = false;
+  state.transcript.push(`Welcome to Balancing Act, ${state.name}! Your economic journey begins now.`);
 }

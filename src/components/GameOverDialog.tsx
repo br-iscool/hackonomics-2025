@@ -18,8 +18,8 @@ export default function GameOverDialog() {
 					<AlertDialogDescription>You’ve gone bankrupt and can no longer continue. Here's how your life turned out:</AlertDialogDescription>
 				</AlertDialogHeader>
 
-				<Card className="my-4">
-					<CardContent className="p-4 space-y-2 text-sm">
+				<Card>
+					<CardContent className="space-y-2 text-sm">
 						<Stat label="Age Reached" value={snap.age} />
 						<Stat label="Education Level" value={snap.education.level} />
 						<Stat label="Job" value={snap.job ? `${snap.job.role} (${snap.job.yearsEmployed} yrs)` : "Unemployed"} />

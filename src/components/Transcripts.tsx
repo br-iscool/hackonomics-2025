@@ -10,7 +10,7 @@ export default function Transcripts({ messages }: Transcripts) {
 
 	return (
 		<>
-			<div className="p-5 w-full h-full bg-gray-600 rounded-xl">
+			<div className="p-5 h-125 w-100 bg-gray-600 rounded-xl">
 				{messages.map((msg, i) => (
 					<Message key={i} text={msg} />
 				))}
