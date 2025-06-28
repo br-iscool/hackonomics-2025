@@ -43,12 +43,12 @@ export abstract class GameEvent {
 }
 
 export class ScheduledEvent extends GameEvent {
-  triggerAge: number;
+  trigger: number | (() => boolean);
   onExecute: null | ((eventData : any) => void | string);
 
   constructor(
     name: string,
-    triggerAge: number,
+    trigger: number | (() => boolean),
     onExecute: null | ((eventData : any) => void | string),
     body: string,
     condition?: () => boolean,
@@ -57,12 +57,17 @@ export class ScheduledEvent extends GameEvent {
     repeatable?: boolean,
   ) {
     super(name, "scheduled", body, condition, choices, setVars, repeatable);
-    this.triggerAge = triggerAge;
+    this.trigger = trigger;
     this.onExecute = onExecute;
   }
 
   shouldTrigger(age: number): boolean {
-    return age === this.triggerAge && (!this.condition || this.condition());
+    if (typeof this.trigger === 'number') {
+      return age === this.trigger && (!this.condition || this.condition());
+    } else if (typeof this.trigger === 'function') {
+      return this.trigger();
+    }
+    return false;
   }
 
   execute() {
