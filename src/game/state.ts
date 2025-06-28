@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 import { GameEvent } from "./logic/events/eventsClasses";
-import { Education, Job, Housing, FamilyStatus } from "./types";
+import { Education, Job, Housing, FamilyStatus, SavingsAccData, CreditCardData, LoanData, MortgageData, InsuranceData } from "./types";
 
 export const state = proxy({
   alive: true,
@@ -19,11 +19,11 @@ export const state = proxy({
   qualityOfLife: 0,
 
   products: {
-    creditCard: undefined as any, // CreditCard
-    loans: [] as any[], // Loan[]
-    savings: {} as any, // SavingsAcc
-    mortgage: undefined as any, // Mortgage
-    insurance: undefined as any, // Insurance
+    creditCard: null as CreditCardData | null , // CreditCard
+    loans: [] as LoanData[], // Loan[]
+    savings: null as SavingsAccData | null,
+    mortgage: null as MortgageData | null, // Mortgage
+    insurance: null as InsuranceData | null, // Insurance
     investments: [] as any[], // Investment[]
   },
 

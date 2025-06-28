@@ -1,7 +1,9 @@
+import { CreditCardData } from "@/game/types";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { FaCreditCard } from "react-icons/fa";
 
-export function CreditCard({ data }: { data: any }) {
+export function CreditCard({ data }: { data: CreditCardData }) {
 	return (
 		<Card className="w-64">
 			<CardContent className="p-4">

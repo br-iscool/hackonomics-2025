@@ -11,9 +11,7 @@ export default function Game() {
     return (
         <>
             <GameOverDialog />
-            {snap.alive && snap.event && (
-                <EventManager key={snap.event.name} event={snap.event} />
-            )}
+            {snap.alive && snap.event && (<EventManager event={snap.event} />)}
             {/* <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { console.log(snap.event) }}>Test</Button> */}
 
             <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen">
@@ -33,10 +31,10 @@ export default function Game() {
                     </div>
 
                     <div className="fixed bottom-10 left-5 flex gap-4">
+                        <AgeUp />
                         <EducationInfo education={snap.education} />
                         {snap.job && <JobInfo job={snap.job} />}
                         <FinanceInfo />
-                        <AgeUp />
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@ export interface CreditCardData {
   active: boolean;
   balance: number;
   interestRate: number;
-  creditLimit: number;
+  limit: number;
   interestFreePeriod: number;
 }
 
@@ -58,7 +58,9 @@ export interface LoanData {
 export interface SavingsAccData {
   active: boolean;
   name: string;
-  interestRate: number | [number, number];
+  interestRate: number;
+  balance: number;
+  yearsElapsed?: number;
 }
 
 export interface MortgageData {

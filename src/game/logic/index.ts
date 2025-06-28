@@ -1,5 +1,5 @@
 import { state } from "@/game/state";
-import { Mortgage, Loan, CreditCard } from "@/game/logic/products";
+import { tickMortgage, tickLoan, tickCreditCard, tickSavings } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
 
 export function gameLoop() {
@@ -15,10 +15,11 @@ export function gameLoop() {
   }
   if (state.housing.type === "Apartment" && state.housing.rent) state.money -= state.housing.rent;
 
-  // Tick products
-  if (state.products.mortgage) new Mortgage(state.products.mortgage).tick();
-  state.products.loans.forEach((loanData) => new Loan(loanData).tick());
-  if (state.products.creditCard) new CreditCard(state.products.creditCard).tick();
+  // Update products
+  if (state.products.mortgage) tickMortgage(state.products.mortgage);
+  state.products.loans.forEach(tickLoan);
+  if (state.products.creditCard) tickCreditCard(state.products.creditCard);
+  if (state.products.savings) tickSavings(state.products.savings);
 
   updateCreditScore();
   updateIncome();
@@ -46,8 +47,7 @@ function updateIncome() {
   if (!state.job) return;
 
   const baseSalary = state.job.salary;
-  const eduBoost = getEducationMultiplier(state.education.level);
-  state.income = Math.floor(baseSalary * eduBoost);
+  state.income = Math.floor(baseSalary);
   state.money += state.income;
 }
 
@@ -59,21 +59,6 @@ function checkBankruptcy() {
     state.alive = false;
     state.transcript.push("You have gone bankrupt and can no longer continue.");
     // Optionally clear job, stop income, etc.
-  }
-}
-
-function getEducationMultiplier(edu: string | undefined): number {
-  switch (edu) {
-    case "Highschool":
-      return 0.7;
-    case "Vocational":
-      return 1.2;
-    case "Undergrad":
-      return 1.4;
-    case "Graduate":
-      return 2.5;
-    default:
-      return 0.7;
   }
 }
 
@@ -92,4 +77,4 @@ export function resetGame() {
   state.onTimePayments = 0;
   state.yearsCredit = 0;
   // reset other fields as needed
-};
+}

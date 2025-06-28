@@ -1,5 +1,4 @@
 import { state } from "@/game/state";
-import { CreditCard } from "@/game/logic/products"
 import { GameChoice, GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
 import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
 import { eventNames } from "process";
@@ -18,8 +17,8 @@ export const gameEvents: GameEvent[] = [
         label: "Accept",
         execute: (eventData) => {
           state.job = { role: eventData.role, salary: eventData.salary, yearsEmployed: 0 };
-          return `Congrats! You are now employed as a <b>${eventData.role}.</b>`
-        }
+          return `Congrats! You are now employed as a <b>${eventData.role}.</b>`;
+        },
       },
       {
         label: "Decline",
@@ -33,7 +32,7 @@ export const gameEvents: GameEvent[] = [
         role: chooseRandom(roles),
         location: chooseRandom(locations),
         salary: randomInterval(6, 12) * 1000,
-      }
+      };
     },
     true // repeatable
   ),
@@ -63,26 +62,36 @@ export const gameEvents: GameEvent[] = [
       {
         label: "University",
         execute: (eventData) => {
-          state.education = { inSchooling: true, tuition: eventData.uniTuition, level: "Undergrad", yearsUntilGrad: 4 };
-          return `Congratulations! You are now an undergraduate studying at ${eventData.university}`
-        }
+          state.education = {
+            inSchooling: true,
+            tuition: eventData.uniTuition,
+            level: "Undergrad",
+            yearsUntilGrad: 4,
+          };
+          return `Congratulations! You are now an undergraduate studying at ${eventData.university}`;
+        },
       },
       {
         label: "Trade School",
         execute: (eventData) => {
-          state.education = { inSchooling: true, tuition: eventData.uniTuition, level: "Vocational", yearsUntilGrad: 2 };
+          state.education = {
+            inSchooling: true,
+            tuition: eventData.uniTuition,
+            level: "Vocational",
+            yearsUntilGrad: 2,
+          };
           return `Congratulations! You are now studying to be an
-          <b>${eventData.tradeProfession}</b> at ${eventData.tradeSchool}.`
-        }
+          <b>${eventData.tradeProfession}</b> at ${eventData.tradeSchool}.`;
+        },
       },
       {
         label: "Neither!",
         execute: (eventData) => {
           state.education.inSchooling = false;
           return `Oh well, university isn't for everyone.
-          There are plenty of ways to succeed without higher education!`
-        }
-      }
+          There are plenty of ways to succeed without higher education!`;
+        },
+      },
     ],
     () => {
       const tradeSchools = ["Polytechnic Institute", "Abraham Tech", "Minnesota Tech"];
@@ -93,12 +102,12 @@ export const gameEvents: GameEvent[] = [
         university: chooseRandom(universities),
         uniTuition: randomInterval(4, 6) * 1000,
         tradeTuition: randomInterval(2, 4) * 1000,
-      }
+      };
     }
   ),
   new RandomEvent(
     "Open a Savings Account",
-    () => state.products.savings ? 0.2 : 0.4,
+    () => (state.products.savings ? 0.2 : 0.4),
     null,
     `You hear knocking at the door and are approached by a representative of {eventData.bank}.
     He offers you a deal to open a High Interest Savings Account, with an annual interest rate of
@@ -112,9 +121,11 @@ export const gameEvents: GameEvent[] = [
             active: true,
             name: eventData.bank,
             interestRate: eventData.rate / 100,
-          }
-          return `You are now the proud owner of a bank account with a rate of ${eventData.rate}% yearly.</b>`
-        }
+            balance: 0,
+            yearsElapsed: 0,
+          };
+          return `You are now the proud owner of a bank account with a rate of ${eventData.rate}% yearly.</b>`;
+        },
       },
       {
         label: "Decline",
@@ -122,7 +133,7 @@ export const gameEvents: GameEvent[] = [
     ],
     () => {
       const banks = ["TDBank", "The National Bank"];
-      return { bank: chooseRandom(banks), rate: randomInterval(3, 7) }
+      return { bank: chooseRandom(banks), rate: randomInterval(3, 7) };
     },
     true // repeatable
   ),
@@ -133,25 +144,25 @@ export const gameEvents: GameEvent[] = [
     `It's about time you got a credit card! Getting a credit card gives you access to
     having a <b>credit score</b>, which may be used to evaluate your eligibility in applying for loans,
     owning cars, and getting a mortgage for a house.`,
-    () => state.age > 17 && state.products.savings,
+    () => state.age > 17 && !!state.products.savings,
     [
       {
         label: "Get a credit card now?",
         execute: (eventData) => {
-          state.products.creditCard = new CreditCard({
+          state.products.creditCard = {
             active: true,
             balance: 100, //placeholder, prob will remove this value later
             interestRate: 1.05,
-            creditLimit: 1000,
+            limit: 1000,
             interestFreePeriod: 1, //idk
-          })
-          return `You now have a credit card! But be careful, with great power comes great responsibility...`
-        }
+          };
+          return `You now have a credit card! But be careful, with great power comes great responsibility...`;
+        },
       },
       {
         label: "Wait for later",
       },
-    ],
+    ]
   ),
   new RandomEvent(
     "Purchase a car",
@@ -185,16 +196,16 @@ export const gameEvents: GameEvent[] = [
         execute: (eventData) => {
           // gets a car
           return `Well- you're not here to buy a showpiece- and if it can be driven, you're sure you can work something out.
-          You are now the proud owner of a ${eventData.cheapCar}`
-        }
+          You are now the proud owner of a ${eventData.cheapCar}`;
+        },
       },
       {
         label: "Average car",
         execute: (eventData) => {
           // gets a car
           return `Well- you're not here to buy a showpiece- and this car will definitely get you the best mileage.
-          You are now the proud owner of a ${eventData.averageCar}`
-        }
+          You are now the proud owner of a ${eventData.averageCar}`;
+        },
       },
       {
         label: "Luxury car",
@@ -202,16 +213,16 @@ export const gameEvents: GameEvent[] = [
           // gets a car
           return `Bracing your wallet, you purchase the car your eyes have always been set on,
           hoping your future self will thank you for this.
-          You are now the proud owner of a ${eventData.luxuryCar}`
-        }
+          You are now the proud owner of a ${eventData.luxuryCar}`;
+        },
       },
       {
         label: "None",
         execute: (eventData) => {
           return `Oh well, a car isn't for everyone.
-          You'll get by with a cheaper options for now`
-        }
-      }
+          You'll get by with a cheaper options for now`;
+        },
+      },
     ],
     () => {
       const cheapCars = ["Honda X", "Subaru V", "Toyota"];
@@ -224,7 +235,7 @@ export const gameEvents: GameEvent[] = [
         cheapPrice: randomInterval(25, 30) * 1000,
         averagePrice: randomInterval(35, 45) * 1000,
         luxuryPrice: randomInterval(100, 120) * 1000,
-      }
+      };
     }
   ),
   new RandomEvent(
@@ -256,8 +267,8 @@ export const gameEvents: GameEvent[] = [
           // gets an apartment
           return `Well- you're not looking for something luxurious to live in,
           and this will definitely suffice until you get yourself back up.
-          \nCongratulations! You're now renting an apartment with roommates!`
-        }
+          \nCongratulations! You're now renting an apartment with roommates!`;
+        },
       },
       {
         label: "Live alone 🧑",
@@ -265,8 +276,8 @@ export const gameEvents: GameEvent[] = [
           // gets an apartment
           return `Well- you've always been particular about living spaces, and
           living with other people is just not your style.
-          \nCongratulations! You're now renting an apartment by yourself!`
-        }
+          \nCongratulations! You're now renting an apartment by yourself!`;
+        },
       },
     ],
     () => ({
@@ -312,11 +323,11 @@ export const gameEvents: GameEvent[] = [
             level: "Grad",
             tuition: eventData.medCost,
             yearsUntilGrad: 10,
-            field: "Medicine"
-          }
+            field: "Medicine",
+          };
           return `Congratulations on being accepted into med school! For the next 10 years, you will
-          work towards becoming a doctor!`
-        }
+          work towards becoming a doctor!`;
+        },
       },
       {
         label: "Law School",
@@ -326,26 +337,26 @@ export const gameEvents: GameEvent[] = [
             level: "Grad",
             tuition: eventData.lawCost,
             yearsUntilGrad: 4,
-            field: "Law"
-          }
+            field: "Law",
+          };
           return `Congratulations on being accepted into law school! For the next 4 years, you will
-          work towards becoming a lawyer!`
-        }
+          work towards becoming a lawyer!`;
+        },
       },
       {
         label: "Find a job",
         execute: (eventData) => {
           state.education.field = "Computer Science";
           return `Higher education isn't for everyone - and you know what you're really after - getting the money early.
-          Good luck on finding a job!`
-        }
-      }
+          Good luck on finding a job!`;
+        },
+      },
     ],
     () => {
       return {
         medCost: randomInterval(16, 20) * 1000,
         lawCost: randomInterval(22, 24) * 1000,
-      }
+      };
     }
   ),
   new RandomEvent(
@@ -356,13 +367,18 @@ export const gameEvents: GameEvent[] = [
     you feel that now is the time to purchase a home. However, owning a house, much less
     the process of buying a house, can be a tedious, expensive, and time-consuming process.
     Do you go ahead with the search?`,
-    () => state.age > 30 &&(!!state.family.children?.length) && state.creditScore > 680 && state.income > 50000 && !state.housing, //be married
+    () =>
+      state.age > 30 &&
+      !!state.family.children?.length &&
+      state.creditScore > 680 &&
+      state.income > 50000 &&
+      !state.housing, //be married
     [
       {
         label: "Accept",
         execute: (eventData) => {
           //50 50 chance or something for house hunting
-        }
+        },
       },
       {
         label: "Decline",
@@ -381,7 +397,7 @@ export const gameEvents: GameEvent[] = [
     to your family in the case of an untimely death. If the 30 years expires, you get to collect <b>all of the money you paid, 
     and some extra.</b> This seems like an extremely lucrative deal, especially if you're looking for financial security. 
     Do you take it?`,
-    () => state.age > 30 && (!!state.family.children?.length) && !state.products.insurance, //check if family
+    () => state.age > 30 && !!state.family.children?.length && !state.products.insurance, //check if family
     [
       {
         label: "Get insurance",
@@ -390,22 +406,21 @@ export const gameEvents: GameEvent[] = [
             active: true,
             balance: 100, //placeholder, prob will remove this value later
             interestRate: 1.05,
-            creditLimit: 1000,
+            limit: 1000,
             interestFreePeriod: 1, //idk
           })*/
-          return `Your next 30 years are now insured!`
-        }
+          return `Your next 30 years are now insured!`;
+        },
       },
       {
         label: "Maybe later",
       },
     ],
     () => ({
-      premium: randomInterval(13, 20) * 100
+      premium: randomInterval(13, 20) * 100,
     }),
     true //repeatable
   ),
-
 
   // All the random, lifestyle events
 
@@ -425,22 +440,22 @@ export const gameEvents: GameEvent[] = [
           state.stress -= 20;
           state.money -= eventData.price;
           return `You buy it, feeling a flood of satisfaction fill your brain. Surely,
-          this won't affect your budgeting in the long run, will it?`
-        }
+          this won't affect your budgeting in the long run, will it?`;
+        },
       },
       {
         label: "Decline",
         execute: (eventData) => {
           return `Maybe sometime later, but you know that buying this product will
-          throw the rest of your budget off of balance.`
-        }
+          throw the rest of your budget off of balance.`;
+        },
       },
     ],
     () => ({
       product: chooseRandom(["iPhone X", "Samsung TV", "Louis Vutton"]),
       price: randomInterval(3, 5) * 1000,
     }),
-    true, //repeats
+    true //repeats
   ),
   new RandomEvent(
     "Unexpected breakdown",
@@ -454,23 +469,23 @@ export const gameEvents: GameEvent[] = [
         label: "Repair",
         execute: (eventData) => {
           state.money -= eventData.price;
-          return `You pay for the repairs at the nearest shop, knowing that you need your ${eventData.product} to live.`
-        }
+          return `You pay for the repairs at the nearest shop, knowing that you need your ${eventData.product} to live.`;
+        },
       },
       {
         label: "Don't repair",
         execute: (eventData) => {
           state.qualityOfLife -= 10;
           return `Well- it isn't a choice you can afford right now. Better to tough it out,
-          even if it makes life a bit more difficult without it.`
-        }
+          even if it makes life a bit more difficult without it.`;
+        },
       },
     ],
     () => ({
       product: chooseRandom(["cellphone", "car"]),
       price: randomInterval(20, 80) * 100,
     }),
-    true, //repeats
+    true //repeats
   ),
   new RandomEvent(
     "Flu season!",
@@ -486,20 +501,20 @@ export const gameEvents: GameEvent[] = [
         execute: (eventData) => {
           state.qualityOfLife += 5;
           state.money -= 100;
-          return `You get checked out by the doctor, he prescribes some medicine, and your flu appears cured.`
-        }
+          return `You get checked out by the doctor, he prescribes some medicine, and your flu appears cured.`;
+        },
       },
       {
         label: "Don't go",
         execute: (eventData) => {
           state.qualityOfLife -= 15;
           return `Unluckily, the flu didn't get any better by itself, and your health 
-          got a bit worse.`
-        }
+          got a bit worse.`;
+        },
       },
     ],
-    () => { },
-    true, //repeats
+    () => {},
+    true //repeats
   ),
   new RandomEvent(
     "Unexpected emergency",
@@ -508,27 +523,27 @@ export const gameEvents: GameEvent[] = [
     `Uh oh! Looks like it's that time of the year again, and your child caught an unfortunate case 
     of the flu. It looks pretty serious, maybe it's time to get it checked out just to make sure it's okay.
     Do you pay a visit to the doctor?`,
-    () => (!!state.family.children?.length), //if has kids
+    () => !!state.family.children?.length, //if has kids
     [
       {
         label: "Go",
         execute: (eventData) => {
           state.family.value += 5;
           state.money -= 100;
-          return `Your child gets checked out by the doctor, he prescribes some medicine, and their flu appears cured.`
-        }
+          return `Your child gets checked out by the doctor, he prescribes some medicine, and their flu appears cured.`;
+        },
       },
       {
         label: "Don't go",
         execute: (eventData) => {
           state.family.value -= 15;
           return `Unluckily, the flu didn't get any better by itself, and your child's health 
-          got a bit worse. Was the money you saved worth it?`
-        }
+          got a bit worse. Was the money you saved worth it?`;
+        },
       },
     ],
-    () => { },
-    true, //repeats
+    () => {},
+    true //repeats
   ),
   new RandomEvent(
     "To buy or not?",
@@ -537,7 +552,7 @@ export const gameEvents: GameEvent[] = [
     `While on a walk, your child has been eyeing the {eventData.product} behind the shop window for a while now,
     but it looks pretty expensive. They ask you if you could purchase for them.
     Do you buy it for them?`,
-    () => (!!state.family.children?.length), //if has kids
+    () => !!state.family.children?.length, //if has kids
     [
       {
         label: "Yes",
@@ -545,22 +560,22 @@ export const gameEvents: GameEvent[] = [
           state.family.value += 5;
           state.money -= 150;
           return `Your child loves the ${eventData.product} which you bought, and they come home with a bright
-          gleaming smile on their face.`
-        }
+          gleaming smile on their face.`;
+        },
       },
       {
         label: "No",
         execute: (eventData) => {
           state.family.value -= 5;
           return `You don't want to spoil your child. Sometimes, they have to learn that not everything
-          in life is guaranteed.`
-        }
+          in life is guaranteed.`;
+        },
       },
     ],
     () => ({
-      product: chooseRandom(["Nutcracker", "Hot Wheels", "Lego"])
+      product: chooseRandom(["Nutcracker", "Hot Wheels", "Lego"]),
     }),
-    true, //repeats
+    true //repeats
   ),
   new RandomEvent(
     "Surprise vacation",
@@ -569,7 +584,7 @@ export const gameEvents: GameEvent[] = [
     `At your workplace, you won the raffle for a trip to the Bahamas! It covers the airplane flight fees for
     all of your family, and your boss has agreed to give you leave for those days. However, going might mean missing out
     on some work days, and you would still have to pay for the other expenses. Do you go?`,
-    () => ( !!state.family.children?.length), //if has kids
+    () => !!state.family.children?.length, //if has kids
     [
       {
         label: "Go",
@@ -579,18 +594,18 @@ export const gameEvents: GameEvent[] = [
           state.money -= 5000;
           return `You seize the opportunity and make the most of it. The trip is a blast
           and you come back feeling refreshed, and ready to slough through anything life
-          puts in your way.`
-        }
+          puts in your way.`;
+        },
       },
       {
         label: "Don't",
         execute: (eventData) => {
           state.family.value -= 5;
-        }
+        },
       },
     ],
-    () => { },
-    true, //repeats
+    () => {},
+    true //repeats
   ),
   new RandomEvent(
     "Dating",
@@ -605,18 +620,18 @@ export const gameEvents: GameEvent[] = [
         label: "Search for a potential date",
         execute: (eventData) => {
           //Activates date looking thing, 50 50 chance of finding one
-        }
+        },
       },
       {
         label: "No",
         execute: (eventData) => {
           return `You value being a bachelor. After all, you get more time for yourself, and
-          for your hobbies.`
-        }
+          for your hobbies.`;
+        },
       },
     ],
-    () => { },
-    true, //repeats
+    () => {},
+    true //repeats
   ),
   new RandomEvent(
     "Proposal",
@@ -624,41 +639,41 @@ export const gameEvents: GameEvent[] = [
     null,
     `Having sufficient time to get to know you, your partner asks youif you would like to get engaged.
     What do you do?`,
-    () => state.family.spouse?.relationship=="Dating", //if dating
+    () => state.family.spouse?.relationship == "Dating", //if dating
     [
       {
         label: "Yes",
         execute: (eventData) => {
           //Changes family state to marriage
-          return `You get happily married!`
-        }
+          return `You get happily married!`;
+        },
       },
       {
         label: "No",
       },
     ],
-    () => { },
-    true, //repeats
+    () => {},
+    true //repeats
   ),
   new RandomEvent(
     "Kids?",
     0.1,
     null,
     `Your partner asks if you if you would like to have kids. What do you say?`,
-    () => state.family.spouse?.relationship=="Spouse", //if married
+    () => state.family.spouse?.relationship == "Spouse", //if married
     [
       {
         label: "Yes",
         execute: (eventData) => {
           //Adds kids to family, n stuff
-        }
+        },
       },
       {
         label: "No",
       },
     ],
-    () => { },
-    true, //repeats
+    () => {},
+    true //repeats
   ),
   new RandomEvent(
     "Promotion",
@@ -675,12 +690,10 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => ({
-      raise: randomInterval(4, 5) * 1000
+      raise: randomInterval(4, 5) * 1000,
     }),
-    true, //repeats
+    true //repeats
   ),
-
-
 
   // Illnesses and Stuff
   new RandomEvent(
@@ -700,17 +713,16 @@ export const gameEvents: GameEvent[] = [
         execute: (eventData) => {
           state.qualityOfLife += 45;
           state.money -= eventData.cost;
-        }
+        },
       },
       {
-        label: "No"
-      }
+        label: "No",
+      },
     ],
     () => ({
       illness: chooseRandom(["Lymphoma", "Kidney Disease", "Type 1 Diabetes"]),
-      cost: randomInterval(10, 20) * 1000
+      cost: randomInterval(10, 20) * 1000,
     }),
-    true, //repeats
+    true //repeats
   ),
- 
 ];
