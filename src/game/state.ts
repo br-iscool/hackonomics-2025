@@ -6,6 +6,7 @@ export const state = proxy({
   alive: true,
   name: "",
   age: 16,
+  opened: false,
 
   job: null as Job | null,
   education: {inSchooling : true, level : "Highschool"} as Education,
