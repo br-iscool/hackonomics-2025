@@ -28,7 +28,6 @@ export function gameLoop() {
     (state.products.mortgage?.balance || 0) +
     state.products.loans.reduce((acc, l) => acc + l.balance, 0) +
     (state.products.creditCard?.balance || 0);
-  state.netWorth = state.money + state.products.savings.balance - state.debt;
 
   // Trigger events
   handleEvents(state.age);
@@ -54,7 +53,7 @@ function updateIncome() {
 
 function checkBankruptcy() {
   const criticallyNegativeMoney = state.money < -1000;
-  const hopelessDebt = state.netWorth < -2000 && state.debt > 10000;
+  const hopelessDebt = state.money < -2000 && state.debt > 10000;
 
   if (criticallyNegativeMoney || hopelessDebt) {
     state.alive = false;
@@ -86,7 +85,6 @@ export function resetGame() {
   state.alive = true;
   state.transcript = [];
   state.debt = 0;
-  state.netWorth = 0;
   state.creditScore = 0;
   state.income = 0;
   state.expenses = 0;

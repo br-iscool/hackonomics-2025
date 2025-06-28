@@ -24,7 +24,6 @@ export default function GameOverDialog() {
 						<Stat label="Education Level" value={snap.education.level} />
 						<Stat label="Job" value={snap.job ? `${snap.job.role} (${snap.job.yearsEmployed} yrs)` : "Unemployed"} />
 						<Stat label="Final Money" value={`$${snap.money.toLocaleString()}`} />
-						<Stat label="Net Worth" value={`$${snap.netWorth.toLocaleString()}`} />
 						<Stat label="Total Debt" value={`$${snap.debt.toLocaleString()}`} />
 						<Stat label="Credit Score" value={Math.round(snap.creditScore)} />
 						<Stat label="Total Payments Made" value={snap.totalPayments} />

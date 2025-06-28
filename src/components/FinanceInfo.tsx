@@ -28,7 +28,6 @@ export default function FinanceInfoDialog() {
 					{/* Overview */}
 					<Section title="Overview">
 						<InfoRow icon={<FaDollarSign />} label="Money" value={`$${snap.money.toLocaleString()}`} />
-						<InfoRow icon={<FaChartLine />} label="Net Worth" value={`$${snap.netWorth.toLocaleString()}`} />
 					</Section>
 
 					{/* Budgeting */}

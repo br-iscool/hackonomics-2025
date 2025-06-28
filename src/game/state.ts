@@ -31,7 +31,6 @@ export const state = proxy({
   expenses: 0,
   budget: 0,
   debt: 0,
-  netWorth: 0,
 
   creditScore: 0,
   paymentHistory: 0,

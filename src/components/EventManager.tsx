@@ -13,6 +13,7 @@ interface DialogEntry {
 }
 
 export default function EventManager({ event }: EventManagerProps) {
+	console.log(event, event instanceof GameEvent);
 	const [dialogQueue, setDialogQueue] = useState<DialogEntry[]>([]);
 
 	useEffect(() => {

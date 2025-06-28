@@ -48,11 +48,6 @@ export default function ProfileIcon() {
 					</div>
 
 					<div className="flex justify-between">
-						<span>Net Worth:</span>
-						<span>${state.netWorth.toFixed(2)}</span>
-					</div>
-
-					<div className="flex justify-between">
 						<span>Debt:</span>
 						<span>${state.debt.toFixed(2)}</span>
 					</div>

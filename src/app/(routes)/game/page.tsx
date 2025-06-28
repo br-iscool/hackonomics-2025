@@ -13,13 +13,7 @@ export default function Game() {
         <>
             <GameOverDialog />
             {snap.alive && snap.event && (
-                <EventManager
-                    key={snap.event.name}
-                    event={{
-                        ...snap.event,
-                        choices: [...snap.event.choices],
-                    }}
-                />
+                <EventManager key={snap.event.name} event={snap.event} />
             )}
             <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { console.log(snap.event) }}>Test</Button>
 
