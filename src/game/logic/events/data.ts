@@ -236,12 +236,12 @@ export const gameEvents: GameEvent[] = [
     <br />
     <br />
     <ol>
-      <h3>1. Room with strangers</h3>
+      <h3>1. Room with strangers 🤔</h3>
       <li>
       For \${eventData.cheapCost} a month, The room looks... kinda dingy to be honest. And it definitely can fit 3 other roommates, but it won't be 
       comfortable for sure. But, you get what you get for the price, right?
       </li>
-      <h3>2. Live by yourself</h3>
+      <h3>2. Live by yourself 🤞🏼</h3>
       <li>
       For \${eventData.averageCost} a month, this apartment complex has a lot more amenities, and you won't be sharing. But it costs a bit more.
       Is the added comfort worth the cost?
