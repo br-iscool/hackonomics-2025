@@ -4,7 +4,7 @@ import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
 
 import { Button } from "@/components/ui/button"
-import { AgeUp, ProfileIcon, Transcripts, EducationInfo, JobInfo, FinanceInfo, ProductsDisplay, GameOverDialog, EventManager } from "@/components";
+import { AgeUp, ProfileIcon, Transcripts, EducationInfo, JobInfo, FinanceInfo, ProductsDisplay, GameOverDialog, EventManager } from "@/components/exports";
 
 export default function Game() {
     const snap = useSnapshot(state);
@@ -12,7 +12,15 @@ export default function Game() {
     return (
         <>
             <GameOverDialog />
-            {snap.alive && snap.event && <EventManager key={snap.event.name} event={snap.event} />}
+            {snap.alive && snap.event && (
+                <EventManager
+                    key={snap.event.name}
+                    event={{
+                        ...snap.event,
+                        choices: [...snap.event.choices],
+                    }}
+                />
+            )}
             <Button className="fixed bottom-4 right-4" variant="outline" onClick={() => { console.log(snap.event) }}>Test</Button>
 
             {/* <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen"> */}
