@@ -4,8 +4,6 @@ import { handleEvents } from "@/game/logic/events";
 import { LoanEvent } from "@/game/logic/events/generated/LoanEvent";
 import { eventsTable } from "./events/data";
 
-const MIN_CREDIT_SCORE_FOR_LOAN = 550;
-
 export function gameLoop() {
   if (!state.alive) return;
 
@@ -50,7 +48,7 @@ export function gameLoop() {
   // Trigger events
   handleEvents(state.age);
 
-  if (state.money < 0 && state.creditScore >= MIN_CREDIT_SCORE_FOR_LOAN) {
+  if (state.money < 0 ) { 
   const loanAmount = Math.abs(state.money);
 
   const emergencyLoan = {
@@ -63,6 +61,7 @@ export function gameLoop() {
     yearsElapsed: 0,
     active: true,
   };
+  state.money += loanAmount
 
   state.events.push(LoanEvent(emergencyLoan));
 }
