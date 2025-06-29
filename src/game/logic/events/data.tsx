@@ -56,7 +56,7 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>1. Enter university 📚</h3>
-            Attend {eventData.university}, with a tuition cost of <span className="text-green-500">${eventData.uniTuition}</span> annually
+            Attend {eventData.university}, with a tuition cost of <Color>${eventData.uniTuition}</Color> annually
           </li>
           <li>
             <h3>2. Enter a trade school 🔧</h3>
@@ -383,8 +383,8 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => ({
-      averageCost: randomInterval(12, 15) * 100,
-      cheapCost: randomInterval(7, 9) * 90,
+      cheapCost: randomInterval(15, 18) * 100,
+      averageCost: randomInterval(25, 30) * 100, 
     })
   ),
 
@@ -1048,8 +1048,8 @@ export const eventsTable: Map<string, GameEvent> = new Map([
     "Graduation",
     (eventData : any) => (
       <>
-      Congratulations! You have graduated {state.education.level}.
-      /n Please check the <b>Jobs</b> tab to view new jobs.
+      Congratulations! You have graduated at the {state.education.level} level.
+      Please check the <b>jobs</b> tab to view new jobs.
       </>
     ),
     [
