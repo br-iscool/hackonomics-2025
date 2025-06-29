@@ -4,6 +4,8 @@ import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
 import { eventNames } from "process";
 
 export const gameEvents: GameEvent[] = [
+  /* Obsolete due to job dialog system
+  /
   new RandomEvent(
     "Part-time Job",
     () => 0.1, //gets employability from state
@@ -36,6 +38,9 @@ export const gameEvents: GameEvent[] = [
     },
     true // repeatable
   ),
+  */
+
+  // University
   new ScheduledEvent(
     "Choose an educational path",
     18,
@@ -49,11 +54,11 @@ export const gameEvents: GameEvent[] = [
     <ol>
       <h3>1. Enter university 📚</h3>
       <li>
-      Attend {eventData.university}, with a tuition cost of \${eventData.uniTuition}
+      Attend {eventData.university}, with a tuition cost of \${eventData.uniTuition} annually
       </li>
       <h3>2. Enter a trade school 🔧</h3>
       <li>
-      Attend {eventData.tradeSchool}, with a tuition cost of \${eventData.tradeTuition}
+      Attend {eventData.tradeSchool}, with a tuition cost of \${eventData.tradeTuition} annually
       </li>
       <h3>3. Don't attend higher education 🤷‍♂️</h3>
     </ol>`,
@@ -68,7 +73,7 @@ export const gameEvents: GameEvent[] = [
             level: "Undergrad",
             yearsUntilGrad: 4,
           };
-          return `Congratulations! You are now an undergraduate studying at ${eventData.university}`;
+          return `Congratulations! You are now an undergraduate studying at ${eventData.university}!`;
         },
       },
       {
@@ -100,19 +105,21 @@ export const gameEvents: GameEvent[] = [
       return {
         tradeSchool: chooseRandom(tradeSchools),
         university: chooseRandom(universities),
-        uniTuition: randomInterval(4, 6) * 1000,
-        tradeTuition: randomInterval(2, 4) * 1000,
+        uniTuition: randomInterval(8, 12) * 1000,
+        tradeTuition: randomInterval(5, 7) * 1000,
       };
     }
   ),
+
+  // Savings account
   new RandomEvent(
     "Open a Savings Account",
-    () => (state.products.savings ? 0.2 : 0.4),
+    () => (state.products.savings ? 0 : 0.4), // Doesn't repeat if the player already has an account
     null,
     `You hear knocking at the door and are approached by a representative of {eventData.bank}.
     He offers you a deal to open a High Interest Savings Account, with an annual interest rate of
     {eventData.rate}%. Do you:`,
-    () => state.age > 17,
+    () => state.age > 17 && !state.products.savings,
     [
       {
         label: "Accept the deal?",
@@ -132,19 +139,21 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => {
-      const banks = ["TDBank", "The National Bank"];
+      const banks = ["TD Bank", "The National Bank"];
       return { bank: chooseRandom(banks), rate: randomInterval(3, 7) };
     },
-    true // repeatable
+    true
   ),
+
+  // Credit card
   new RandomEvent(
     "Get a Credit Card",
-    0.2,
+    () => (state.products.creditCard ? 0 : 0.2),
     null,
     `It's about time you got a credit card! Getting a credit card gives you access to
     having a <b>credit score</b>, which may be used to evaluate your eligibility in applying for loans,
     owning cars, and getting a mortgage for a house.`,
-    () => state.age > 17 && !!state.products.savings,
+    () => state.age > 17 && !!state.products.savings && !state.products.creditCard,
     [
       {
         label: "Get a credit card now?",
@@ -162,39 +171,53 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Wait for later",
       },
-    ]
+    ],
+    undefined,
+    true
   ),
+
+  // Car
   new RandomEvent(
     "Purchase a car",
-    0.2,
+    () => (state.car ? 0 : 0.2),
     null,
     `You hear knocking at the door and are approached by a car salesman at your local auto.
     He says that purchasing a car will make transportation in your life significantly more convenient than public transport,
-    and presents you with a list of vehicles to purchase from. Do you:
-    \nDo you:\n
+    and presents you with a list of vehicles to purchase from. 
+    <br>
+    <br>
     <ol>
-      <li><h3>buy a cheap, used car 🚐</h3>
-      Buy a {eventData.car}, with a markup cost of \${eventData.cheapCost}.
+      <h3>1. Buy a cheap, used car 🚐</h3>
+      <li>
+      Buy a {eventData.cheapCar}, with a markup cost of \${eventData.cheapPrice}.
       However, because it's so cheap, you may <b>frequently have to spend money on repairs</b> and it
       definitely <b>doesn't seem like it'll last very long</b>...
       </li>
-      <li><h3>buy an average car 🚗</h3>
-      Buy a {eventData.car}, with a markup cost of \${eventData.averageCost}.
+      <h3>2. Buy an average car 🚗</h3>
+      <li>
+      Buy a {eventData.averageCar}, with a markup cost of \${eventData.averagePrice}.
       It's not the prettiest car, but it looks reliable, durable, and sturdy enough to drive you around.
       </li>
-      <li><h3>buy a luxury vehicle 🏎️</h3>
-      Buy a {eventData.car}, with a markup cost of \${eventData.luxuryCost}.
+      <h3>3. Buy a luxury car 🏎️</h3>
+      <li>
+      Buy a {eventData.luxuryCar}, with a markup cost of \${eventData.luxuryPrice}.
       For it's hefty price, it's quality is definitely something to dream of.
       </li>
-      <li><h3>stick with public transport 🤷‍♂️</h3></li>
+      <h3>Stick with public transport 🤷‍♂️</h3>
+      <li>It's not as convenient, but it's definitely cheap.</li>
     </ol>`,
-    () => state.age > 21, //check if has car
-    //you dont have money -- apply for a loan.
+    () => state.age > 21 && !state.car, // Only show if they don't have a car
     [
       {
         label: "Cheap car",
         execute: (eventData) => {
-          // gets a car
+          state.car = {
+            type: "Cheap",
+            name: eventData.cheapCar,
+            value: eventData.cheapPrice,
+            reliability: "low"
+          };
+          state.money -= eventData.cheapPrice;
           return `Well- you're not here to buy a showpiece- and if it can be driven, you're sure you can work something out.
           You are now the proud owner of a ${eventData.cheapCar}`;
         },
@@ -202,7 +225,13 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Average car",
         execute: (eventData) => {
-          // gets a car
+          state.car = {
+            type: "Average",
+            name: eventData.averageCar,
+            value: eventData.averagePrice,
+            reliability: "medium"
+          };
+          state.money -= eventData.averagePrice;
           return `Well- you're not here to buy a showpiece- and this car will definitely get you the best mileage.
           You are now the proud owner of a ${eventData.averageCar}`;
         },
@@ -210,7 +239,13 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Luxury car",
         execute: (eventData) => {
-          // gets a car
+          state.car = {
+            type: "Luxury",
+            name: eventData.luxuryCar,
+            value: eventData.luxuryPrice,
+            reliability: "high"
+          };
+          state.money -= eventData.luxuryPrice;
           return `Bracing your wallet, you purchase the car your eyes have always been set on,
           hoping your future self will thank you for this.
           You are now the proud owner of a ${eventData.luxuryCar}`;
@@ -236,13 +271,16 @@ export const gameEvents: GameEvent[] = [
         averagePrice: randomInterval(35, 45) * 1000,
         luxuryPrice: randomInterval(100, 120) * 1000,
       };
-    }
+    },
+    true
   ),
+
+  // Apartment
   new RandomEvent(
     "Rent an apartment",
     0.6,
     null,
-    `Your parents have had enough of you staying in their house. It's time you became your own man!
+    `Your parents have had enough of you staying in their house. It's time you became independent!
     But where to begin? You figure you should look around for some apartments to rent, and luckily find 2 suitable candidates.
     <br />
     <br />
@@ -285,8 +323,10 @@ export const gameEvents: GameEvent[] = [
       cheapCost: randomInterval(7, 9) * 90,
     })
   ),
+
+  // Graduate school
   new ScheduledEvent(
-    "Choose a career path",
+    "Choose a higher education path",
     22,
     () => {
       state.education.inSchooling = false;
@@ -303,7 +343,7 @@ export const gameEvents: GameEvent[] = [
       </li>
       <h3>2. Apply for law school ⚖️</h3>
       <li>
-      For the hefty annual tuition of \${eventData.lawCost} for 3 years, you will be able 
+      For the hefty annual tuition of \${eventData.lawCost} for 4 years, you will be able 
       to become a lawyer. This guarantees high pay, but potentially high stress and lots of school fees. 
       Is this something you can handle?
       </li>
@@ -346,7 +386,6 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Find a job",
         execute: (eventData) => {
-          state.education.field = "Computer Science";
           return `Higher education isn't for everyone - and you know what you're really after - getting the money early.
           Good luck on finding a job!`;
         },
@@ -354,11 +393,13 @@ export const gameEvents: GameEvent[] = [
     ],
     () => {
       return {
-        medCost: randomInterval(16, 20) * 1000,
-        lawCost: randomInterval(22, 24) * 1000,
+        medCost: randomInterval(20, 24) * 1000,
+        lawCost: randomInterval(25, 30) * 1000,
       };
     }
   ),
+
+  // House
   new RandomEvent(
     "Own a home!",
     () => 0.3,
@@ -387,6 +428,8 @@ export const gameEvents: GameEvent[] = [
     undefined,
     true // repeatable
   ),
+
+  // Life insurance
   new RandomEvent(
     "Insurance Offer",
     0.1,
@@ -497,7 +540,7 @@ export const gameEvents: GameEvent[] = [
     () => true, //always
     [
       {
-        label: "Go",
+        label: "Go ($100)",
         execute: (eventData) => {
           state.qualityOfLife += 5;
           state.money -= 100;

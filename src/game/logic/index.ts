@@ -11,7 +11,38 @@ export function gameLoop() {
   if (state.job) state.job.yearsEmployed++;
   if (state.education.inSchooling) {
     if (state.education.tuition) state.money -= state.education.tuition;
-    if (state.education.yearsUntilGrad) state.education.yearsUntilGrad--;
+    if (state.education.yearsUntilGrad) {
+      state.education.yearsUntilGrad--;
+      
+      // Check if graduation
+      if (state.education.yearsUntilGrad <= 0) {
+        state.education.inSchooling = false;
+        
+        // Add message to transcript
+        let graduationMessage = "";
+        switch (state.education.level) {
+          case "Vocational":
+            graduationMessage = "Congratulations! You've completed your trade school education and are now ready to enter the workforce!";
+            break;
+          case "Undergrad":
+            graduationMessage = "Congratulations! You've graduated from university with your bachelor's degree!";
+            break;
+          case "Grad":
+            if (state.education.field === "Medicine") {
+              graduationMessage = "Congratulations! You've completed medical school and are now a licensed doctor!";
+            } else if (state.education.field === "Law") {
+              graduationMessage = "Congratulations! You've completed law school and are now a licensed lawyer!";
+            } else {
+              graduationMessage = "Congratulations! You've completed graduate school and earned your advanced degree!";
+            }
+            break;
+          default:
+            graduationMessage = "Congratulations on completing your education!";
+        }
+        
+        state.transcript.push(graduationMessage);
+      }
+    }
   }
   if (state.housing.type === "Apartment" && state.housing.rent) state.money -= state.housing.rent;
 

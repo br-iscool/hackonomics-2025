@@ -3,7 +3,7 @@
 import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
 
-import { AgeUp, ProfileIcon, Transcripts, EducationInfo, JobInfo, FinanceInfo, ProductsDisplay, GameOverDialog, EventManager, WelcomeDialogue } from "@/components/exports";
+import { AgeUp, Profile, Transcripts, EducationDialog, JobDialog, FinanceDialog, Products, GameOverDialog, EventManager, WelcomeDialog } from "@/components/exports";
 import { Notifier } from "@/components/Notifier";
 
 export default function Game() {
@@ -12,26 +12,26 @@ export default function Game() {
     return (
         <>
             <Notifier />
-            <WelcomeDialogue />
+            <WelcomeDialog />
             <GameOverDialog />
             {snap.alive && snap.event && <EventManager event={snap.event} />}
 
             <div className="bg-gray-200 min-h-screen flex flex-col md:flex-row">
                 <div className="min-h-screen w-full md:w-2/3">
                     <div className="p-5 flex items-center gap-8">
-                        <ProfileIcon />
+                        <Profile />
                     </div>
 
                     <div className="flex-1 p-5">
-                        <ProductsDisplay />
+                        <Products />
                     </div>
 
 
 
                     <div className="fixed bottom-10 left-5 flex gap-4">
-                        <EducationInfo education={snap.education} />
-                        {snap.job && <JobInfo job={snap.job} />}
-                        <FinanceInfo />
+                        <EducationDialog education={snap.education} />
+                        <JobDialog job={snap.job} />
+                        <FinanceDialog />
                         <AgeUp />
                     </div>
                 </div>
