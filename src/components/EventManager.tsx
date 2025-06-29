@@ -23,9 +23,10 @@ export default function EventManager() {
 		body: current.body(current.eventData),
 		buttons:
 			current.choices?.map((choice) => {
-				const disabled = choice.condition
-					? !choice.condition(current.eventData)
-					: false;
+				// const disabled = choice.condition
+				// 	? !choice.condition(current.eventData)
+				// 	: false;
+				const disabled = false;
 
 				return {
 					label: choice.label,
