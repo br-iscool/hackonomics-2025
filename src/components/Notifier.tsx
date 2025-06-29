@@ -9,9 +9,10 @@ export function Notifier() {
   useStateChangeNotifier(snap.money, (oldVal, newVal) => {
     const diff = newVal - oldVal;
     if (diff !== 0) {
-      toast(
-        diff > 0 ? `🟢 +$${diff.toLocaleString()}` : `🔴 -$${Math.abs(diff).toLocaleString()}`,
-        { description: "Money changed", duration: 2000 }
+      const isPositive = diff > 0;
+      const amount = Math.abs(diff);
+      (isPositive ? toast.success : toast.error)(
+        `$${isPositive ? "+" : "-"}${amount.toFixed(2)}`,
       );
     }
   });
@@ -19,9 +20,10 @@ export function Notifier() {
   useStateChangeNotifier(snap.stress, (oldVal, newVal) => {
     const diff = newVal - oldVal;
     if (diff !== 0) {
-      toast(
-        diff > 0 ? `😟 Stress increased by ${diff}` : `😌 Stress decreased by ${Math.abs(diff)}`,
-        { description: "Stress level update", duration: 2000 }
+      const isPositive = diff > 0; // more stress is bad
+      const amount = Math.abs(diff);
+      (isPositive ? toast.error : toast.success)(
+        `${isPositive ? "😟 Stress increased" : "😌 Stress reduced"} by ${amount}`,
       );
     }
   });
@@ -29,9 +31,10 @@ export function Notifier() {
   useStateChangeNotifier(snap.creditScore, (oldVal, newVal) => {
     const diff = newVal - oldVal;
     if (diff !== 0) {
-      toast(
-        diff > 0 ? `📈 Credit score improved by ${diff}` : `📉 Credit score dropped by ${Math.abs(diff)}`,
-        { description: "Credit score update", duration: 2000 }
+      const isPositive = diff > 0;
+      const amount = Math.abs(diff);
+      (isPositive ? toast.success : toast.error)(
+        `${isPositive ? "📈 Credit score increased" : "📉 Credit score decreased"} by ${amount}`,
       );
     }
   });
