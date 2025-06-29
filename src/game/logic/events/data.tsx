@@ -1042,31 +1042,3 @@ export const gameEvents: GameEvent[] = [
     true //repeats
   ),
 ];
-
-export const eventsTable: Map<string, GameEvent> = new Map([
-  ["Graduation", new NormalEvent(
-    "Graduation",
-    (eventData : any) => (
-      <>
-      Congratulations! You have graduated {state.education.level}.
-      /n Please check the <b>Jobs</b> tab to view new jobs.
-      </>
-    ),
-    [
-      {
-        label: "Find new job",
-        execute : (eventData) => {
-          //opens job panel
-        }
-      }
-    ]
-  )],
-  ["Cured", new TextEvent(
-    "Cured",
-    (eventData: any) => (
-      <>
-        You have been cured of {eventData.disease}!
-      </>
-    )
-  )]
-]);
