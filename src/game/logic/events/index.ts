@@ -44,8 +44,5 @@ export function handleEvents(currentAge: number) {
     }
   }
 
-  // // Execute functions
-  // while(state.events.length > 0) {
-  //   const event = state.events.shift();
-  // }
+  console.log("Current Events:", state.events);
 }

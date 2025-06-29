@@ -1,9 +1,10 @@
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { ReactNode } from "react";
 
 interface DialogEntry {
     title: string;
-    body: string;
+    body: ReactNode;
     buttons: { label: string; onClick: () => void, disabled: boolean }[];
 }
 
@@ -25,7 +26,7 @@ export default function EventDialog({ dialog, onClose }: EventProps) {
             >
                 <AlertDialogHeader>
                     <AlertDialogTitle>{dialog.title}</AlertDialogTitle>
-                    <AlertDialogDescription dangerouslySetInnerHTML={{ __html: dialog.body }} />
+                    <AlertDialogDescription>{dialog.body} </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex justify-center gap-4 pt-4">
                     {dialog.buttons.map((btn, i) => (

@@ -1,4 +1,4 @@
-import { state } from "@/game/state";
+import { state, resetState } from "@/game/state";
 import { tickMortgage, tickLoan, tickSavings, tickDisease } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
 
@@ -78,23 +78,6 @@ function updateIncome() {
   const baseSalary = state.job.salary;
   state.income = Math.floor(baseSalary);
   state.money += state.income;
-}
-
-export function resetGame() {
-  state.age = 16;
-  state.money = 5000;
-  state.name = "";
-  state.opened = true;
-  state.job = null;
-  state.education = { inSchooling: true, level: "Highschool" };
-  state.alive = true;
-  state.transcript = [];
-  state.income = 0;
-  state.expenses = {};
-  state.totalPayments = 0;
-  state.onTimePayments = 0;
-  state.yearsCredit = 0;
-  // reset other fields as needed
 }
 
 export function startGame() {

@@ -77,8 +77,10 @@ export class ScheduledEvent extends GameEvent {
 }
 
 export class TextEvent extends GameEvent {
-  constructor(body: string) {
-    super("Result", "scheduled", body, () => true, [
+  constructor(body: string | JSX.Element) {
+     const jsxBody: JSX.Element =
+      typeof body === "string" ? <p>{body}</p> : body;
+    super("Result", "scheduled", (eventData) => jsxBody, () => true, [
       {
         label: "Continue",
         condition: () => true,
