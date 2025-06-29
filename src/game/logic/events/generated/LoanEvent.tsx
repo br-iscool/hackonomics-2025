@@ -10,8 +10,9 @@ export function LoanEvent(loan: LoanData) {
         (eventData: LoanData) => (
             <div>
                 <p>
-                    Do you want to take out a loan of <strong>${eventData.principal.toLocaleString()}</strong>
-                    with an interest rate of <strong>{(eventData.interestRate * 100).toFixed(2)}%</strong>
+                    You've ran out of money!
+                    Do you want to take out a loan of <strong>${eventData.principal.toLocaleString()}</strong> 
+                    with an interest rate of <strong>{(eventData.interestRate * 100).toFixed(2)}% </strong>
                     for <strong>{eventData.termYears}</strong> years?
                 </p>
             </div>
@@ -23,12 +24,12 @@ export function LoanEvent(loan: LoanData) {
                     state.products.loans.push({ ...eventData });
                     state.money += eventData.principal;
 
-                    return <p>`You have received <Color>${eventData.principal.toLocaleString()}</Color> from the loan.`</p>
+                    return <p>You have received <Color>${eventData.principal.toLocaleString()}</Color> from the loan.</p>
                 },
             },
             {
                 label: "Cancel",
-                execute: () => <p>"Loan cancelled."</p>,
+                execute: () => <p>"Loan declined."</p>,
             },
         ],
         () => loan
