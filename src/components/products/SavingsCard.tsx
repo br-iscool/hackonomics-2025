@@ -10,7 +10,6 @@ export function SavingsCard({ data }: { data: SavingsAccData }) {
                 <div className="flex items-center gap-2">
                     <FaPiggyBank /> <span className="font-semibold">{data.name}</span>
                 </div>
-                <div className="text-sm mt-2">Balance: ${data.balance.toLocaleString()}</div>
                 <div className="text-sm">
                     Interest Rate:{" "}
                     {`${(data.interestRate * 100).toFixed(1)}%`}

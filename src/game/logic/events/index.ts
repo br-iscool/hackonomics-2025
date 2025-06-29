@@ -13,9 +13,6 @@ function isRandomEvent(event: GameEvent): event is RandomEvent {
 }
 
 export function handleEvents(currentAge: number) {
-  console.log(state.triggeredEvents)
-  console.log(`Handling events for age ${currentAge}`);
-
   // Scheduled Events
   for (const event of gameEvents) {
     if (
@@ -40,7 +37,7 @@ export function handleEvents(currentAge: number) {
 
     const picked = pickWeighted(eligibleRandomEvents);
     if (picked) {
-      picked.execute();
+      state.events.push(picked);
       if (!picked.repeatable) state.triggeredEvents.add(picked.name);
     }
   }
