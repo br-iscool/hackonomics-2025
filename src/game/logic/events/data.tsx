@@ -196,24 +196,26 @@ export const gameEvents: GameEvent[] = [
         <br />
         <br />
         <ol>
-          <h3>1. Buy a cheap, used car 🚐</h3>
           <li>
+            <h3>Buy a cheap, used car 🚐</h3>
             Buy a {eventData.cheapCar}, with a markup cost of \${eventData.cheapPrice}.
             However, because it's so cheap, you may <b>frequently have to spend money on repairs</b> and it
             definitely <b>doesn't seem like it'll last very long</b>...
           </li>
-          <h3>2. Buy an average car 🚗</h3>
           <li>
+            <h3>Buy an average car 🚗</h3>
             Buy a {eventData.averageCar}, with a markup cost of \${eventData.averagePrice}.
             It's not the prettiest car, but it looks reliable, durable, and sturdy enough to drive you around.
           </li>
-          <h3>3. Buy a luxury car 🏎️</h3>
           <li>
+            <h3>Buy a luxury car 🏎️</h3>
             Buy a {eventData.luxuryCar}, with a markup cost of \${eventData.luxuryPrice}.
             For it's hefty price, it's quality is definitely something to dream of.
           </li>
-          <h3>Stick with public transport 🤷‍♂️</h3>
-          <li>It's not as convenient, but it's definitely cheap.</li>
+          <li>
+            <h3>Stick with public transport 🤷‍♂️</h3>
+            It's not as convenient, but it's definitely cheap.
+          </li>
         </ol>
       </>),
     () => state.age > 21 && !state.car, // Only show if they don't have a car
@@ -300,13 +302,13 @@ export const gameEvents: GameEvent[] = [
         <br />
         <br />
         <ol>
-          <h3>1. Room with strangers 🤔</h3>
           <li>
+            <h3>1. Room with strangers 🤔</h3>
             For \${eventData.cheapCost} a month, The room looks... kinda dingy to be honest. And it definitely can fit 3 other roommates, but it won't be
             comfortable for sure. But, you get what you get for the price, right?
           </li>
-          <h3>2. Live by yourself 🤞🏼</h3>
           <li>
+            <h3>2. Live by yourself 🤞🏼</h3>
             For \${eventData.averageCost} a month, this apartment complex has a lot more amenities, and you won't be sharing. But it costs a bit more.
             Is the added comfort worth the cost?
           </li>
@@ -356,20 +358,20 @@ export const gameEvents: GameEvent[] = [
         <br />
         <br />
         <ol>
-          <h3>1. Apply for med school 🩺</h3>
           <li>
+            <h3>1. Apply for med school 🩺</h3>
             For a hefty annual tuition of \${eventData.medCost} for 10 years, you will be able
             to become a doctor. This guarantees high pay, but potentially high stress and lots of school fees.
             Is this something you can handle?
           </li>
-          <h3>2. Apply for law school ⚖️</h3>
           <li>
+            <h3>2. Apply for law school ⚖️</h3>
             For the hefty annual tuition of \${eventData.lawCost} for 4 years, you will be able
             to become a lawyer. This guarantees high pay, but potentially high stress and lots of school fees.
             Is this something you can handle?
           </li>
-          <h3>Go straight to the workforce 💪</h3>
           <li>
+            <h3>Go straight to the workforce 💪</h3>
             With an undergraduate degree, you will be able to find a decent job with good wages. Most importantly,
             you'll be able to avoid paying years of costly tuition.
           </li>
@@ -752,7 +754,7 @@ export const gameEvents: GameEvent[] = [
         What do you do?
       </>
     ),
-    () => state.family.spouse?.relationship == "Dating", //if dating
+    () => state.family.spouse?.relationship === "Dating", //if dating
     [
       {
         label: "Yes",

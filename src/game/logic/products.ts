@@ -1,5 +1,6 @@
 import { state } from "@/game/state";
-import { MortgageData, LoanData, SavingsAccData } from "@/game/types";
+import { MortgageData, LoanData, SavingsAccData, DiseaseData } from "@/game/types";
+import { weightedBoolean } from "@/utils";
 
 export function tickMortgage(data: MortgageData) {
   if (!data.active) return;
@@ -39,4 +40,15 @@ export function tickSavings(data: SavingsAccData) {
   const interest = state.money * data.interestRate;
   state.money += interest;
   data.yearsElapsed = (data.yearsElapsed ?? 0) + 1;
+}
+
+export function tickDisease(data : DiseaseData) : boolean | undefined {
+  if (!data.active) return;
+
+  if (weightedBoolean(data.curability, 1 - data.curability)) {
+    data.active = false;
+    return true; //is cured
+  }
+
+  state.qualityOfLife -= data.damage;
 }
