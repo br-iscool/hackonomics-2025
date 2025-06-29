@@ -12,7 +12,7 @@ export default function Products() {
 	const { creditCard, loans, savings, mortgage, insurance, investments } = snap.products;
 
 	return (
-		<div className="grid grid-flow-row-dense grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 grid-auto-rows-5 gap-4 p-4">
+		<div className="grid grid-flow-row-dense grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
 			{creditCard && <CreditCard data={creditCard} />}
 			{savings && <SavingsCard data={savings} />}
 			{loans.length > 0 &&

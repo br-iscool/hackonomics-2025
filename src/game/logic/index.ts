@@ -93,7 +93,7 @@ function getGradMessage() {
 }
 
 export function canPurchase(cost: number) {
-  return state.money >= cost;
+  return state.money >= 0.7 * cost;
 }
 
 function updateIncome() {
