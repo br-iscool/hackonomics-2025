@@ -133,19 +133,3 @@ export class NormalEvent extends GameEvent {
   shouldTrigger(_age: number): boolean { return true; }
   execute(): void { }
 }
-
-export class TextEvent extends GameEvent {
-  constructor(body: string | JSX.Element) {
-    const jsxBody: JSX.Element =
-      typeof body === "string" ? <p>{body}</p> : body;
-    super("Result", "scheduled", (eventData) => jsxBody, () => true, [
-      {
-        label: "Continue",
-        condition: () => true,
-        execute: () => { },
-      },
-    ] as GameChoice[]);
-  }
-  shouldTrigger(_age: number): boolean { return true; }
-  execute(): void { }
-}
