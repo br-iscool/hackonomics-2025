@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
 
@@ -9,6 +9,10 @@ import EventDialog from "./dialogs/EventDialog";
 export default function EventManager() {
 	const snap = useSnapshot(state);
 	const current = snap.events[0];
+
+	useEffect(() => {
+		if (current && typeof current.execute === "function") { current.execute(); console.log("Event executed:", current.name); }
+	}, [current]);
 
 	if (!state.alive || !current) return null;
 
@@ -27,7 +31,7 @@ export default function EventManager() {
 					disabled,
 					onClick: () => {
 						if (disabled) return;
-						// first, run the event logic
+
 						const result = choice.execute?.(current.eventData);
 
 						state.events.shift();

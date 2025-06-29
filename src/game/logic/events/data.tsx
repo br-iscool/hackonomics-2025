@@ -99,7 +99,6 @@ export const gameEvents: GameEvent[] = [
         label: "Neither!",
         execute: (eventData) => {
           state.education.inSchooling = false;
-          state.expenses["education"] = eventData.uniTuition;
           return `Oh well, university isn't for everyone. There are plenty of ways to succeed without higher education!`;
         },
       },
