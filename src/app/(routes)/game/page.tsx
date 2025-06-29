@@ -17,6 +17,7 @@ export default function Game() {
             <EventManager />
 
             <div className="bg-gray-200 min-h-screen flex flex-col md:flex-row">
+                <p style={{ color: "var(--success)" }}>Success message</p>
                 <div className="min-h-screen w-full md:w-2/3">
                     <div className="p-5 flex items-center gap-8">
                         <Profile />
