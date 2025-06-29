@@ -86,8 +86,8 @@ export default function JobDialog({ job }: { job: JobDialogProps | null }) {
 				<EventDialog
 					dialog={{
 						title: "Result",
-						body: jobResult,
-						buttons: [{ label: "Continue", onClick: () => setJobResult(null) }],
+						body: <p>{jobResult}</p>,
+						buttons: [{ label: "Continue", onClick: () => setJobResult(null), disabled: false}],
 					}}
 					onClose={() => setJobResult(null)}
 				/>
