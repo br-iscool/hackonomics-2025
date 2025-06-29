@@ -1042,7 +1042,7 @@ export const gameEvents: GameEvent[] = [
   ),
 ];
 
-export const followUpEvents: Map<string, GameEvent> = new Map([
+export const eventsTable: Map<string, GameEvent> = new Map([
   ["Graduation", new TextEvent(
     (eventData : any) => (
       <>

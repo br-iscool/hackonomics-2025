@@ -21,6 +21,7 @@ if (state.money < 0 && state.creditScore >= MIN_CREDIT_SCORE_FOR_LOAN) {
 
   state.events.push(LoanEvent(emergencyLoan));
 }
+import { eventsTable } from "./events/data";
 
 export function gameLoop() {
   if (!state.alive) return;
@@ -34,6 +35,9 @@ export function gameLoop() {
 
     // Check if graduation
     if (state.education.yearsUntilGrad <= 0) {
+      const gradEvent = eventsTable.get("Graduation")
+      if (gradEvent) state.events.push(gradEvent);
+      
       state.expenses.education = 0;
       state.education.inSchooling = false;
       state.transcript.push(getGradMessage());
