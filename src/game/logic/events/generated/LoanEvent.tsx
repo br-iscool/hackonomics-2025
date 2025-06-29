@@ -21,16 +21,14 @@ export function LoanEvent(loan: LoanData) {
                     state.products.loans.push({ ...eventData });
                     state.money += eventData.principal;
 
-                    return (eventData: any) => `You have received $${eventData.principal.toLocaleString()} from the loan.`
+                    return `You have received $${eventData.principal.toLocaleString()} from the loan.`
                 },
             },
             {
                 label: "Cancel",
-                execute: () => {
-                    return (eventData: any) => "Loan cancelled.";
-                },
+                execute: () => "Loan cancelled.",
             },
         ],
-        () => loan // <- setVars() provides the eventData used in the dialog and choices
+        () => loan
     );
 }

@@ -1,18 +1,5 @@
 import { JSX } from "react";
 
-export interface Choice {
-  label: string;
-  condition?: ((eventData: any) => boolean | null) | null;
-  execute?: ((eventData: any) => void | string) | null;
-}
-
-export interface IEvent {
-  name: string;
-  body: (eventData: any) => JSX.Element;
-  choices: ReadonlyArray<Choice>;
-  eventData: any;
-}
-
 export interface FamilyMember {
   age: number;
   name: string;

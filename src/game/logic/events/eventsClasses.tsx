@@ -1,4 +1,3 @@
-import { IEvent } from "@/game/types";
 import { JSX } from "react";
 
 export interface GameChoice {
@@ -9,7 +8,7 @@ export interface GameChoice {
 
 export type GameEventType = "scheduled" | "random";
 
-export abstract class GameEvent implements IEvent {
+export abstract class GameEvent {
   name: string;
   type: GameEventType;
   body: (eventData: any) => JSX.Element;
@@ -76,19 +75,6 @@ export class ScheduledEvent extends GameEvent {
   }
 }
 
-export class TextEvent extends GameEvent {
-  constructor(body: (eventData : any) => JSX.Element) {
-    super("Result", "scheduled", body, () => true, [
-      {
-        label: "Okay",
-        condition: () => true,
-        execute: () => {},
-      },
-    ] as GameChoice[]);
-  }
-  execute(): void {}
-}
-
 export class RandomEvent extends GameEvent {
   weight: number | (() => number);
   onExecute: null | ((eventData: any) => void | JSX.Element);
@@ -132,4 +118,17 @@ export class NormalEvent extends GameEvent {
   }
   shouldTrigger(_age: number): boolean { return true; }
   execute(): void { }
+}
+
+export class TextEvent extends GameEvent {
+  constructor(body: (eventData : any) => JSX.Element) {
+    super("Result", "scheduled", body, () => true, [
+      {
+        label: "Okay",
+        condition: () => true,
+        execute: () => {},
+      },
+    ] as GameChoice[]);
+  }
+  execute(): void {}
 }
