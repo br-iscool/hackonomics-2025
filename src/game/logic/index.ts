@@ -1,8 +1,7 @@
 import { state } from "@/game/state";
 import { tickMortgage, tickLoan, tickSavings, tickDisease } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
-import { LoanEvent } from "@/game/logic/events/generated/LoanEvent";
-import { eventsTable } from "./events/data";
+import {LoanEvent, GradEvent} from "@/game/logic/events/generated"
 
 export function gameLoop() {
   if (!state.alive) return;
@@ -16,8 +15,7 @@ export function gameLoop() {
 
     // Check if graduation
     if (state.education.yearsUntilGrad <= 0) {
-      const gradEvent = eventsTable.get("Graduation")
-      if (gradEvent) state.events.push(gradEvent);
+      state.events.push(GradEvent());
       
       state.expenses.education = 0;
       state.education.inSchooling = false;
