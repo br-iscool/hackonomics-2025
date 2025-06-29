@@ -1,7 +1,8 @@
 import { state } from "@/game/state";
-import { GameEvent, ScheduledEvent, RandomEvent, TextEvent } from "./eventsClasses";
+import { GameEvent, ScheduledEvent, RandomEvent, TextEvent, NormalEvent } from "./eventsClasses";
 import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
 import { canPurchase } from "@/game/logic";
+import M from "@/components/m"
 
 export const gameEvents: GameEvent[] = [
   /* Obsolete due to job dialog system
@@ -55,7 +56,7 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>1. Enter university 📚</h3>
-            Attend {eventData.university}, with a tuition cost of ${eventData.uniTuition} annually
+            Attend {eventData.university}, with a tuition cost of <M>${eventData.uniTuition}</M> annually
           </li>
           <li>
             <h3>2. Enter a trade school 🔧</h3>
@@ -98,7 +99,7 @@ export const gameEvents: GameEvent[] = [
           state.expenses["education"] = eventData.uniTuition;
           return (
             <>
-              Congratulations! You are now studying to be an <b>${eventData.tradeProfession}</b> at ${eventData.tradeSchool}.
+              Congratulations! You are now studying to be an <M>${eventData.tradeProfession}</M> at ${eventData.tradeSchool}.
             </>
           );
         },
@@ -1043,15 +1044,25 @@ export const gameEvents: GameEvent[] = [
 ];
 
 export const eventsTable: Map<string, GameEvent> = new Map([
-  ["Graduation", new TextEvent(
+  ["Graduation", new NormalEvent(
+    "Graduation",
     (eventData : any) => (
       <>
       Congratulations! You have graduated {state.education.level}.
       /n Please check the <b>Jobs</b> tab to view new jobs.
       </>
-    )
+    ),
+    [
+      {
+        label: "Find new job",
+        execute : (eventData) => {
+          //opens job panel
+        }
+      }
+    ]
   )],
   ["Cured", new TextEvent(
+    "Cured",
     (eventData: any) => (
       <>
         You have been cured of {eventData.disease}!

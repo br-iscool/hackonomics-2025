@@ -121,8 +121,8 @@ export class NormalEvent extends GameEvent {
 }
 
 export class TextEvent extends GameEvent {
-  constructor(body: (eventData : any) => JSX.Element) {
-    super("Result", "scheduled", body, () => true, [
+  constructor(name : string, body: (eventData : any) => JSX.Element) {
+    super(name, "scheduled", body, () => true, [
       {
         label: "Okay",
         condition: () => true,
