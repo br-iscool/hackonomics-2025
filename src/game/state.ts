@@ -12,7 +12,7 @@ import {
   CarData,
 } from "./types";
 
-export const state = proxy({
+export const initialState = {
   alive: true,
   name: "Player",
   age: 16,
@@ -33,22 +33,16 @@ export const state = proxy({
   qualityOfLife: 0,
 
   products: {
-    creditCard: null as boolean | null, // CreditCard
-    loans: [] as LoanData[], // Loan[]
+    creditCard: null as boolean | null,
+    loans: [] as LoanData[],
     savings: null as SavingsAccData | null,
-    mortgage: null as MortgageData | null, // Mortgage
-    insurance: null as InsuranceData | null, // Insurance
-    investments: [] as any[], // Investment[]
+    mortgage: null as MortgageData | null,
+    insurance: null as InsuranceData | null,
+    investments: [] as any[],
   },
 
   income: 0,
   budget: 0,
-  get debt(): number {
-    return (
-      (this.products.mortgage?.balance || 0) +
-      this.products.loans.reduce((acc, l) => acc + l.balance, 0)
-    );
-  },
 
   expenses: {
     education: 0,
@@ -57,23 +51,35 @@ export const state = proxy({
     entertainment: 0,
     other: 0,
   } as Record<string, number>,
-  get totalExpenses() {
-    return Object.values(this.expenses).reduce((sum, val) => sum + val, 0);
-  },
 
   paymentHistory: 0,
   totalPayments: 0,
   onTimePayments: 0,
   yearsCredit: 0,
 
+  settings: {
+    autosave: true,
+  },
+};
+
+export const state = proxy({
+  ...initialState,
+
+  get debt(): number {
+    return (
+      (this.products.mortgage?.balance || 0) +
+      this.products.loans.reduce((acc, l) => acc + l.balance, 0)
+    );
+  },
+
+  get totalExpenses(): number {
+    return Object.values(this.expenses).reduce((sum, val) => sum + val, 0);
+  },
+
   get creditScore(): number {
     const paymentHistory = this.onTimePayments / (this.totalPayments || 1);
     const creditHistory = Math.max(this.yearsCredit / 10, 1);
     return (paymentHistory * 0.7 + creditHistory * 0.3) * 600 + 300;
-  },
-
-  settings: {
-    autosave: true,
   },
 
   get isBankrupt(): boolean {
@@ -91,8 +97,10 @@ export const state = proxy({
   },
 
   get hasChildren(): boolean {
-    return !!state.family.children?.length;
+    return !!this.family.children?.length;
   },
-
-
 });
+
+export function resetState() {
+  Object.assign(state, initialState);
+}

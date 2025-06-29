@@ -5,7 +5,7 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, A
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-import { resetGame } from "@/game/logic";
+import { resetState } from "@/game/state";
 
 export default function GameOverDialog() {
 	const snap = useSnapshot(state);
@@ -33,7 +33,7 @@ export default function GameOverDialog() {
 				</Card>
 
 				<AlertDialogFooter>
-					<Button onClick={resetGame}>Restart</Button>
+					<Button onClick={resetState}>Restart</Button>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

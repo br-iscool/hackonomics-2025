@@ -1,5 +1,7 @@
+import React from "react";
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
+
 import { TextEvent } from "@/game/logic/events/eventsClasses";
 
 import EventDialog from "./dialogs/EventDialog";
@@ -7,15 +9,16 @@ import EventDialog from "./dialogs/EventDialog";
 export default function EventManager() {
 	const snap = useSnapshot(state);
 	const current = snap.events[0];
-	console.log("Current Event:", current);
 
-	// nothing to show if dead or no events
+	if (!current) return null;
+	console.log("Current Event:", current, current.body(current.eventData));
+
 	if (!snap.alive || !current) return null;
 
 	// build the DialogEntry from the GameEvent
 	const dialog = {
 		title: current.name,
-		body: current.getFormattedBody(),
+		body: current.body(current.eventData),
 		buttons:
 			current.choices?.map((choice) => {
 				const disabled = choice.condition
@@ -32,8 +35,7 @@ export default function EventManager() {
 
 						state.events.shift();
 
-						if (typeof result === "string") state.events.unshift(new TextEvent(result));
-						else if (result) state.events.unshift(result);
+						if (result) state.events.unshift(new TextEvent(result));
 					},
 				};
 			}) || [],

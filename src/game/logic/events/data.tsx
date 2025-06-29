@@ -138,7 +138,6 @@ export const gameEvents: GameEvent[] = [
             active: true,
             name: eventData.bank,
             interestRate: eventData.rate / 100,
-            balance: 0,
             yearsElapsed: 0,
           };
           return `You are now the proud owner of a bank account with a rate of ${eventData.rate}% yearly.</b>`;
@@ -172,13 +171,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Get a credit card now?",
         execute: (eventData) => {
-          state.products.creditCard = {
-            active: true,
-            balance: 100, //placeholder, prob will remove this value later
-            interestRate: 1.05,
-            limit: 1000,
-            interestFreePeriod: 1, //idk
-          };
+          state.products.creditCard = true
           return `You now have a credit card! But be careful, with great power comes great responsibility...`;
         },
       },
