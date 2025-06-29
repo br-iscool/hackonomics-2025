@@ -644,7 +644,7 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => ({
-      product: chooseRandom(["cellphone", "car"]),
+      product: chooseRandom(["cellphone", "fridge"]),
       price: randomInterval(20, 80) * 100,
     }),
     true //repeats
@@ -974,7 +974,7 @@ export const gameEvents: GameEvent[] = [
     },
     (eventData) => (
       <>
-        Your poor health has put you into the hospital with an unexpected case of .
+        Your poor health has put you into the hospital!
         You pay <Color>${eventData.cost}</Color> for your stay.
       </>
     ),
