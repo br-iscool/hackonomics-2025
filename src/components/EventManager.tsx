@@ -6,12 +6,13 @@ import { TextEvent } from "@/game/logic/events/eventsClasses";
 
 import EventDialog from "./dialogs/EventDialog";
 
+
 export default function EventManager() {
 	const snap = useSnapshot(state);
 	const current = snap.events[0];
-
+	
 	useEffect(() => {
-		if (current && typeof current.execute === "function") { current.execute(); console.log("Event executed:", current.name); }
+		if (current && typeof current.execute === "function") current.execute()
 	}, [current]);
 
 	if (!state.alive || !current) return null;
