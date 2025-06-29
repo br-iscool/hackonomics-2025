@@ -74,6 +74,7 @@ export const gameEvents: GameEvent[] = [
             level: "Undergrad",
             yearsUntilGrad: 4,
           };
+          state.expenses["education"] = eventData.uniTuition;
           return `Congratulations! You are now an undergraduate studying at ${eventData.university}!`;
         },
       },
@@ -86,6 +87,7 @@ export const gameEvents: GameEvent[] = [
             level: "Vocational",
             yearsUntilGrad: 2,
           };
+          state.expenses["education"] = eventData.uniTuition;
           return `Congratulations! You are now studying to be an
           <b>${eventData.tradeProfession}</b> at ${eventData.tradeSchool}.`;
         },
@@ -94,6 +96,7 @@ export const gameEvents: GameEvent[] = [
         label: "Neither!",
         execute: (eventData) => {
           state.education.inSchooling = false;
+          state.expenses["education"] = eventData.uniTuition;
           return `Oh well, university isn't for everyone.
           There are plenty of ways to succeed without higher education!`;
         },
@@ -217,7 +220,7 @@ export const gameEvents: GameEvent[] = [
             type: "Cheap",
             name: eventData.cheapCar,
             value: eventData.cheapPrice,
-            reliability: "low"
+            reliability: "low",
           };
           state.money -= eventData.cheapPrice;
           return `Well- you're not here to buy a showpiece- and if it can be driven, you're sure you can work something out.
@@ -232,7 +235,7 @@ export const gameEvents: GameEvent[] = [
             type: "Average",
             name: eventData.averageCar,
             value: eventData.averagePrice,
-            reliability: "medium"
+            reliability: "medium",
           };
           state.money -= eventData.averagePrice;
           return `Well- you're not here to buy a showpiece- and this car will definitely get you the best mileage.
@@ -247,7 +250,7 @@ export const gameEvents: GameEvent[] = [
             type: "Luxury",
             name: eventData.luxuryCar,
             value: eventData.luxuryPrice,
-            reliability: "high"
+            reliability: "high",
           };
           state.money -= eventData.luxuryPrice;
           return `Bracing your wallet, you purchase the car your eyes have always been set on,
@@ -307,6 +310,7 @@ export const gameEvents: GameEvent[] = [
         label: "Room with others 👥",
         execute: (eventData) => {
           // gets an apartment
+          state.expenses["housing"] = eventData.cheapCost;
           return `Well- you're not looking for something luxurious to live in,
           and this will definitely suffice until you get yourself back up.
           \nCongratulations! You're now renting an apartment with roommates!`;
@@ -316,6 +320,7 @@ export const gameEvents: GameEvent[] = [
         label: "Live alone 🧑",
         execute: (eventData) => {
           // gets an apartment
+          state.expenses["housing"] = eventData.averageCost;
           return `Well- you've always been particular about living spaces, and
           living with other people is just not your style.
           \nCongratulations! You're now renting an apartment by yourself!`;
@@ -369,6 +374,7 @@ export const gameEvents: GameEvent[] = [
             yearsUntilGrad: 10,
             field: "Medicine",
           };
+          state.expenses["education"] = eventData.medCost;
           return `Congratulations on being accepted into med school! For the next 10 years, you will
           work towards becoming a doctor!`;
         },
@@ -383,6 +389,7 @@ export const gameEvents: GameEvent[] = [
             yearsUntilGrad: 4,
             field: "Law",
           };
+          state.expenses["education"] = eventData.lawCost;
           return `Congratulations on being accepted into law school! For the next 4 years, you will
           work towards becoming a lawyer!`;
         },
@@ -414,7 +421,7 @@ export const gameEvents: GameEvent[] = [
     Do you go ahead with the search?`,
     () =>
       state.age > 30 &&
-      !!state.family.children?.length &&
+      state.hasChildren &&
       state.creditScore > 680 &&
       state.income > 50000 &&
       !state.housing, //be married
@@ -444,7 +451,7 @@ export const gameEvents: GameEvent[] = [
     to your family in the case of an untimely death. If the 30 years expires, you get to collect <b>all of the money you paid, 
     and some extra.</b> This seems like an extremely lucrative deal, especially if you're looking for financial security. 
     Do you take it?`,
-    () => state.age > 30 && !!state.family.children?.length && !state.products.insurance, //check if family
+    () => state.age > 30 && state.hasChildren && !state.products.insurance, //check if family
     [
       {
         label: "Get insurance",
@@ -573,7 +580,7 @@ export const gameEvents: GameEvent[] = [
     `Uh oh! Looks like it's that time of the year again, and your child caught an unfortunate case 
     of the flu. It looks pretty serious, maybe it's time to get it checked out just to make sure it's okay.
     Do you pay a visit to the doctor?`,
-    () => !!state.family.children?.length, //if has kids
+    () => state.hasChildren, //if has kids
     [
       {
         label: "Go",
@@ -603,7 +610,7 @@ export const gameEvents: GameEvent[] = [
     `While on a walk, your child has been eyeing the {eventData.product} behind the shop window for a while now,
     but it looks pretty expensive. They ask you if you could purchase for them.
     Do you buy it for them?`,
-    () => !!state.family.children?.length, //if has kids
+    () => state.hasChildren, //if has kids
     [
       {
         label: "Yes",
@@ -636,7 +643,7 @@ export const gameEvents: GameEvent[] = [
     `At your workplace, you won the raffle for a trip to the Bahamas! It covers the airplane flight fees for
     all of your family, and your boss has agreed to give you leave for those days. However, going might mean missing out
     on some work days, and you would still have to pay for the other expenses. Do you go?`,
-    () => !!state.family.children?.length, //if has kids
+    () => state.hasChildren, //if has kids
     [
       {
         label: "Go",
@@ -780,11 +787,10 @@ export const gameEvents: GameEvent[] = [
     true //repeats
   ),
 
-
   // Punishments
   new ScheduledEvent(
     "Health Scare",
-    () => state.qualityOfLife < 40 && state.qualityOfLife > 20,  //and also make sure not ill currently
+    () => state.qualityOfLife < 40 && state.qualityOfLife > 20, //and also make sure not ill currently
     (eventData) => {
       state.money -= eventData.cost;
     },
@@ -798,9 +804,9 @@ export const gameEvents: GameEvent[] = [
     ],
     () => ({
       disease: chooseRandom(["influenza", "sinus infection", "hypertension"]),
-      cost: randomInterval(30, 50) * 100
+      cost: randomInterval(30, 50) * 100,
     }),
-    true, //repeats
+    true //repeats
   ),
   new ScheduledEvent(
     "Hospitalized",
@@ -819,13 +825,13 @@ export const gameEvents: GameEvent[] = [
     ],
     () => ({
       disease: chooseRandom(["pneumonia", "meningitis", "pancreatitis"]),
-      cost: randomInterval(50, 80) * 100
+      cost: randomInterval(50, 80) * 100,
     }),
-    true, //repeats
+    true //repeats
   ),
   new ScheduledEvent(
     "Mental Breakdown",
-    () => state.stress>90,  //and also make sure not ill currently
+    () => state.stress > 90, //and also make sure not ill currently
     (eventData) => {
       state.stress -= 30;
       state.money -= eventData.cost;
@@ -841,8 +847,8 @@ export const gameEvents: GameEvent[] = [
     ],
     () => ({
       disease: chooseRandom(["anxious breakdown", "psychotic episode", "panic attack"]),
-      cost: randomInterval(30, 50) * 100
+      cost: randomInterval(30, 50) * 100,
     }),
-    true, //repeats
+    true //repeats
   ),
 ];

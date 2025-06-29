@@ -1,10 +1,32 @@
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+	Tabs,
+	TabsList,
+	TabsTrigger,
+	TabsContent,
+} from "@/components/ui/tabs";
 
-import { FaWallet, FaDollarSign, FaMoneyBillWave, FaScaleBalanced, FaPiggyBank, FaCreditCard, FaChartLine, FaBuildingColumns } from "react-icons/fa6";
+import {
+	FaWallet,
+	FaDollarSign,
+	FaMoneyBillWave,
+	FaScaleBalanced,
+	FaPiggyBank,
+	FaCreditCard,
+	FaChartLine,
+	FaBuildingColumns,
+	FaReceipt,
+} from "react-icons/fa6";
 
 export default function FinanceDialog() {
 	const snap = useSnapshot(state);
@@ -20,36 +42,75 @@ export default function FinanceDialog() {
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
-						<FaWallet className="text-muted-foreground"/> Financial Overview
+						<FaWallet className="text-muted-foreground" /> Financial Overview
 					</DialogTitle>
 				</DialogHeader>
 
-				<div className="p-4 space-y-6">
-					{/* Overview */}
-					<Section title="Overview">
-						<InfoRow icon={<FaDollarSign />} label="Money" value={`$${snap.money.toLocaleString()}`} />
-					</Section>
+				<Tabs defaultValue="overview" className="mt-4">
+					<TabsList className="grid w-full grid-cols-5">
+						<TabsTrigger value="overview">Overview</TabsTrigger>
+						<TabsTrigger value="budget">Budget</TabsTrigger>
+						<TabsTrigger value="debt">Debt</TabsTrigger>
+						<TabsTrigger value="history">History</TabsTrigger>
+						<TabsTrigger value="expenses">Expenses</TabsTrigger>
+					</TabsList>
 
-					{/* Budgeting */}
-					<Section title="Budgeting">
-						<InfoRow icon={<FaMoneyBillWave />} label="Income" value={`$${snap.income.toLocaleString()}`} />
-						<InfoRow icon={<FaScaleBalanced />} label="Expenses" value={`$${snap.expenses.toLocaleString()}`} />
-						<InfoRow icon={<FaPiggyBank />} label="Budget" value={`$${snap.budget.toLocaleString()}`} />
-					</Section>
+					<TabsContent value="overview">
+						<div className="pt-4 space-y-4">
+							<Section title="Account">
+								<InfoRow icon={<FaDollarSign />} label="Money" value={`$${snap.money.toLocaleString()}`} />
+							</Section>
+						</div>
+					</TabsContent>
 
-					{/* Debt & Credit */}
-					<Section title="Debt & Credit">
-						<InfoRow icon={<FaCreditCard />} label="Debt" value={`$${snap.debt.toLocaleString()}`} />
-						<InfoRow icon={<FaBuildingColumns />} label="Credit Score" value={snap.creditScore} />
-						<InfoRow icon={<FaChartLine />} label="Years of Credit" value={snap.yearsCredit} />
-					</Section>
+					<TabsContent value="budget">
+						<div className="pt-4 space-y-4">
+							<Section title="Budgeting">
+								<InfoRow icon={<FaMoneyBillWave />} label="Income" value={`$${snap.income.toLocaleString()}`} />
+								<InfoRow icon={<FaPiggyBank />} label="Budget" value={`$${snap.budget.toLocaleString()}`} />
+							</Section>
+						</div>
+					</TabsContent>
 
-					{/* Payment history */}
-					<Section title="Payment History">
-						<InfoRow icon={<FaChartLine />} label="On-time Payments" value={snap.onTimePayments} />
-						<InfoRow icon={<FaChartLine />} label="Total Payments" value={snap.totalPayments} />
-					</Section>
-				</div>
+					<TabsContent value="debt">
+						<div className="pt-4 space-y-4">
+							<Section title="Debt & Credit">
+								<InfoRow icon={<FaCreditCard />} label="Debt" value={`$${snap.debt.toLocaleString()}`} />
+								<InfoRow icon={<FaBuildingColumns />} label="Credit Score" value={snap.creditScore} />
+								<InfoRow icon={<FaChartLine />} label="Years of Credit" value={snap.yearsCredit} />
+							</Section>
+						</div>
+					</TabsContent>
+
+					<TabsContent value="history">
+						<div className="pt-4 space-y-4">
+							<Section title="Payment History">
+								<InfoRow icon={<FaChartLine />} label="On-time Payments" value={snap.onTimePayments} />
+								<InfoRow icon={<FaChartLine />} label="Total Payments" value={snap.totalPayments} />
+							</Section>
+						</div>
+					</TabsContent>
+
+					<TabsContent value="expenses">
+						<div className="pt-4 space-y-4">
+							<Section title="Expenses Breakdown">
+								{Object.entries(snap.expenses).map(([category, amount]) => (
+									<InfoRow
+										key={category}
+										icon={<FaReceipt />}
+										label={capitalize(category)}
+										value={`$${amount.toLocaleString()}`}
+									/>
+								))}
+								<InfoRow
+									icon={<FaScaleBalanced />}
+									label="Total"
+									value={`$${state.totalExpenses.toLocaleString()}`}
+								/>
+							</Section>
+						</div>
+					</TabsContent>
+				</Tabs>
 			</DialogContent>
 		</Dialog>
 	);
@@ -72,4 +133,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 			<div className="space-y-2 pl-1">{children}</div>
 		</div>
 	);
+}
+
+function capitalize(s: string) {
+	return s.charAt(0).toUpperCase() + s.slice(1);
 }
