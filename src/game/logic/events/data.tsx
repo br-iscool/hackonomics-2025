@@ -3,7 +3,6 @@ import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
 import { chooseRandom, randomInterval } from "@/utils";
 import { canPurchase } from "@/game/logic";
 import Color from "@/components/ui/color"
-import {LoanEvent} from "./generated";
 
 export const gameEvents: GameEvent[] = [
   /* Obsolete due to job dialog system
@@ -925,7 +924,7 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => ({
-      raise: randomInterval(4, 5) * 1000,
+      raise: randomInterval(2, 3) * 1000,
     }),
     true //repeats
   ),
