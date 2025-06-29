@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export interface GameChoice {
   label: string;
   condition?: ((eventData : any) => boolean | null) | null;
@@ -9,7 +11,7 @@ export type GameEventType = "scheduled" | "random";
 export abstract class GameEvent {
   name: string;
   type: GameEventType;
-  body: string;
+  body: (eventData : any) => JSX.Element;
   condition: () => boolean;
   choices: ReadonlyArray<GameChoice>;
   repeatable? : boolean;
@@ -18,7 +20,7 @@ export abstract class GameEvent {
   constructor (
     name: string,
     type: GameEventType,
-    body: string,
+    body: (eventData : any) => JSX.Element,
     condition: () => boolean,
     choices: ReadonlyArray<GameChoice>,
     setVars?: () => void,
@@ -33,11 +35,6 @@ export abstract class GameEvent {
     this.repeatable = repeatable;
   }
 
-  getFormattedBody(): string {
-    return this.body.replace(/\{eventData\.(\w+)\}/g, (_, key) => {
-      return this.eventData?.[key] ?? `[missing ${key}]`;
-    });
-  }
   abstract shouldTrigger(age: number): boolean;
   abstract execute(): void;
 }
@@ -50,7 +47,7 @@ export class ScheduledEvent extends GameEvent {
     name: string,
     trigger: number | (() => boolean),
     onExecute: null | ((eventData : any) => void | string),
-    body: string,
+    body: (eventData : any) => JSX.Element,
     condition: () => boolean,
     choices: GameChoice[],
     setVars?: () => any,
@@ -87,7 +84,7 @@ export class RandomEvent extends GameEvent {
     name: string,
     weight: number | (() => number),
     onExecute: null | ((eventData : any) => void | string),
-    body: string,
+    body: (eventData : any) => JSX.Element,
     condition: () => boolean,
     choices: GameChoice[],
     setVars?: () => any,
