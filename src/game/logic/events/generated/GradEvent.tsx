@@ -1,16 +1,17 @@
-import { NormalEvent } from "@/game/logic/events/eventsClasses";
 import { state } from "@/game/state";
+import { IEvent } from "@/game/types";
 
-export function TextEvent() {
-    return new NormalEvent(
-        "Graduation",
-        (eventData: any) => (
+export function GradEvent(): IEvent {
+    return {
+        name: "Graduation",
+        body: (eventData: any) => (
             <>
                 Congratulations! You have graduated {state.education.level}.
                 /n Please check the <b>Jobs</b> tab to view new jobs.
             </>
         ),
-        [
+        eventData: {},
+        choices: [
             {
                 label: "Find new job",
                 execute: (eventData) => {
@@ -18,5 +19,5 @@ export function TextEvent() {
                 }
             }
         ]
-    );
+    }
 }

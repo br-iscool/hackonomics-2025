@@ -5,7 +5,7 @@ import { FaPiggyBank } from "react-icons/fa";
 
 export function SavingsCard({ data }: { data: SavingsAccData }) {
     return (
-        <Card className="col-span-1">
+        <Card className="col-span-2">
             <CardContent className="p-4">
                 <div className="flex items-center gap-2">
                     <FaPiggyBank /> <span className="font-semibold">{data.name}</span>

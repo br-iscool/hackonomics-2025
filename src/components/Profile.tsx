@@ -58,6 +58,11 @@ export default function Profile() {
 					</div>
 
 					<div className="flex justify-between">
+						<span>Expenses:</span>
+						<span>${state.totalExpenses.toFixed(2)}</span>
+					</div>
+
+					<div className="flex justify-between">
 						<span>Education:</span>
 						<span>{state.education?.level || "None"}</span>
 					</div>

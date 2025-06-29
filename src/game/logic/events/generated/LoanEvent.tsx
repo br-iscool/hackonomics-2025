@@ -1,11 +1,10 @@
-import { NormalEvent } from "@/game/logic/events/eventsClasses";
-import { LoanData } from "@/game/types";
+import { IEvent, LoanData } from "@/game/types";
 import { state } from "@/game/state";
 
-export function LoanEvent(loan: LoanData) {
-    return new NormalEvent(
-        "Confirm Loan",
-        (eventData: LoanData) => (
+export function LoanEvent(loan: LoanData): IEvent {
+    return {
+        name: "Confirm Loan",
+        body: (eventData: LoanData) => (
             <div>
                 <p>
                     Do you want to take out a loan of <strong>${eventData.principal.toLocaleString()}</strong>
@@ -14,7 +13,7 @@ export function LoanEvent(loan: LoanData) {
                 </p>
             </div>
         ),
-        [
+        choices: [
             {
                 label: "Confirm",
                 execute: (eventData: LoanData) => {
@@ -29,6 +28,6 @@ export function LoanEvent(loan: LoanData) {
                 execute: () => <p>"Loan cancelled."</p>,
             },
         ],
-        () => loan
-    );
+        eventData: () => loan
+    }
 }

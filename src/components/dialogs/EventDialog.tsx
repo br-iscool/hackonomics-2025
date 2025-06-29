@@ -1,23 +1,18 @@
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { ReactNode } from "react";
-
-interface DialogEntry {
-    title: string;
-    body: ReactNode;
-    buttons: { label: string; onClick: () => void, disabled: boolean }[];
-}
+import { IEvent } from "@/game/types";
+import { handleChoice } from "@/game/logic/events";
 
 interface EventProps {
-    dialog: DialogEntry;
+    event: IEvent;
     onClose: () => void;
 }
 
-export default function EventDialog({ dialog, onClose }: EventProps) {
+export default function EventDialog({ event, onClose }: EventProps) {
     return (
         <AlertDialog
             open={true}
-            onOpenChange={(open) => {
+            onOpenChange={(open: boolean) => {
                 if (!open) onClose();
             }}>
             <AlertDialogContent
@@ -25,19 +20,27 @@ export default function EventDialog({ dialog, onClose }: EventProps) {
                 onEscapeKeyDown={(e) => e.preventDefault()}
             >
                 <AlertDialogHeader>
-                    <AlertDialogTitle>{dialog.title}</AlertDialogTitle>
-                    <AlertDialogDescription  asChild >
-                        <div>{dialog.body}</div>
+                    <AlertDialogTitle>{event.name}</AlertDialogTitle>
+                    <AlertDialogDescription asChild>
+                        <div>{event.body(event.eventData)}</div>
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex justify-center gap-4 pt-4">
-                    {dialog.buttons.map((btn, i) => (
-                        <Button key={i} onClick={btn.onClick} disabled={btn.disabled} variant={btn.disabled ? "outline" : "default"}>
-                            {btn.label}
-                        </Button>
-                    ))}
+                    {event.choices.map((choice, i) => {
+                        const isDisabled = choice.condition ? !choice.condition(event.eventData) : false;
+                        return (
+                            <Button
+                                key={i}
+                                onClick={() => handleChoice(choice, event.eventData)}
+                                disabled={isDisabled}
+                                variant={isDisabled ? "outline" : "default"}
+                            >
+                                {choice.label}
+                            </Button>
+                        );
+                    })}
                 </AlertDialogFooter>
             </AlertDialogContent>
-        </AlertDialog >
+        </AlertDialog>
     );
 }

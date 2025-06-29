@@ -1,19 +1,14 @@
 import { JSX } from "react";
-
-export interface GameChoice {
-  label: string;
-  condition?: ((eventData: any) => boolean | null) | null;
-  execute?: ((eventData: any) => void | JSX.Element) | null;
-}
+import { IEvent, Choice } from "@/game/types";
 
 export type GameEventType = "scheduled" | "random";
 
-export abstract class GameEvent {
+export abstract class GameEvent implements IEvent {
   name: string;
   type: GameEventType;
   body: (eventData: any) => JSX.Element;
   condition: () => boolean;
-  choices: ReadonlyArray<GameChoice>;
+  choices: ReadonlyArray<Choice>;
   repeatable?: boolean;
   eventData: any = {};
 
@@ -22,7 +17,7 @@ export abstract class GameEvent {
     type: GameEventType,
     body: (eventData: any) => JSX.Element,
     condition: () => boolean,
-    choices: ReadonlyArray<GameChoice>,
+    choices: ReadonlyArray<Choice>,
     setVars?: () => void,
     repeatable?: boolean
   ) {
@@ -48,7 +43,7 @@ export class ScheduledEvent extends GameEvent {
     onExecute: null | ((eventData: any) => void | JSX.Element),
     body: (eventData : any) => JSX.Element,
     condition: () => boolean,
-    choices: GameChoice[],
+    choices: Choice[],
     setVars?: () => any,
     repeatable?: boolean
   ) {
@@ -85,7 +80,7 @@ export class RandomEvent extends GameEvent {
     onExecute: null | ((eventData : any) => void | JSX.Element),
     body: (eventData : any) => JSX.Element,
     condition: () => boolean,
-    choices: GameChoice[],
+    choices: Choice[],
     setVars?: () => any,
     repeatable?: boolean
   ) {
@@ -105,30 +100,4 @@ export class RandomEvent extends GameEvent {
       if (this.onExecute) this.onExecute(this.eventData);
     }
   }
-}
-
-export class NormalEvent extends GameEvent {
-  constructor(
-    name: string,
-    body: (eventData: any) => JSX.Element,
-    choices: GameChoice[],
-    setVars?: () => any,
-  ) {
-    super(name, "scheduled", body, () => true, choices, setVars, false);
-  }
-  shouldTrigger(_age: number): boolean { return true; }
-  execute(): void { }
-}
-
-export class TextEvent extends GameEvent {
-  constructor(name : string, body: (eventData : any) => JSX.Element) {
-    super(name, "scheduled", body, () => true, [
-      {
-        label: "Okay",
-        condition: () => true,
-        execute: () => {},
-      },
-    ] as GameChoice[]);
-  }
-  execute(): void {}
 }
