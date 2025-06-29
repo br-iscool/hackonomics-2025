@@ -1,7 +1,8 @@
 import { NormalEvent } from "@/game/logic/events/eventsClasses";
 import { state } from "@/game/state";
+import { uistate } from "@/state";
 
-export function TextEvent() {
+export function GradEvent() {
     return new NormalEvent(
         "Graduation",
         (eventData: any) => (
@@ -14,7 +15,7 @@ export function TextEvent() {
             {
                 label: "Find new job",
                 execute: (eventData) => {
-                    //opens job panel
+                    uistate.showJobSearch = true;
                 }
             }
         ]

@@ -1,7 +1,7 @@
 import { state } from "@/game/state";
-import { tickMortgage, tickLoan, tickSavings, tickDisease } from "@/game/logic/products";
+import { tickLoan, tickSavings, tickDisease } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
-import {LoanEvent, GradEvent} from "@/game/logic/events/generated"
+import {GradEvent} from "@/game/logic/events/generated"
 
 export function gameLoop() {
   if (!state.alive) return;
@@ -28,7 +28,6 @@ export function gameLoop() {
   // TODO: add on time payment incrementer
 
   // Update products
-  if (state.products.mortgage) tickMortgage(state.products.mortgage);
   state.products.loans.forEach(tickLoan);
   if (state.products.savings) tickSavings(state.products.savings);
 
@@ -45,24 +44,6 @@ export function gameLoop() {
 
   // Trigger events
   handleEvents(state.age);
-
-  if (state.money < 0 ) { 
-  const loanAmount = Math.abs(state.money);
-
-  const emergencyLoan = {
-    id: `emergency-${Date.now()}`,
-    name: "Emergency Loan",
-    principal: loanAmount,
-    balance: loanAmount,
-    interestRate: 0.1,
-    termYears: 5,
-    yearsElapsed: 0,
-    active: true,
-  };
-  state.money += loanAmount
-
-  state.events.push(LoanEvent(emergencyLoan));
-}
 
   if (state.isBankrupt) {
     state.alive = false;

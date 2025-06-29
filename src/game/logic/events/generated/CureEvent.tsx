@@ -1,6 +1,6 @@
 import { TextEvent } from "@/game/logic/events/eventsClasses";
 
-export function GradEvent() {
+export function CureEvent() {
     return new TextEvent(
         "Cured",
         (eventData: any) => (

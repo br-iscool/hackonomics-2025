@@ -1,5 +1,3 @@
-import { JSX } from "react";
-
 export interface FamilyMember {
   age: number;
   name: string;
@@ -45,6 +43,7 @@ export interface LoanData {
   principal: number; // original amt loaned
   balance: number; // current loan amount
   interestRate: number; // annual interest rate
+  downPayment: number; // initial down payment amount
   termYears: number; // loan duration
   yearsElapsed: number;
 }
@@ -54,28 +53,6 @@ export interface SavingsAccData {
   name: string;
   interestRate: number;
   yearsElapsed?: number;
-}
-
-export interface MortgageData {
-  id: string;
-  name: string;
-  balance: number; // current mortgage balance
-  interestRate: number; // annual interest rate
-  termYears: number; // mortgage duration in years
-  annualPayment: number;
-  downPayment: number; // initial down payment amount
-  yearsElapsed: number; // years since mortgage started
-  active: boolean; // whether the mortgage is still active
-}
-
-export interface InsuranceData {
-  active: boolean;
-  id: string;
-  name: string;
-  coverageAmount: number; // Amount paid out on claim
-  premium: number; // Annual premium payment
-  yearsElapsed: number; // Years since policy started
-  termYears?: number; // Optional fixed term length
 }
 
 export interface CarData {
