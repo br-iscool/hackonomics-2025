@@ -1,3 +1,5 @@
+import { Card, CardContent, CardTitle } from "./ui/card";
+
 interface Transcripts {
 	messages: string[];
 }
@@ -10,11 +12,14 @@ export default function Transcripts({ messages }: Transcripts) {
 
 	return (
 		<>
-			<div className="p-5 h-125 w-100 bg-gray-600 rounded-xl">
-				{messages.map((msg, i) => (
-					<Message key={i} text={msg} />
-				))}
-			</div>
+			<Card className="h-full w-full bg-white">
+				<CardTitle className="text-center text-2xl font-bold">Transcripts</CardTitle>
+				<CardContent className="flex flex-col items-center gap-2 p-4 overflow-y-auto">
+					{messages.map((msg, i) => (
+						<Message key={i} text={msg} />
+					))}
+				</CardContent>
+			</Card>
 		</>
 	);
 }

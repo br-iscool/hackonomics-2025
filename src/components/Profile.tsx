@@ -1,33 +1,40 @@
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
+
 import Image from "next/image";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 export default function Profile() {
 	const snap = useSnapshot(state);
 
 	const stressPercent = Math.min(Math.max(snap.stress, 0), 100);
-	const stressColor = snap.stress < 40 ? "bg-green-500" : snap.stress < 70 ? "bg-yellow-500" : "bg-red-500";
+	const stressColor =
+		snap.stress < 40 ? "bg-green-500" : snap.stress < 70 ? "bg-yellow-500" : "bg-red-500";
 
 	return (
-		<div className="w-full max-w-2xl bg-gray-900/75 text-white rounded-2xl shadow-xl p-6 flex gap-6 items-start">
-			<Image
-				src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
-				alt="Profile picture"
-				width={64}
-				height={64}
-				className="rounded-full object-cover border border-white/20"
-			/>
+		<Card className="w-full max-w-2xl p-6 flex flex-row gap-6 items-start bg-white border border-white/10">
 
-			<div className="flex-1 grid grid-cols-2 gap-4">
+			<CardTitle className="text-2xl font-bold">
+				<Image
+					src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
+					alt="Profile picture"
+					width={64}
+					height={64}
+					className="rounded-full object-cover border border-white/20"
+				/>
+				Profile
+			</CardTitle>
+
+			<CardContent className="flex-1 grid grid-cols-2 gap-4">
 				{/* Left Column */}
 				<div className="space-y-1">
 					<p className="text-xl font-semibold">{snap.name}</p>
-					<p className="text-sm text-gray-400">{snap.job?.role || "Unemployed"}</p>
-					<p className="text-sm text-gray-300">Age: {snap.age}</p>
+					<p className="text-sm">{snap.job?.role || "Unemployed"}</p>
+					<p className="text-sm">Age: {snap.age}</p>
 
 					<div className="mt-4">
-						<p className="text-sm mb-1 text-white/80">Stress</p>
+						<p className="text-sm mb-1">Stress</p>
 						<div className="relative">
 							<Progress value={stressPercent} className="h-4 bg-gray-700" />
 							<div
@@ -41,7 +48,7 @@ export default function Profile() {
 				{/* Right Column */}
 				<div className="space-y-2 text-sm">
 					<div className="flex justify-between">
-						<span className="text-white/80">Money:</span>
+						<span >Money:</span>
 						<span className="font-semibold text-green-400">
 							${snap.money.toFixed(2)}
 						</span>
@@ -67,7 +74,7 @@ export default function Profile() {
 						<span>{Math.round(state.creditScore)}</span>
 					</div>
 				</div>
-			</div>
-		</div>
+			</CardContent>
+		</Card >
 	);
 }
