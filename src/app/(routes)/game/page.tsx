@@ -17,18 +17,19 @@ export default function Game() {
             {snap.alive && snap.event && <EventManager event={snap.event} />}
 
             <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen">
-                <div className="min-h-screen">
+                <div className="min-h-screen flex flex-col">
                     <div className="p-5 flex items-center gap-8">
                         <Profile />
                     </div>
 
-                    <div className="flex-1 p-5">
-                        <Products />
-                    </div>
-
-                    <div className="flex">
-                        <div className="flex flex-1 justify-end items-start p-8">
-                            <Transcripts messages={state.transcript} />
+                    <div className="flex-1 overflow-hidden">
+                        <div className="h-full flex">
+                            <div className="flex-1 p-5 overflow-y-auto">
+                                <Products />
+                            </div>
+                            <div className="flex flex-1 justify-end items-start p-5 overflow-y-auto">
+                                <Transcripts messages={state.transcript} />
+                            </div>
                         </div>
                     </div>
 
