@@ -16,35 +16,6 @@ export default function EventManager() {
 
 	if (!state.alive || !current) return null;
 
-	// build the DialogEntry from the GameEvent
-	const dialog = {
-		title: current.name,
-		body: current.body(current.eventData),
-		buttons: (current.choices?.map((choice) => {
-			const disabled = choice.condition
-				? !choice.condition(current.eventData)
-				: false;
-
-			return {
-				label: choice.label,
-				disabled,
-				onClick: () => {
-					if (disabled) return;
-
-					const outcome = choice.execute?.(current.eventData);
-
-					state.events.shift();
-
-					if (isValidElement(outcome)) {
-						state.events.unshift(
-							new TextEvent("Result", () => outcome)
-						);
-					}
-				},
-			};
-		}) ?? []),
-	};
-
 	return (
 		<EventDialog
 			key={current.name}
