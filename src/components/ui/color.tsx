@@ -4,7 +4,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function M({ children }: Props) {
+export default function Color({ children }: Props) {
   return (
     <span style={{ color: "var(--success)" }}>
       <b>{children}</b>

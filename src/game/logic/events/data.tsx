@@ -1,8 +1,8 @@
 import { state } from "@/game/state";
 import { GameEvent, ScheduledEvent, RandomEvent, TextEvent, NormalEvent } from "./eventsClasses";
-import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
+import { chooseRandom, randomInterval } from "@/utils";
 import { canPurchase } from "@/game/logic";
-import M from "@/components/m"
+import Color from "@/components/ui/color"
 
 export const gameEvents: GameEvent[] = [
   /* Obsolete due to job dialog system
@@ -56,11 +56,11 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>1. Enter university 📚</h3>
-            Attend {eventData.university}, with a tuition cost of <M>${eventData.uniTuition}</M> annually
+            Attend {eventData.university}, with a tuition cost of <span className="text-green-500">${eventData.uniTuition}</span> annually
           </li>
           <li>
             <h3>2. Enter a trade school 🔧</h3>
-            Attend {eventData.tradeSchool}, with a tuition cost of <M>${eventData.tradeTuition}</M> annually
+            Attend {eventData.tradeSchool}, with a tuition cost of <Color>${eventData.tradeTuition}</Color> annually
           </li>
           <li>
             <h3>3. Don't attend higher education 🤷‍♂️</h3>
@@ -99,7 +99,7 @@ export const gameEvents: GameEvent[] = [
           state.expenses["education"] = eventData.uniTuition;
           return (
             <>
-              Congratulations! You are now studying to be an {eventData.tradeProfession} at {eventData.tradeSchool}.
+              Congratulations! You are now studying to be an <Color>{eventData.tradeProfession}</Color> at {eventData.tradeSchool}.
             </>
           );
         },
@@ -218,13 +218,13 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>Buy a cheap, used car 🚐</h3>
-            Buy a {eventData.cheapCar}, with a markup cost of <M>${eventData.cheapPrice}</M>.
+            Buy a {eventData.cheapCar}, with a markup cost of <Color>${eventData.cheapPrice}</Color>.
             However, because it's so cheap, you may <b>frequently have to spend money on repairs</b> and it
             definitely <b>doesn't seem like it'll last very long</b>...
           </li>
           <li>
             <h3>Buy an average car 🚗</h3>
-            Buy a {eventData.averageCar}, with a markup cost of <M>${eventData.averagePrice}</M>.
+            Buy a {eventData.averageCar}, with a markup cost of <Color>${eventData.averagePrice}</Color>.
             It's not the prettiest car, but it looks reliable, durable, and sturdy enough to drive you around.
           </li>
           <li>
@@ -612,7 +612,7 @@ export const gameEvents: GameEvent[] = [
     null,
     (eventData) => (
       <>
-        Uh oh! Your {eventData.product} just broke down, and it'll cost {eventData.price} to repair it.
+        Uh oh! Your {eventData.product} just broke down, and it'll cost ${eventData.price} to repair it.
         Not paying for repairs now may have consequences for your quality of life. What do you do?
       </>
     ),
