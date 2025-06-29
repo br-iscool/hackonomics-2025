@@ -5,9 +5,7 @@ import {
   Housing,
   FamilyStatus,
   SavingsAccData,
-  LoanData,
-  MortgageData,
-  InsuranceData,
+  LoanData, 
   CarData,
   DiseaseData,
   IEvent
