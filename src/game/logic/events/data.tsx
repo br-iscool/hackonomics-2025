@@ -139,7 +139,7 @@ export const gameEvents: GameEvent[] = [
             interestRate: eventData.rate / 100,
             yearsElapsed: 0,
           };
-          return `You are now the proud owner of a bank account with a rate of ${eventData.rate}% yearly.</b>`;
+          return `You are now the proud owner of a bank account with a rate of ${eventData.rate}% yearly.`;
         },
       },
       {
@@ -197,18 +197,18 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>Buy a cheap, used car 🚐</h3>
-            Buy a {eventData.cheapCar}, with a markup cost of \${eventData.cheapPrice}.
+            Buy a {eventData.cheapCar}, with a markup cost of ${eventData.cheapPrice}.
             However, because it's so cheap, you may <b>frequently have to spend money on repairs</b> and it
             definitely <b>doesn't seem like it'll last very long</b>...
           </li>
           <li>
             <h3>Buy an average car 🚗</h3>
-            Buy a {eventData.averageCar}, with a markup cost of \${eventData.averagePrice}.
+            Buy a {eventData.averageCar}, with a markup cost of ${eventData.averagePrice}.
             It's not the prettiest car, but it looks reliable, durable, and sturdy enough to drive you around.
           </li>
           <li>
             <h3>Buy a luxury car 🏎️</h3>
-            Buy a {eventData.luxuryCar}, with a markup cost of \${eventData.luxuryPrice}.
+            Buy a {eventData.luxuryCar}, with a markup cost of ${eventData.luxuryPrice}.
             For it's hefty price, it's quality is definitely something to dream of.
           </li>
           <li>
@@ -303,12 +303,12 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>1. Room with strangers 🤔</h3>
-            For \${eventData.cheapCost} a month, The room looks... kinda dingy to be honest. And it definitely can fit 3 other roommates, but it won't be
+            For ${eventData.cheapCost} a month, The room looks... kinda dingy to be honest. And it definitely can fit 3 other roommates, but it won't be
             comfortable for sure. But, you get what you get for the price, right?
           </li>
           <li>
             <h3>2. Live by yourself 🤞🏼</h3>
-            For \${eventData.averageCost} a month, this apartment complex has a lot more amenities, and you won't be sharing. But it costs a bit more.
+            For ${eventData.averageCost} a month, this apartment complex has a lot more amenities, and you won't be sharing. But it costs a bit more.
             Is the added comfort worth the cost?
           </li>
         </ol>
@@ -321,7 +321,7 @@ export const gameEvents: GameEvent[] = [
         label: "Room with others 👥",
         execute: (eventData) => {
           // gets an apartment
-          state.expenses["housing"] = eventData.cheapCost;
+          state.expenses["housing"] = (eventData.cheapCost * 12);
           return `Well- you're not looking for something luxurious to live in,
           and this will definitely suffice until you get yourself back up.
           \nCongratulations! You're now renting an apartment with roommates!`;
@@ -331,7 +331,7 @@ export const gameEvents: GameEvent[] = [
         label: "Live alone 🧑",
         execute: (eventData) => {
           // gets an apartment
-          state.expenses["housing"] = eventData.averageCost;
+          state.expenses["housing"] = (eventData.averageCost * 12);
           return `Well- you've always been particular about living spaces, and
           living with other people is just not your style.
           \nCongratulations! You're now renting an apartment by yourself!`;
@@ -352,20 +352,20 @@ export const gameEvents: GameEvent[] = [
       state.education.inSchooling = false;
     },
     (eventData) => (
-      <>
+      <div>
         Now that you've finished with undergraduate schooling, it's time to decide a career path!
         <br />
         <br />
         <ol>
           <li>
             <h3>1. Apply for med school 🩺</h3>
-            For a hefty annual tuition of \${eventData.medCost} for 10 years, you will be able
+            For a hefty annual tuition of ${eventData.medCost} for 10 years, you will be able
             to become a doctor. This guarantees high pay, but potentially high stress and lots of school fees.
             Is this something you can handle?
           </li>
           <li>
             <h3>2. Apply for law school ⚖️</h3>
-            For the hefty annual tuition of \${eventData.lawCost} for 4 years, you will be able
+            For the hefty annual tuition of ${eventData.lawCost} for 4 years, you will be able
             to become a lawyer. This guarantees high pay, but potentially high stress and lots of school fees.
             Is this something you can handle?
           </li>
@@ -375,9 +375,9 @@ export const gameEvents: GameEvent[] = [
             you'll be able to avoid paying years of costly tuition.
           </li>
         </ol>
-      </>
+      </div>
     ),
-    () => state.education.level === "Grad" && state.education.yearsUntilGrad === 4,
+    () => state.education.level === "Undergrad" && state.education.yearsUntilGrad === 0,
     [
       {
         label: "Med School",
@@ -467,7 +467,7 @@ export const gameEvents: GameEvent[] = [
       <>
         `You hear knocking at the door and are approached by an insurance salesman.
         He says that purchasing a <b>Term Life Insurance Plan</b> will give you financial security. If you purchase
-        now, you will pay annual premiums amounting to \${eventData.premium} for the next 30 years, and a payment will be given
+        now, you will pay annual premiums amounting to ${eventData.premium} for the next 30 years, and a payment will be given
         to your family in the case of an untimely death. If the 30 years expires, you get to collect <b>all of the money you paid,
           and some extra.</b> This seems like an extremely lucrative deal, especially if you're looking for financial security.
         Do you take it?
@@ -509,7 +509,7 @@ export const gameEvents: GameEvent[] = [
         Your friends have been telling you about the latest model of {eventData.product},
         a product which is all the rage. It's starting to get to you too, but you know it's too
         expensive for you. However, you just saw an advert online for a limited deal for 50% off
-        for \${eventData.price}. This might be your only chance. Do you buy it?
+        for ${eventData.price}. This might be your only chance. Do you buy it?
       </>
     ),
     () => true, //always
@@ -802,7 +802,7 @@ export const gameEvents: GameEvent[] = [
     (eventData) => (
       <>
         Seeing the good work you've done for the company, your boss rewards you with a raise of
-        \${eventData.raise}. He then pats you on the back and tells you to keep up your efforts.
+        ${eventData.raise}. He then pats you on the back and tells you to keep up your efforts.
       </>
     ),
     () => state.job != null, //has a job
@@ -828,7 +828,7 @@ export const gameEvents: GameEvent[] = [
       <>
         Oh no! You've developed a serious case of {eventData.illness}, and needed to be hospitalized for the
         next few weeks. Your doctor says that the symptoms are not persistent, but you may require
-        to undergo special treatment in order to fully cure of it. However, it will cost you \${eventData.cost}.
+        to undergo special treatment in order to fully cure of it. However, it will cost you ${eventData.cost}.
         Do you take it?
       </>
     ),
@@ -863,7 +863,7 @@ export const gameEvents: GameEvent[] = [
     (eventData) => (
       <>
         Your poor health has put you into the hospital with an unexpected case of .
-        You pay \${eventData.cost} for your stay.
+        You pay ${eventData.cost} for your stay.
       </>
     ),
     () => true, //always
