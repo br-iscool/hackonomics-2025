@@ -26,8 +26,6 @@ export default function Game() {
                         <Products />
                     </div>
 
-
-
                     <div className="fixed bottom-10 left-5 flex gap-4">
                         <EducationDialog education={snap.education} />
                         <JobDialog job={snap.job} />
