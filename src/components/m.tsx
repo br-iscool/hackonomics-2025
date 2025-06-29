@@ -6,8 +6,8 @@ type Props = {
 
 export default function M({ children }: Props) {
   return (
-    <p style={{ color: "var(--success)" }}>
+    <span style={{ color: "var(--success)" }}>
       <b>{children}</b>
-    </p>
+    </span>
   );
 }

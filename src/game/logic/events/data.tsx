@@ -60,7 +60,7 @@ export const gameEvents: GameEvent[] = [
           </li>
           <li>
             <h3>2. Enter a trade school 🔧</h3>
-            Attend {eventData.tradeSchool}, with a tuition cost of ${eventData.tradeTuition} annually
+            Attend {eventData.tradeSchool}, with a tuition cost of <M>${eventData.tradeTuition}</M> annually
           </li>
           <li>
             <h3>3. Don't attend higher education 🤷‍♂️</h3>
@@ -99,7 +99,7 @@ export const gameEvents: GameEvent[] = [
           state.expenses["education"] = eventData.uniTuition;
           return (
             <>
-              Congratulations! You are now studying to be an <M>${eventData.tradeProfession}</M> at ${eventData.tradeSchool}.
+              Congratulations! You are now studying to be an {eventData.tradeProfession} at {eventData.tradeSchool}.
             </>
           );
         },
@@ -154,7 +154,7 @@ export const gameEvents: GameEvent[] = [
           };
           return (
             <div>
-              You are now the proud owner of a bank account with a rate of ${eventData.rate}% yearly.
+              You are now the proud owner of a bank account with a rate of {eventData.rate}% yearly.
             </div>
           );
         },
@@ -218,13 +218,13 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>Buy a cheap, used car 🚐</h3>
-            Buy a {eventData.cheapCar}, with a markup cost of ${eventData.cheapPrice}.
+            Buy a {eventData.cheapCar}, with a markup cost of <M>${eventData.cheapPrice}</M>.
             However, because it's so cheap, you may <b>frequently have to spend money on repairs</b> and it
             definitely <b>doesn't seem like it'll last very long</b>...
           </li>
           <li>
             <h3>Buy an average car 🚗</h3>
-            Buy a {eventData.averageCar}, with a markup cost of ${eventData.averagePrice}.
+            Buy a {eventData.averageCar}, with a markup cost of <M>${eventData.averagePrice}</M>.
             It's not the prettiest car, but it looks reliable, durable, and sturdy enough to drive you around.
           </li>
           <li>
