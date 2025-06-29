@@ -84,3 +84,10 @@ export interface InsuranceData {
   yearsElapsed: number; // Years since policy started
   termYears?: number; // Optional fixed term length
 }
+
+export interface CarData {
+  type: "Cheap" | "Average" | "Luxury";
+  name: string;
+  value: number;
+  reliability: "low" | "medium" | "high";
+}
