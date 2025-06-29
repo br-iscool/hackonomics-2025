@@ -5,7 +5,7 @@ import { FaCreditCard } from "react-icons/fa";
 
 export function CreditCard({ data }: { data: CreditCardData }) {
 	return (
-		<Card className="w-64">
+		<Card className="col-span-1">
 			<CardContent className="p-4">
 				<div className="flex items-center gap-2">
 					<FaCreditCard /> <span className="font-semibold">Credit Card</span>
