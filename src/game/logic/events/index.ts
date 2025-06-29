@@ -21,6 +21,7 @@ export function handleEvents(currentAge: number) {
     if (
       isScheduledEvent(event) &&
       event.trigger === currentAge &&
+      event.condition() &&
       !state.triggeredEvents.has(event.name)
     ) {
       state.events.push(event);

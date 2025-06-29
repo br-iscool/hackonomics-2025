@@ -315,7 +315,7 @@ export const gameEvents: GameEvent[] = [
         </ol>
       </ >
     ),
-    () => state.age > 21, //check if has car
+    () => state.age > 21 && state.housing.type === "Parents",
     //you dont have money -- apply for a loan.
     [
       {
@@ -931,3 +931,7 @@ export const gameEvents: GameEvent[] = [
     true //repeats
   ),
 ];
+
+export const followUpEvents: Map<string, GameEvent> = new Map([
+  ["hi", new RandomEvent()]
+])
