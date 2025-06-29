@@ -1,5 +1,5 @@
 import { state } from "@/game/state";
-import { MortgageData, LoanData, CreditCardData, SavingsAccData } from "@/game/types";
+import { MortgageData, LoanData, SavingsAccData } from "@/game/types";
 
 export function tickMortgage(data: MortgageData) {
   if (!data.active) return;
@@ -33,43 +33,10 @@ export function tickLoan(data: LoanData) {
   }
 }
 
-export function tickCreditCard(data: CreditCardData) {
-  if (!data.active) return;
-
-  if (data.interestFreePeriod > 0) {
-    data.interestFreePeriod -= 1;
-    return;
-  }
-
-  const interest = data.balance * data.interestRate;
-  data.balance += interest;
-
-  const minPayment = Math.min(data.balance, data.balance * 0.05);
-
-  if (state.money >= minPayment) {
-    state.money -= minPayment;
-    data.balance -= minPayment;
-  }
-}
-
 export function tickSavings(data: SavingsAccData) {
   if (!data.active) return;
 
-  const interest = data.balance * data.interestRate;
-  data.balance += interest;
+  const interest = state.money * data.interestRate;
+  state.money += interest;
   data.yearsElapsed = (data.yearsElapsed ?? 0) + 1;
-}
-
-export function depositToSavings(data: SavingsAccData, amount: number) {
-  if (state.money >= amount) {
-    state.money -= amount;
-    data.balance += amount;
-  }
-}
-
-export function withdrawFromSavings(data: SavingsAccData, amount: number) {
-  if (data.balance >= amount) {
-    data.balance -= amount;
-    state.money += amount;
-  }
 }

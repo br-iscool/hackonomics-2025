@@ -36,14 +36,6 @@ export interface Housing {
   rent? : number;
 }
 
-export interface CreditCardData {
-  active: boolean;
-  balance: number;
-  interestRate: number;
-  limit: number;
-  interestFreePeriod: number;
-}
-
 export interface LoanData {
   active: boolean;
   id: string;
@@ -59,7 +51,6 @@ export interface SavingsAccData {
   active: boolean;
   name: string;
   interestRate: number;
-  balance: number;
   yearsElapsed?: number;
 }
 
