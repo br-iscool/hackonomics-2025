@@ -21,12 +21,12 @@ export function LoanEvent(loan: LoanData) {
                     state.products.loans.push({ ...eventData });
                     state.money += eventData.principal;
 
-                    return `You have received $${eventData.principal.toLocaleString()} from the loan.`
+                    return <p>`You have received $${eventData.principal.toLocaleString()} from the loan.`</p>
                 },
             },
             {
                 label: "Cancel",
-                execute: () => "Loan cancelled.",
+                execute: () => <p>"Loan cancelled."</p>,
             },
         ],
         () => loan
