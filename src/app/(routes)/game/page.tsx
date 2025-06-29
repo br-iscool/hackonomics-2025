@@ -1,13 +1,15 @@
 "use client";
 
+import { uistate } from "@/state"
 import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
 
-import { AgeUp, Profile, Transcripts, EducationDialog, JobDialog, FinanceDialog, Products, GameOverDialog, EventManager, WelcomeDialog } from "@/components/exports";
+import { AgeUp, Profile, Transcripts, EducationDialog, JobDialog, FinanceDialog, Products, GameOverDialog, EventManager, WelcomeDialog, JobSearchDialog } from "@/components/exports";
 import { Notifier } from "@/components/Notifier";
 
 export default function Game() {
     const snap = useSnapshot(state);
+    const uisnap = useSnapshot(uistate);
 
     return (
         <>
@@ -15,6 +17,9 @@ export default function Game() {
             <WelcomeDialog />
             <GameOverDialog />
             <EventManager />
+            <JobSearchDialog open={uisnap.showJobSearch}
+                onOpenChange={(val) => (uistate.showJobSearch = val)}
+                onJobSelected={(message) => {uistate.jobResult = message;}} />
 
             <div className="bg-gray-200 min-h-screen flex flex-col md:flex-row">
                 <div className="min-h-screen w-full md:w-2/3">

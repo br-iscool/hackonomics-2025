@@ -1,9 +1,16 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useSnapshot } from "valtio";
 import { FaBriefcase, FaDollarSign, FaRegCalendarCheck } from "react-icons/fa";
 import EventDialog from "./EventDialog";
 import { JobSearchDialog } from "./JobSearchDialog";
+import { uistate } from "@/state";
 
 export interface JobDialogProps {
 	role: string;
@@ -12,11 +19,10 @@ export interface JobDialogProps {
 }
 
 export default function JobDialog({ job }: { job: JobDialogProps | null }) {
-	const [showJobSearch, setShowJobSearch] = useState(false);
-	const [jobResult, setJobResult] = useState<string | null>(null);
+	const uisnap = useSnapshot(uistate);
 
 	const handleJobSelected = (message: string) => {
-		setJobResult(message);
+		uistate.jobResult = message;
 	};
 
 	return (
@@ -52,7 +58,7 @@ export default function JobDialog({ job }: { job: JobDialogProps | null }) {
 									<span>{job.yearsEmployed}</span>
 								</div>
 								<Button
-									onClick={() => setShowJobSearch(true)}
+									onClick={() => uistate.showJobSearch = true}
 									className="w-full mt-4"
 									variant="outline"
 								>
@@ -65,7 +71,7 @@ export default function JobDialog({ job }: { job: JobDialogProps | null }) {
 									You are currently unemployed
 								</div>
 								<Button
-									onClick={() => setShowJobSearch(true)}
+									onClick={() => uistate.showJobSearch = true}
 									className="w-full"
 								>
 									Find a Job
@@ -76,20 +82,14 @@ export default function JobDialog({ job }: { job: JobDialogProps | null }) {
 				</DialogContent>
 			</Dialog>
 
-			<JobSearchDialog
-				open={showJobSearch}
-				onOpenChange={setShowJobSearch}
-				onJobSelected={handleJobSelected}
-			/>
-
-			{jobResult && (
+			{uisnap.jobResult && (
 				<EventDialog
 					dialog={{
 						title: "Result",
-						body: <p>{jobResult}</p>,
-						buttons: [{ label: "Continue", onClick: () => setJobResult(null), disabled: false}],
+						body: <p>{uisnap.jobResult}</p>,
+						buttons: [{ label: "Continue", onClick: () => uistate.showJobSearch = false, disabled: false }],
 					}}
-					onClose={() => setJobResult(null)}
+					onClose={() => uistate.jobResult = null}
 				/>
 			)}
 		</>
