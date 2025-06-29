@@ -13,7 +13,7 @@ export default function Transcripts({ messages }: Transcripts) {
 	return (
 		<>
 			<Card className="h-full w-full bg-white">
-				<CardTitle className="text-center text-2xl font-bold">Transcripts</CardTitle>
+				<CardTitle className="text-center text-2xl font-bold">Transcript</CardTitle>
 				<CardContent className="flex flex-col items-center gap-2 p-4 overflow-y-auto">
 					{messages.map((msg, i) => (
 						<Message key={i} text={msg} />
