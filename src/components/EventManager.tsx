@@ -10,7 +10,7 @@ import EventDialog from "./dialogs/EventDialog";
 export default function EventManager() {
 	const snap = useSnapshot(state);
 	const current = snap.events[0];
-	
+
 	useEffect(() => {
 		if (current && typeof current.execute === "function") current.execute()
 	}, [current]);
@@ -21,31 +21,29 @@ export default function EventManager() {
 	const dialog = {
 		title: current.name,
 		body: current.body(current.eventData),
-		buttons:
-			current.choices?.map((choice) => {
-				// const disabled = choice.condition
-				// 	? !choice.condition(current.eventData)
-				// 	: false;
-				const disabled = false;
+		buttons: (current.choices?.map((choice) => {
+			const disabled = choice.condition
+				? !choice.condition(current.eventData)
+				: false;
 
-				return {
-					label: choice.label,
-					disabled,
-					onClick: () => {
-						if (disabled) return;
+			return {
+				label: choice.label,
+				disabled,
+				onClick: () => {
+					if (disabled) return;
 
-						const result = choice.execute?.(current.eventData);
+					const result = choice.execute?.(current.eventData);
 
-						state.events.shift();
+					state.events.shift();
 
-						if (result) {
-							state.events.unshift(
-								new TextEvent((eventData) => result)
-							);
-						}
-					},
-				};
-			}) || [],
+					if (result) {
+						state.events.unshift(
+							new TextEvent("Result", () => result)
+						);
+					}
+				},
+			};
+		}) ?? []),
 	};
 
 	return (
