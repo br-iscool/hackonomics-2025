@@ -67,6 +67,10 @@ export function gameLoop() {
   checkBankruptcy();
 }
 
+export function canPurchase(cost: number) {
+  return state.money >= cost;
+}
+
 function updateCreditScore() {
   state.paymentHistory = state.onTimePayments / (state.totalPayments || 1);
   const creditHistory = state.yearsCredit / 10; // approximate

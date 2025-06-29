@@ -2,6 +2,7 @@ import { state } from "@/game/state";
 import { GameChoice, GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
 import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
 import { eventNames } from "process";
+import { canPurchase } from "@/game/logic";
 
 export const gameEvents: GameEvent[] = [
   /* Obsolete due to job dialog system
@@ -210,6 +211,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Cheap car",
+        condition: (eventData) => canPurchase(eventData.cheapPrice),
         execute: (eventData) => {
           state.car = {
             type: "Cheap",
@@ -224,6 +226,7 @@ export const gameEvents: GameEvent[] = [
       },
       {
         label: "Average car",
+        condition: (eventData) => canPurchase(eventData.averagePrice),
         execute: (eventData) => {
           state.car = {
             type: "Average",
@@ -238,6 +241,7 @@ export const gameEvents: GameEvent[] = [
       },
       {
         label: "Luxury car",
+        condition: (eventData) => canPurchase(eventData.luxuryPrice),
         execute: (eventData) => {
           state.car = {
             type: "Luxury",
@@ -479,6 +483,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Purchase",
+        condition: (eventData) => canPurchase(eventData.price),
         execute: (eventData) => {
           state.stress -= 20;
           state.money -= eventData.price;
@@ -510,6 +515,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Repair",
+        condition: (eventData) => canPurchase(eventData.price),
         execute: (eventData) => {
           state.money -= eventData.price;
           return `You pay for the repairs at the nearest shop, knowing that you need your ${eventData.product} to live.`;
@@ -541,6 +547,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Go ($100)",
+        condition: (eventData) => canPurchase(100),
         execute: (eventData) => {
           state.qualityOfLife += 5;
           state.money -= 100;
@@ -570,6 +577,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Go",
+        condition: (eventData) => canPurchase(100),
         execute: (eventData) => {
           state.family.value += 5;
           state.money -= 100;
@@ -599,6 +607,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Yes",
+        condition: (eventData) => canPurchase(150),
         execute: (eventData) => {
           state.family.value += 5;
           state.money -= 150;
@@ -631,6 +640,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Go",
+        condition: (eventData) => canPurchase(5000),
         execute: (eventData) => {
           state.family.value += 15;
           state.stress -= 20;
@@ -753,6 +763,7 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Yes",
+        condition: (eventData) => canPurchase(eventData.cost),
         execute: (eventData) => {
           state.qualityOfLife += 45;
           state.money -= eventData.cost;

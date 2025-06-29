@@ -1,6 +1,6 @@
 export interface GameChoice {
   label: string;
-  condition?: () => boolean | null;
+  condition?: ((eventData : any) => boolean | null) | null;
   execute?: ((eventData : any) => void | string) | null;
 }
 

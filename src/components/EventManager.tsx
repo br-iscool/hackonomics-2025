@@ -9,7 +9,7 @@ interface EventManagerProps {
 interface DialogEntry {
 	title: string;
 	body: string;
-	buttons: { label: string; onClick: () => void }[];
+	buttons: { label: string, onClick: () => void, disabled: boolean }[];
 }
 
 export default function EventManager({ event }: EventManagerProps) {
@@ -22,22 +22,29 @@ export default function EventManager({ event }: EventManagerProps) {
 			title: event.name,
 			body: event.getFormattedBody(),
 			buttons:
-				event.choices?.map((choice) => ({
-					label: choice.label,
-					onClick: () => {
-						const res = choice.execute?.(event.eventData);
+				event.choices?.map((choice) => {
+					const isDisabled = choice.condition ? !choice.condition(event.eventData) : false;
 
-						closeTopDialog();
+					return {
+						label: choice.label,
+						onClick: () => {
+							if (isDisabled) return; // Prevent action if the button is disabled
 
-						if (res) {
-							queueDialog({
-								title: "Result",
-								body: res,
-								buttons: [{ label: "Close", onClick: closeTopDialog }],
-							});
-						}
-					},
-				})) || [],
+							const res = choice.execute?.(event.eventData);
+
+							closeTopDialog();
+
+							if (res) {
+								queueDialog({
+									title: "Result",
+									body: res,
+									buttons: [{ label: "Close", onClick: closeTopDialog, disabled: false }],
+								});
+							}
+						},
+						disabled: isDisabled, // Disable button if condition is false
+					};
+				}) || [],
 		};
 
 		setDialogQueue([initialEntry]);

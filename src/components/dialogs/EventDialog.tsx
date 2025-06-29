@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 interface DialogEntry {
     title: string;
     body: string;
-    buttons: { label: string; onClick: () => void }[];
+    buttons: { label: string; onClick: () => void, disabled: boolean }[];
 }
 
 interface EventProps {
@@ -19,7 +19,7 @@ export default function EventDialog({ dialog, onClose }: EventProps) {
             onOpenChange={(open) => {
                 if (!open) onClose();
             }}>
-            <AlertDialogContent 
+            <AlertDialogContent
                 className="max-w-lg"
                 onEscapeKeyDown={(e) => e.preventDefault()}
             >
@@ -29,7 +29,7 @@ export default function EventDialog({ dialog, onClose }: EventProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex justify-center gap-4 pt-4">
                     {dialog.buttons.map((btn, i) => (
-                        <Button key={i} onClick={btn.onClick}>
+                        <Button key={i} onClick={btn.onClick} disabled={btn.disabled} variant={btn.disabled ? "outline" : "default"}>
                             {btn.label}
                         </Button>
                     ))}
