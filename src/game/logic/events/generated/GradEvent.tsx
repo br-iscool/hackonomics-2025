@@ -7,7 +7,7 @@ export function TextEvent() {
         (eventData: any) => (
             <>
                 Congratulations! You have graduated {state.education.level}.
-                /n Please check the <b>Jobs</b> tab to view new jobs.
+                Please check the <b>jobs</b> tab to view new jobs.
             </>
         ),
         [

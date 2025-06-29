@@ -2,6 +2,8 @@ import { NormalEvent } from "@/game/logic/events/eventsClasses";
 import { LoanData } from "@/game/types";
 import { state } from "@/game/state";
 
+import Color from "@/components/ui/color";
+
 export function LoanEvent(loan: LoanData) {
     return new NormalEvent(
         "Confirm Loan",
@@ -21,7 +23,7 @@ export function LoanEvent(loan: LoanData) {
                     state.products.loans.push({ ...eventData });
                     state.money += eventData.principal;
 
-                    return <p>`You have received $${eventData.principal.toLocaleString()} from the loan.`</p>
+                    return <p>`You have received <Color>${eventData.principal.toLocaleString()}</Color> from the loan.`</p>
                 },
             },
             {
