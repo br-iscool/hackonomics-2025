@@ -34,6 +34,7 @@ export function gameLoop() {
 
     // Check if graduation
     if (state.education.yearsUntilGrad <= 0) {
+      state.expenses.education = 0;
       state.education.inSchooling = false;
       state.transcript.push(getGradMessage());
     }
