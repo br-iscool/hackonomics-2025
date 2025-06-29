@@ -1,5 +1,4 @@
 import { proxy } from "valtio";
-import { GameEvent } from "./logic/events/eventsClasses";
 import {
   Education,
   Job,
@@ -10,7 +9,8 @@ import {
   MortgageData,
   InsuranceData,
   CarData,
-  DiseaseData
+  DiseaseData,
+  IEvent
 } from "./types";
 
 export const initialState = {
@@ -28,7 +28,7 @@ export const initialState = {
   diseases: [] as DiseaseData[],
 
   transcript: [] as string[],
-  events: [] as GameEvent[],
+  events: [] as IEvent[],
   triggeredEvents: new Set<string>(),
 
   stress: 0,

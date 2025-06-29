@@ -2,7 +2,11 @@ import { state } from "@/game/state";
 
 import { gameEvents } from "./data";
 import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
+import { Choice, IEvent } from "@/game/types";
+import {JSX} from "react";
+
 import { pickWeighted } from "@/utils";
+import { TextEvent } from "./generated";
 
 function isScheduledEvent(event: GameEvent): event is ScheduledEvent {
   return event instanceof ScheduledEvent;
@@ -43,4 +47,21 @@ export function handleEvents(currentAge: number) {
   }
 
   console.log("Current Events:", state.events);
+}
+
+export function handleChoice(choice: Choice, data: any) {
+  const result = choice.execute?.(data);
+  state.events.shift(); // always remove the current
+
+  if (result) {
+    enqueueEvent(result); // abstracted
+  }
+}
+
+function enqueueEvent(result: JSX.Element | IEvent) {
+  if (result instanceof GameEvent) {
+    state.events.unshift(result);
+  } else {
+    state.events.unshift(TextEvent("Result", () => result));
+  }
 }

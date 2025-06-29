@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { useSnapshot } from "valtio";
 import { FaBriefcase, FaDollarSign, FaRegCalendarCheck } from "react-icons/fa";
 import EventDialog from "./EventDialog";
-import { JobSearchDialog } from "./JobSearchDialog";
 import { uistate } from "@/state";
 
 export interface JobDialogProps {
@@ -20,10 +19,6 @@ export interface JobDialogProps {
 
 export default function JobDialog({ job }: { job: JobDialogProps | null }) {
 	const uisnap = useSnapshot(uistate);
-
-	const handleJobSelected = (message: string) => {
-		uistate.jobResult = message;
-	};
 
 	return (
 		<>

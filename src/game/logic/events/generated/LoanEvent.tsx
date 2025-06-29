@@ -1,5 +1,4 @@
-import { NormalEvent } from "@/game/logic/events/eventsClasses";
-import { LoanData } from "@/game/types";
+import { IEvent, LoanData } from "@/game/types";
 import { state } from "@/game/state";
 
 import Color from "@/components/ui/color";
@@ -17,7 +16,7 @@ export function LoanEvent(loan: LoanData, purchase: () => void) {
                 </p>
             </div>
         ),
-        [
+        choices: [
             {
                 label: "Get a loan",
                 execute: (eventData: LoanData) => {
@@ -41,6 +40,6 @@ export function LoanEvent(loan: LoanData, purchase: () => void) {
                 execute: () => <p>"Loan declined."</p>,
             },
         ],
-        () => loan
-    );
+        eventData: loan
+    }
 }

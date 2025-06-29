@@ -1,5 +1,7 @@
-import { TextEvent } from "@/game/logic/events/eventsClasses";
+import { TextEvent } from "@/game/logic/events/generated";
 
+export function CureEvent() {
+    return TextEvent(
 export function CureEvent() {
     return new TextEvent(
         "Cured",
@@ -7,6 +9,6 @@ export function CureEvent() {
             <>
                 You have been cured of {eventData.disease}!
             </>
-        )
-    );
+        ),
+    )
 }
