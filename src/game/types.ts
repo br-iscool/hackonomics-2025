@@ -1,3 +1,18 @@
+import { JSX } from "react";
+
+export interface Choice {
+  label: string;
+  condition?: ((eventData: any) => boolean | null) | null;
+  execute?: ((eventData: any) => void | string) | null;
+}
+
+export interface IEvent {
+  name: string;
+  body: (eventData: any) => JSX.Element;
+  choices: ReadonlyArray<Choice>;
+  eventData: any;
+}
+
 export interface FamilyMember {
   age: number;
   name: string;
@@ -12,28 +27,28 @@ export interface FamilyStatus {
   value: number;
   spouse?: FamilyMember;
   children?: FamilyMember[];
-  totalIncome?: number; 
-  totalDeficit?: number; 
-  netIncome?: number; 
+  totalIncome?: number;
+  totalDeficit?: number;
+  netIncome?: number;
 }
 
 export interface Job {
-  role : string;
-  salary : number;
-  yearsEmployed : number;
+  role: string;
+  salary: number;
+  yearsEmployed: number;
 }
 
 export interface Education {
-  inSchooling : boolean;
-  level : "Highschool" | "Vocational" | "Undergrad" | "Grad";
-  tuition? : number;
-  field? : string;
-  yearsUntilGrad? : number;
+  inSchooling: boolean;
+  level: "Highschool" | "Vocational" | "Undergrad" | "Grad";
+  tuition?: number;
+  field?: string;
+  yearsUntilGrad?: number;
 }
 
 export interface Housing {
-  type : "Parents" | "Apartment" | "House";
-  rent? : number;
+  type: "Parents" | "Apartment" | "House";
+  rent?: number;
 }
 
 export interface LoanData {
@@ -41,7 +56,7 @@ export interface LoanData {
   id: string;
   name: string;
   principal: number; // original amt loaned
-  balance : number; // current loan amount
+  balance: number; // current loan amount
   interestRate: number; // annual interest rate
   termYears: number; // loan duration
   yearsElapsed: number;
@@ -84,9 +99,9 @@ export interface CarData {
 }
 
 export interface DiseaseData {
-  active : boolean;
-  name : string;
-  curability : number; //percent chance per turn it gets cured
-  cost : number; //to recover
-  damage : number; //percent incurred on health per turn
+  active: boolean;
+  name: string;
+  curability: number; //percent chance per turn it gets cured
+  cost: number; //to recover
+  damage: number; //percent incurred on health per turn
 }

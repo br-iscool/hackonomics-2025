@@ -1,3 +1,4 @@
+import { IEvent } from "@/game/types";
 import { JSX } from "react";
 
 export interface GameChoice {
@@ -8,10 +9,10 @@ export interface GameChoice {
 
 export type GameEventType = "scheduled" | "random";
 
-export abstract class GameEvent {
+export abstract class GameEvent implements IEvent {
   name: string;
   type: GameEventType;
-  body: (eventData : any) => JSX.Element;
+  body: (eventData: any) => JSX.Element;
   condition: () => boolean;
   choices: ReadonlyArray<GameChoice>;
   repeatable?: boolean;
@@ -20,7 +21,7 @@ export abstract class GameEvent {
   constructor(
     name: string,
     type: GameEventType,
-    body: (eventData : any) => JSX.Element,
+    body: (eventData: any) => JSX.Element,
     condition: () => boolean,
     choices: ReadonlyArray<GameChoice>,
     setVars?: () => void,
@@ -118,4 +119,33 @@ export class RandomEvent extends GameEvent {
       if (this.onExecute) this.onExecute(this.eventData);
     }
   }
+}
+
+export class NormalEvent extends GameEvent {
+  constructor(
+    name: string,
+    body: (eventData: any) => JSX.Element,
+    choices: GameChoice[],
+    setVars?: () => any,
+  ) {
+    super(name, "scheduled", body, () => true, choices, setVars, false);
+  }
+  shouldTrigger(_age: number): boolean { return true; }
+  execute(): void { }
+}
+
+export class TextEvent extends GameEvent {
+  constructor(body: string | JSX.Element) {
+    const jsxBody: JSX.Element =
+      typeof body === "string" ? <p>{body}</p> : body;
+    super("Result", "scheduled", (eventData) => jsxBody, () => true, [
+      {
+        label: "Continue",
+        condition: () => true,
+        execute: () => { },
+      },
+    ] as GameChoice[]);
+  }
+  shouldTrigger(_age: number): boolean { return true; }
+  execute(): void { }
 }

@@ -1,5 +1,5 @@
 import { state } from "@/game/state";
-import { GameChoice, GameEvent, ScheduledEvent, RandomEvent, TextEvent } from "./eventsClasses";
+import { GameEvent, ScheduledEvent, RandomEvent, TextEvent } from "./eventsClasses";
 import { chooseRandom, randomInterval, randomDecimal } from "@/utils";
 import { canPurchase } from "@/game/logic";
 

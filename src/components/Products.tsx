@@ -6,7 +6,6 @@ import { SavingsCard } from "./products/SavingsCard";
 
 export default function Products() {
 	const snap = useSnapshot(state);
-	console.log(!!snap.products.savings)
 
 	const { creditCard, loans, savings, mortgage, insurance, investments } = snap.products;
 
