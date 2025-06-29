@@ -37,7 +37,11 @@ export default function EventManager() {
 
 						state.events.shift();
 
-						if (result) state.events.unshift(new TextEvent(result));
+						if (result) {
+							state.events.unshift(
+								new TextEvent((eventData) => result)
+							);
+						}
 					},
 				};
 			}) || [],

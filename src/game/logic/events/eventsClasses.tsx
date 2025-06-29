@@ -4,7 +4,7 @@ import { JSX } from "react";
 export interface GameChoice {
   label: string;
   condition?: ((eventData: any) => boolean | null) | null;
-  execute?: ((eventData: any) => void | string) | null;
+  execute?: ((eventData: any) => void | JSX.Element) | null;
 }
 
 export type GameEventType = "scheduled" | "random";
@@ -36,19 +36,18 @@ export abstract class GameEvent implements IEvent {
     this.repeatable = repeatable;
   }
 
-  abstract shouldTrigger(age: number): boolean;
-  abstract execute(): void;
+  abstract execute(): JSX.Element | void;
 }
 
 export class ScheduledEvent extends GameEvent {
   trigger: number | (() => boolean);
-  onExecute: null | ((eventData: any) => void | string);
+  onExecute: null | ((eventData: any) => void | JSX.Element);
 
   constructor(
     name: string,
     trigger: number | (() => boolean),
-    onExecute: null | ((eventData: any) => void | string),
-    body: (eventData: any) => JSX.Element,
+    onExecute: null | ((eventData: any) => void | JSX.Element),
+    body: (eventData : any) => JSX.Element,
     condition: () => boolean,
     choices: GameChoice[],
     setVars?: () => any,
@@ -77,15 +76,28 @@ export class ScheduledEvent extends GameEvent {
   }
 }
 
+export class TextEvent extends GameEvent {
+  constructor(body: (eventData : any) => JSX.Element) {
+    super("Result", "scheduled", body, () => true, [
+      {
+        label: "Okay",
+        condition: () => true,
+        execute: () => {},
+      },
+    ] as GameChoice[]);
+  }
+  execute(): void {}
+}
+
 export class RandomEvent extends GameEvent {
   weight: number | (() => number);
-  onExecute: null | ((eventData: any) => void | string);
+  onExecute: null | ((eventData: any) => void | JSX.Element);
 
   constructor(
     name: string,
     weight: number | (() => number),
-    onExecute: null | ((eventData: any) => void | string),
-    body: (eventData: any) => JSX.Element,
+    onExecute: null | ((eventData : any) => void | JSX.Element),
+    body: (eventData : any) => JSX.Element,
     condition: () => boolean,
     choices: GameChoice[],
     setVars?: () => any,
