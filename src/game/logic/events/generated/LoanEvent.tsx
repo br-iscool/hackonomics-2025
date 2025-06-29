@@ -3,10 +3,10 @@ import { state } from "@/game/state";
 
 import Color from "@/components/ui/color";
 
-export function LoanEvent(loan: LoanData, purchase: () => void) {
-    return new NormalEvent(
-        "Confirm Loan",
-        (eventData: LoanData) => (
+export function LoanEvent(loan: LoanData): IEvent {
+    return {
+        name: "Confirm Loan",
+        body: (eventData: LoanData) => (
             <div>
                 <p>
                     This is quite expensive!``

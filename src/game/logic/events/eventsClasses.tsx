@@ -1,11 +1,8 @@
 import { JSX } from "react";
 import { IEvent, Choice } from "@/game/types";
 
-export type GameEventType = "scheduled" | "random";
-
 export abstract class GameEvent implements IEvent {
   name: string;
-  type: GameEventType;
   body: (eventData: any) => JSX.Element;
   condition: () => boolean;
   choices: ReadonlyArray<Choice>;
@@ -14,7 +11,6 @@ export abstract class GameEvent implements IEvent {
 
   constructor(
     name: string,
-    type: GameEventType,
     body: (eventData: any) => JSX.Element,
     condition: () => boolean,
     choices: ReadonlyArray<Choice>,
@@ -22,7 +18,6 @@ export abstract class GameEvent implements IEvent {
     repeatable?: boolean
   ) {
     this.name = name;
-    this.type = type;
     this.body = body;
     this.condition = condition;
     this.choices = choices;
@@ -47,7 +42,7 @@ export class ScheduledEvent extends GameEvent {
     setVars?: () => any,
     repeatable?: boolean
   ) {
-    super(name, "scheduled", body, condition, choices, setVars, repeatable);
+    super(name, body, condition, choices, setVars, repeatable);
     this.trigger = trigger;
     this.onExecute = onExecute;
   }
@@ -84,7 +79,7 @@ export class RandomEvent extends GameEvent {
     setVars?: () => any,
     repeatable?: boolean
   ) {
-    super(name, "random", body, condition, choices, setVars, repeatable);
+    super(name, body, condition, choices, setVars, repeatable);
     this.weight = weight;
     this.onExecute = onExecute;
   }
