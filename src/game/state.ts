@@ -10,6 +10,7 @@ import {
   MortgageData,
   InsuranceData,
   CarData,
+  DiseaseData
 } from "./types";
 
 export const state = proxy({
@@ -23,6 +24,8 @@ export const state = proxy({
   car: null as CarData | null,
   housing: { type: "Parents" } as Housing,
   family: { status: "Single" } as FamilyStatus,
+
+  diseases: [] as DiseaseData[],
 
   transcript: [] as string[],
   events: [] as GameEvent[],

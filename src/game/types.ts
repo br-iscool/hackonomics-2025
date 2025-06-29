@@ -82,3 +82,11 @@ export interface CarData {
   value: number;
   reliability: "low" | "medium" | "high";
 }
+
+export interface DiseaseData {
+  active : boolean;
+  name : string;
+  curability : number; //percent chance per turn it gets cured
+  cost : number; //to recover
+  damage : number; //percent incurred on health per turn
+}

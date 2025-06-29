@@ -32,3 +32,8 @@ export function randomInterval(min: number, max: number): number {
 export function randomDecimal(min: number, max: number): number {
   return Math.random() * (max - min) + min;
 }
+
+export function weightedBoolean(trueWeight : number, falseWeight : number) : boolean {
+  const total = trueWeight + falseWeight;
+  return Math.random() * total < trueWeight;
+}

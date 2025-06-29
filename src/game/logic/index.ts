@@ -1,5 +1,5 @@
 import { state } from "@/game/state";
-import { tickMortgage, tickLoan, tickSavings } from "@/game/logic/products";
+import { tickMortgage, tickLoan, tickSavings, tickDisease } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
 
 export function gameLoop() {
@@ -35,6 +35,9 @@ export function gameLoop() {
     const expenseCost = state.expenses[category];
     state.money -= expenseCost; // Subtract the expense from the total money
   });
+
+  // Illness related effects
+  state.diseases.forEach(tickDisease);
 
   // Trigger events
   handleEvents(state.age);
