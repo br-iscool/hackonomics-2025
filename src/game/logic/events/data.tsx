@@ -253,7 +253,7 @@ export const gameEvents: GameEvent[] = [
           return (
             <>
               Well- you're not here to buy a showpiece- and if it can be driven, you're sure you can work something out.
-              You are now the proud owner of a ${eventData.cheapCar}
+              You are now the proud owner of a {eventData.cheapCar}
             </>
           );
         },
@@ -272,7 +272,7 @@ export const gameEvents: GameEvent[] = [
           return (
             <>
               Well- you're not here to buy a showpiece- and this car will definitely get you the best mileage.
-              You are now the proud owner of a ${eventData.averageCar}
+              You are now the proud owner of a {eventData.averageCar}
             </>
           );
         },
@@ -292,7 +292,7 @@ export const gameEvents: GameEvent[] = [
             <>
               Bracing your wallet, you purchase the car your eyes have always been set on,
               hoping your future self will thank you for this.
-              You are now the proud owner of a ${eventData.luxuryCar}
+              You are now the proud owner of a {eventData.luxuryCar}
             </>);
         },
       },
@@ -356,17 +356,21 @@ export const gameEvents: GameEvent[] = [
         label: "Room with others 👥",
         execute: (eventData) => {
           // gets an apartment
-          state.expenses["housing"] = eventData.cheapCost;
-          return `Well- you're not looking for something luxurious to live in,
-          and this will definitely suffice until you get yourself back up.
-          Congratulations! You're now renting an apartment with roommates!`;
+          state.expenses["housing"] = (eventData.cheapCost * 12);
+          return (
+            <div>
+              Well- you're not looking for something luxurious to live in,
+              and this will definitely suffice until you get yourself back up.
+              Congratulations! You're now renting an apartment with roommates!
+            </div>
+          );
         },
       },
       {
         label: "Live alone 🧑",
         execute: (eventData) => {
           // gets an apartment
-          state.expenses["housing"] = eventData.averageCost;
+          state.expenses["housing"] = (eventData.averageCost * 12);
           return (
             <div>
               Well- you've always been particular about living spaces, and
