@@ -16,28 +16,28 @@ export default function Game() {
             <GameOverDialog />
             {snap.alive && snap.event && <EventManager event={snap.event} />}
 
-            <div className="bg-[radial-gradient(circle,rgba(105,105,105)_0%,black_50%)] min-h-screen">
-                <div className="min-h-screen flex flex-col">
+            <div className="bg-gray-200 min-h-screen flex flex-col md:flex-row">
+                <div className="min-h-screen w-full md:w-2/3">
                     <div className="p-5 flex items-center gap-8">
                         <Profile />
                     </div>
 
-                    <div className="flex-1 overflow-hidden">
-                        <div className="h-full flex">
-                            <div className="flex-1 p-5 overflow-y-auto">
-                                <Products />
-                            </div>
-                            <div className="flex flex-1 justify-end items-start p-5 overflow-y-auto">
-                                <Transcripts messages={state.transcript} />
-                            </div>
-                        </div>
+                    <div className="flex-1 p-5">
+                        <Products />
                     </div>
+
+
 
                     <div className="fixed bottom-10 left-5 flex gap-4">
                         <EducationDialog education={snap.education} />
                         <JobDialog job={snap.job} />
                         <FinanceDialog />
                         <AgeUp />
+                    </div>
+                </div>
+                <div className="min-h-screen w-full md:w-1/3">
+                    <div className="h-full flex flex-1 justify-end items-start p-8">
+                        <Transcripts messages={state.transcript} />
                     </div>
                 </div>
             </div>
