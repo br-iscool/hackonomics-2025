@@ -2,8 +2,6 @@ import { TextEvent } from "@/game/logic/events/generated";
 
 export function CureEvent() {
     return TextEvent(
-export function CureEvent() {
-    return TextEvent(
         "Cured",
         (eventData: any) => (
             <>
