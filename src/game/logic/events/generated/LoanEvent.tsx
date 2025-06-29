@@ -9,7 +9,7 @@ export function LoanEvent(loan: LoanData): IEvent {
         body: (eventData: LoanData) => (
             <div>
                 <p>
-                    This is quite expensive!``
+                    This is quite expensive!
                     Would you like to pay for it through a loan of <strong>${eventData.principal.toLocaleString()}</strong> 
                     with an interest rate of <strong>{(eventData.interestRate * 100).toFixed(2)}% </strong>
                     for <strong>{eventData.termYears}</strong> years?
