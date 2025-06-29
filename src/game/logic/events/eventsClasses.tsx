@@ -1,15 +1,14 @@
-import { IEvent } from "@/game/types";
 import { JSX } from "react";
 
 export interface GameChoice {
   label: string;
   condition?: ((eventData: any) => boolean | null) | null;
-  execute?: ((eventData: any) => void | string) | null;
+  execute?: ((eventData: any) => void | string | JSX.Element) | null;
 }
 
 export type GameEventType = "scheduled" | "random";
 
-export abstract class GameEvent implements IEvent {
+export abstract class GameEvent {
   name: string;
   type: GameEventType;
   body: (eventData: any) => JSX.Element;

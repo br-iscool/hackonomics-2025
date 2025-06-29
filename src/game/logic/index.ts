@@ -1,6 +1,26 @@
 import { state } from "@/game/state";
 import { tickMortgage, tickLoan, tickSavings, tickDisease } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
+import { LoanEvent } from "@/game/logic/events/generated/LoanEvent";
+
+const MIN_CREDIT_SCORE_FOR_LOAN = 550;
+
+if (state.money < 0 && state.creditScore >= MIN_CREDIT_SCORE_FOR_LOAN) {
+  const loanAmount = Math.abs(state.money);
+
+  const emergencyLoan = {
+    id: `emergency-${Date.now()}`,
+    name: "Emergency Loan",
+    principal: loanAmount,
+    balance: loanAmount,
+    interestRate: 0.1,
+    termYears: 5,
+    yearsElapsed: 0,
+    active: true,
+  };
+
+  state.events.push(LoanEvent(emergencyLoan));
+}
 
 export function gameLoop() {
   if (!state.alive) return;
