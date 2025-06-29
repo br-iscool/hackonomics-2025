@@ -1,4 +1,5 @@
 import { state } from "@/game/state";
+import { uistate } from "@/state";
 import { IEvent } from "@/game/types";
 
 export function GradEvent(): IEvent {
@@ -15,7 +16,7 @@ export function GradEvent(): IEvent {
             {
                 label: "Find new job",
                 execute: (eventData) => {
-                    //opens job panel
+                    uistate.showJobSearch = true;
                 }
             }
         ]

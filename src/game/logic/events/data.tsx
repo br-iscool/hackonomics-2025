@@ -1,8 +1,9 @@
 import { state } from "@/game/state";
-import { GameEvent, ScheduledEvent, RandomEvent, TextEvent, NormalEvent } from "./eventsClasses";
+import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
 import { chooseRandom, randomInterval } from "@/utils";
 import { canPurchase } from "@/game/logic";
 import Color from "@/components/ui/color"
+import {LoanEvent} from "./generated";
 
 export const gameEvents: GameEvent[] = [
   /* Obsolete due to job dialog system
@@ -138,7 +139,7 @@ export const gameEvents: GameEvent[] = [
       <>
         You hear knocking at the door and are approached by a representative of {eventData.bank}.
         He offers you a deal to open a High Interest Savings Account, with an annual interest rate of
-        {eventData.rate}%. Do you:
+         {eventData.rate}%. Do you:
       </>
     ),
     () => state.age > 17 && !state.products.savings,

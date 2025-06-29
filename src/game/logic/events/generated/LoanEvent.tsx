@@ -9,8 +9,8 @@ export function LoanEvent(loan: LoanData): IEvent {
         body: (eventData: LoanData) => (
             <div>
                 <p>
-                    You've ran out of money!
-                    Do you want to take out a loan of <strong>${eventData.principal.toLocaleString()}</strong>
+                    This is quite expensive!``
+                    Would you like to pay for it through a loan of <strong>${eventData.principal.toLocaleString()}</strong> 
                     with an interest rate of <strong>{(eventData.interestRate * 100).toFixed(2)}% </strong>
                     for <strong>{eventData.termYears}</strong> years?
                 </p>
@@ -18,12 +18,21 @@ export function LoanEvent(loan: LoanData): IEvent {
         ),
         choices: [
             {
-                label: "Confirm",
+                label: "Get a loan",
                 execute: (eventData: LoanData) => {
+                    //double check if you can take a loan w credit score
                     state.products.loans.push({ ...eventData });
-                    state.money += eventData.principal;
+                    purchase();
 
                     return <p>You have received <Color>${eventData.principal.toLocaleString()}</Color> from the loan.</p>
+                },
+            },
+            {
+                label: "Pay with cash",
+                execute: (eventData: LoanData) => {
+                    //pays upfront
+                    state.money -= eventData.principal;
+                    purchase();
                 },
             },
             {
