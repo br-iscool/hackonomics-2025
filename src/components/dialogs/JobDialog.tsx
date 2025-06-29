@@ -79,17 +79,17 @@ export default function JobDialog({ job }: { job: JobDialogProps | null }) {
 
 			{uisnap.jobResult && (
 				<EventDialog
-					dialog={{
-						title: "Result",
-						body: <p>{uisnap.jobResult}</p>,
-						buttons: [{ 
+					event={{
+						name: "Result",
+						body: (eventData) => <p>{uisnap.jobResult}</p>,
+						choices: [{ 
                             label: "Continue", 
-                            onClick: () => {
+                            execute: () => {
                                 uistate.showJobSearch = false;
                                 uistate.jobResult = null;
                             }, 
-                            disabled: false 
                         }],
+						eventData: {},
 					}}
 					onClose={() => uistate.jobResult = null}
 				/>
