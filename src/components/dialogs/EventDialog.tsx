@@ -26,7 +26,7 @@ export default function EventDialog({ dialog, onClose }: EventProps) {
             >
                 <AlertDialogHeader>
                     <AlertDialogTitle>{dialog.title}</AlertDialogTitle>
-                    <AlertDialogDescription>{dialog.body} </AlertDialogDescription>
+                    <AlertDialogDescription asChild aria-describedby="description">{dialog.body}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex justify-center gap-4 pt-4">
                     {dialog.buttons.map((btn, i) => (

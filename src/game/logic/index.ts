@@ -1,4 +1,4 @@
-import { state, resetState } from "@/game/state";
+import { state } from "@/game/state";
 import { tickMortgage, tickLoan, tickSavings } from "@/game/logic/products";
 import { handleEvents } from "@/game/logic/events";
 
@@ -38,6 +38,11 @@ export function gameLoop() {
 
   // Trigger events
   handleEvents(state.age);
+
+  if (state.money < 0) {
+    // try to take loan if possible (credit score)
+    
+  }
 
   if (state.isBankrupt) {
     state.alive = false;

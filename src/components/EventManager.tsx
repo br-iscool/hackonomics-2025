@@ -10,10 +10,7 @@ export default function EventManager() {
 	const snap = useSnapshot(state);
 	const current = snap.events[0];
 
-	if (!current) return null;
-	console.log("Current Event:", current, current.body(current.eventData));
-
-	if (!snap.alive || !current) return null;
+	if (!state.alive || !current) return null;
 
 	// build the DialogEntry from the GameEvent
 	const dialog = {
