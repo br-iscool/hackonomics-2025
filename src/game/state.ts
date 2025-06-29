@@ -6,7 +6,6 @@ import {
   Housing,
   FamilyStatus,
   SavingsAccData,
-  CreditCardData,
   LoanData,
   MortgageData,
   InsuranceData,
@@ -34,7 +33,7 @@ export const state = proxy({
   qualityOfLife: 0,
 
   products: {
-    creditCard: null as CreditCardData | null, // CreditCard
+    creditCard: null as boolean | null, // CreditCard
     loans: [] as LoanData[], // Loan[]
     savings: null as SavingsAccData | null,
     mortgage: null as MortgageData | null, // Mortgage
@@ -47,8 +46,7 @@ export const state = proxy({
   get debt(): number {
     return (
       (this.products.mortgage?.balance || 0) +
-      this.products.loans.reduce((acc, l) => acc + l.balance, 0) +
-      (this.products.creditCard?.balance || 0)
+      this.products.loans.reduce((acc, l) => acc + l.balance, 0)
     );
   },
 
@@ -70,7 +68,7 @@ export const state = proxy({
 
   get creditScore(): number {
     const paymentHistory = this.onTimePayments / (this.totalPayments || 1);
-    const creditHistory = this.yearsCredit / 10;
+    const creditHistory = Math.max(this.yearsCredit / 10, 1);
     return (paymentHistory * 0.7 + creditHistory * 0.3) * 600 + 300;
   },
 

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import "@/app/styles/globals.css";
 
-const jetBrainsMono = JetBrains_Mono({
+const inter = Inter({
 	subsets: ["latin"],
-	variable: "--font-jetbrains-mono",
+	variable: "--font-inter",
 	weight: ["200", "300", "400", "500", "600", "700", "800"]
 });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${jetBrainsMono.className} antialiased`}>
+			<body className={`${inter.className} antialiased`}>
 				{children}
 				<Toaster richColors position="bottom-right" />
 			</body>
