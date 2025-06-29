@@ -644,7 +644,7 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => ({
-      product: chooseRandom(["cellphone", "car"]),
+      product: chooseRandom(["cellphone", "fridge"]),
       price: randomInterval(20, 80) * 100,
     }),
     true //repeats

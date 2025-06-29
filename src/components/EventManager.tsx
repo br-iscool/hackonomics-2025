@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, isValidElement } from "react";
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
 
@@ -32,13 +32,13 @@ export default function EventManager() {
 				onClick: () => {
 					if (disabled) return;
 
-					const result = choice.execute?.(current.eventData);
+					const outcome = choice.execute?.(current.eventData);
 
 					state.events.shift();
 
-					if (result) {
+					if (isValidElement(outcome)) {
 						state.events.unshift(
-							new TextEvent("Result", () => result)
+							new TextEvent("Result", () => outcome)
 						);
 					}
 				},
