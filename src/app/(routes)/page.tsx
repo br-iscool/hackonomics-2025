@@ -24,9 +24,9 @@ export default function Home() {
 					<ul className="list-disc list-inside text-gray-700 space-y-1">
 						<li>Stats: Stress Level, Money</li>
 						<li>Life Stages: Education, Job, Marriage, Retirement (ends at 65)</li>
-						<li>Financial Market: Insurance, Credit Cards, Savings, Loans, Property, Investments</li>
-						<li>Events: Trips, Recessions, Surprises</li>
-						<li>Careers: Trades, Part-time Jobs, University, Grad School</li>
+						<li>Financial Market: Credit Cards, Savings, Assets</li>
+						<li>Events: Trips, Illness, Surprises</li>
+						<li>Careers: Trades, Part-time, Undergraduate, Graduate</li>
 					</ul>
 				</div>
 

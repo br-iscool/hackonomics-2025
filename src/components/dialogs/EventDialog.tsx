@@ -2,36 +2,39 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, A
 import { Button } from "@/components/ui/button";
 
 interface DialogEntry {
-	title: string;
-	body: string;
-	buttons: { label: string; onClick: () => void }[];
+    title: string;
+    body: string;
+    buttons: { label: string; onClick: () => void }[];
 }
 
 interface EventProps {
-	dialog: DialogEntry;
-	onClose: () => void;
+    dialog: DialogEntry;
+    onClose: () => void;
 }
 
 export default function EventDialog({ dialog, onClose }: EventProps) {
-	return (
-		<AlertDialog
-			open={true}
-			onOpenChange={(open) => {
-				if (!open) onClose();
-			}}>
-			<AlertDialogContent className="max-w-lg">
-				<AlertDialogHeader>
-					<AlertDialogTitle>{dialog.title}</AlertDialogTitle>
-					<AlertDialogDescription dangerouslySetInnerHTML={{ __html: dialog.body }} />
-				</AlertDialogHeader>
-				<AlertDialogFooter className="flex justify-center gap-4 pt-4">
-					{dialog.buttons.map((btn, i) => (
-						<Button key={i} onClick={btn.onClick}>
-							{btn.label}
-						</Button>
-					))}
-				</AlertDialogFooter>
-			</AlertDialogContent>
-		</AlertDialog>
-	);
+    return (
+        <AlertDialog
+            open={true}
+            onOpenChange={(open) => {
+                if (!open) onClose();
+            }}>
+            <AlertDialogContent 
+                className="max-w-lg"
+                onEscapeKeyDown={(e) => e.preventDefault()}
+            >
+                <AlertDialogHeader>
+                    <AlertDialogTitle>{dialog.title}</AlertDialogTitle>
+                    <AlertDialogDescription dangerouslySetInnerHTML={{ __html: dialog.body }} />
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex justify-center gap-4 pt-4">
+                    {dialog.buttons.map((btn, i) => (
+                        <Button key={i} onClick={btn.onClick}>
+                            {btn.label}
+                        </Button>
+                    ))}
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
 }

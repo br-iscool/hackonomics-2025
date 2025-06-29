@@ -11,7 +11,7 @@ export default function Products() {
 	const { creditCard, loans, savings, mortgage, insurance, investments } = snap.products;
 
 	return (
-		<div className="flex items-center space-y-4 p-4">
+		<div className="flex items-center gap-5 p-6">
 			{creditCard && <CreditCard data={creditCard} />}
 			{savings && <SavingsCard data={savings} />}
 			{/* {loans.length > 0 &&
