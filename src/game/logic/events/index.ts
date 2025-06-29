@@ -8,19 +8,11 @@ import {JSX} from "react";
 import { pickWeighted } from "@/utils";
 import { TextEvent } from "./generated";
 
-function isScheduledEvent(event: GameEvent): event is ScheduledEvent {
-  return event instanceof ScheduledEvent;
-}
-
-function isRandomEvent(event: GameEvent): event is RandomEvent {
-  return event instanceof RandomEvent;
-}
-
 export function handleEvents(currentAge: number) {
   // Scheduled Events
   for (const event of gameEvents) {
     if (
-      isScheduledEvent(event) &&
+      event instanceof ScheduledEvent &&
       event.trigger === currentAge &&
       event.condition() &&
       !state.triggeredEvents.has(event.name)
@@ -33,7 +25,7 @@ export function handleEvents(currentAge: number) {
     // Random Events
     const eligibleRandomEvents = gameEvents.filter(
       (event): event is RandomEvent =>
-        isRandomEvent(event) &&
+        event instanceof RandomEvent &&
         (event.condition ? event.condition() : true) &&
         !state.triggeredEvents.has(event.name) && // Optional: prevent repeats
         (typeof event.weight === "function" ? event.weight() : event.weight) > 0

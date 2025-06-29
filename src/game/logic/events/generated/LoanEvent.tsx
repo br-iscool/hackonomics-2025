@@ -3,7 +3,7 @@ import { state } from "@/game/state";
 
 import Color from "@/components/ui/color";
 
-export function LoanEvent(loan: LoanData) {
+export function LoanEvent(loan: LoanData): IEvent {
     return {
         name: "Confirm Loan",
         body: (eventData: LoanData) => (
