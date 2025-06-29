@@ -1,7 +1,7 @@
 export function pickWeighted<T extends { weight: number | (() => number) }>(items: T[]): T | null {
-  const weightedItems = items.map(item => ({
+  const weightedItems = items.map((item) => ({
     item,
-    weight: typeof item.weight === "function" ? item.weight() : item.weight
+    weight: typeof item.weight === "function" ? item.weight() : item.weight,
   }));
 
   const totalWeight = weightedItems.reduce((sum, { weight }) => sum + weight, 0);
@@ -24,35 +24,11 @@ export function chooseRandom<T>(arr: T[]): T | undefined {
   return arr[randomIndex];
 }
 
-export function randomInterval(min : number, max : number): number { // min and max included 
+export function randomInterval(min: number, max: number): number {
+  // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function randomDecimal(min : number, max : number): number {
+export function randomDecimal(min: number, max: number): number {
   return Math.random() * (max - min) + min;
-}
-
-interface IQueue<T> {
-  enqueue(item: T): void;
-  dequeue(): T | undefined;
-  size(): number;
-}
-
-export class Queue<T> implements IQueue<T> {
-  private storage: T[] = [];
-
-  constructor(private capacity: number = Infinity) {}
-
-  enqueue(item: T): void {
-    if (this.size() === this.capacity) {
-      throw Error("Queue has reached max capacity, you cannot add more items");
-    }
-    this.storage.push(item);
-  }
-  dequeue(): T | undefined {
-    return this.storage.shift();
-  }
-  size(): number {
-    return this.storage.length;
-  }
 }

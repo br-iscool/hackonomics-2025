@@ -24,8 +24,10 @@ export const state = proxy({
   car: null as CarData | null,
   housing: { type: "Parents" } as Housing,
   family: { status: "Single" } as FamilyStatus,
+
   transcript: [] as string[],
-  event: null as GameEvent | null,
+  events: [] as GameEvent[],
+  triggeredEvents: new Set<string>(),
 
   stress: 0,
   money: 5000,
@@ -94,5 +96,5 @@ export const state = proxy({
     return !!state.family.children?.length;
   },
 
-  
+
 });

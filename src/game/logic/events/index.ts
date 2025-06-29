@@ -1,9 +1,8 @@
-import { gameEvents } from "./data";
-import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
-import { pickWeighted, Queue } from "@/utils";
 import { state } from "@/game/state";
 
-let triggeredEvents = new Set<string>();
+import { gameEvents } from "./data";
+import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
+import { pickWeighted } from "@/utils";
 
 function isScheduledEvent(event: GameEvent): event is ScheduledEvent {
   return event instanceof ScheduledEvent;
@@ -14,44 +13,39 @@ function isRandomEvent(event: GameEvent): event is RandomEvent {
 }
 
 export function handleEvents(currentAge: number) {
+  console.log(state.triggeredEvents)
   console.log(`Handling events for age ${currentAge}`);
-  let eventsQueue = new Queue<GameEvent>();
 
   // Scheduled Events
   for (const event of gameEvents) {
     if (
       isScheduledEvent(event) &&
       event.trigger === currentAge &&
-      !triggeredEvents.has(event.name)
+      !state.triggeredEvents.has(event.name)
     ) {
-      eventsQueue.enqueue(event);
+      state.events.push(event);
     }
   }
 
-  if (eventsQueue.size() == 0) {
+  if (state.events.length === 0) {
     // Random Events
     const eligibleRandomEvents = gameEvents.filter(
       (event): event is RandomEvent =>
         isRandomEvent(event) &&
         (event.condition ? event.condition() : true) &&
-        !triggeredEvents.has(event.name) && // Optional: prevent repeats
+        !state.triggeredEvents.has(event.name) && // Optional: prevent repeats
         (typeof event.weight === "function" ? event.weight() : event.weight) > 0
     );
 
     const picked = pickWeighted(eligibleRandomEvents);
     if (picked) {
-      eventsQueue.enqueue(picked);
+      picked.execute();
+      if (!picked.repeatable) state.triggeredEvents.add(picked.name);
     }
   }
 
-
-  // Execute functions
-  while(eventsQueue.size() > 0) {
-    const event = eventsQueue.dequeue();
-    if (event) {
-      event.execute();
-      state.event = event;
-      if (!event.repeatable) triggeredEvents.add(event.name);
-    }
-  }
+  // // Execute functions
+  // while(state.events.length > 0) {
+  //   const event = state.events.shift();
+  // }
 }

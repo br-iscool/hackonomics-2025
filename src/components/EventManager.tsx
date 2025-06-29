@@ -1,64 +1,51 @@
-import { useState, useEffect } from "react";
+import { useSnapshot } from "valtio";
+import { state } from "@/game/state";
+import { TextEvent } from "@/game/logic/events/eventsClasses";
+
 import EventDialog from "./dialogs/EventDialog";
-import { GameEvent } from "@/game/logic/events/eventsClasses";
 
-interface EventManagerProps {
-	event: GameEvent;
-}
+export default function EventManager() {
+	const snap = useSnapshot(state);
+	const current = snap.events[0];
+	console.log("Current Event:", current);
 
-interface DialogEntry {
-	title: string;
-	body: string;
-	buttons: { label: string, onClick: () => void, disabled: boolean }[];
-}
+	// nothing to show if dead or no events
+	if (!snap.alive || !current) return null;
 
-export default function EventManager({ event }: EventManagerProps) {
-	console.log(event, event instanceof GameEvent);
-	const [dialogQueue, setDialogQueue] = useState<DialogEntry[]>([]);
+	// build the DialogEntry from the GameEvent
+	const dialog = {
+		title: current.name,
+		body: current.getFormattedBody(),
+		buttons:
+			current.choices?.map((choice) => {
+				const disabled = choice.condition
+					? !choice.condition(current.eventData)
+					: false;
 
-	useEffect(() => {
-		// Prepare first dialog entry from the initial event
-		const initialEntry: DialogEntry = {
-			title: event.name,
-			body: event.getFormattedBody(),
-			buttons:
-				event.choices?.map((choice) => {
-					const isDisabled = choice.condition ? !choice.condition(event.eventData) : false;
+				return {
+					label: choice.label,
+					disabled,
+					onClick: () => {
+						if (disabled) return;
+						// first, run the event logic
+						const result = choice.execute?.(current.eventData);
 
-					return {
-						label: choice.label,
-						onClick: () => {
-							if (isDisabled) return; // Prevent action if the button is disabled
+						state.events.shift();
 
-							const res = choice.execute?.(event.eventData);
-
-							closeTopDialog();
-
-							if (res) {
-								queueDialog({
-									title: "Result",
-									body: res,
-									buttons: [{ label: "Close", onClick: closeTopDialog, disabled: false }],
-								});
-							}
-						},
-						disabled: isDisabled, // Disable button if condition is false
-					};
-				}) || [],
-		};
-
-		setDialogQueue([initialEntry]);
-	}, [event]);
-
-	const closeTopDialog = () => {
-		setDialogQueue((prev) => prev.slice(1));
+						if (typeof result === "string") state.events.unshift(new TextEvent(result));
+						else if (result) state.events.unshift(result);
+					},
+				};
+			}) || [],
 	};
 
-	const queueDialog = (dialog: DialogEntry) => {
-		setDialogQueue((prev) => [...prev, dialog]);
-	};
-
-	const currentDialog = dialogQueue[0];
-
-	return currentDialog ? <EventDialog key={currentDialog.title} dialog={currentDialog} onClose={closeTopDialog} /> : null;
+	return (
+		<EventDialog
+			key={dialog.title}
+			dialog={dialog}
+			onClose={() => {
+				state.events.shift();
+			}}
+		/>
+	);
 }

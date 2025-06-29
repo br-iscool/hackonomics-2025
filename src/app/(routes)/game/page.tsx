@@ -14,7 +14,7 @@ export default function Game() {
             <Notifier />
             <WelcomeDialog />
             <GameOverDialog />
-            {snap.alive && snap.event && <EventManager event={snap.event} />}
+            <EventManager />
 
             <div className="bg-gray-200 min-h-screen flex flex-col md:flex-row">
                 <div className="min-h-screen w-full md:w-2/3">

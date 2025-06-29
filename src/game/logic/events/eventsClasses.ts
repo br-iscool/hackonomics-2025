@@ -1,7 +1,7 @@
 export interface GameChoice {
   label: string;
-  condition?: ((eventData : any) => boolean | null) | null;
-  execute?: ((eventData : any) => void | string) | null;
+  condition?: ((eventData: any) => boolean | null) | null;
+  execute?: ((eventData: any) => void | string) | null;
 }
 
 export type GameEventType = "scheduled" | "random";
@@ -12,17 +12,17 @@ export abstract class GameEvent {
   body: string;
   condition: () => boolean;
   choices: ReadonlyArray<GameChoice>;
-  repeatable? : boolean;
+  repeatable?: boolean;
   eventData: any = {};
 
-  constructor (
+  constructor(
     name: string,
     type: GameEventType,
     body: string,
     condition: () => boolean,
     choices: ReadonlyArray<GameChoice>,
     setVars?: () => void,
-    repeatable? :boolean,
+    repeatable?: boolean
   ) {
     this.name = name;
     this.type = type;
@@ -44,17 +44,17 @@ export abstract class GameEvent {
 
 export class ScheduledEvent extends GameEvent {
   trigger: number | (() => boolean);
-  onExecute: null | ((eventData : any) => void | string);
+  onExecute: null | ((eventData: any) => void | string);
 
   constructor(
     name: string,
     trigger: number | (() => boolean),
-    onExecute: null | ((eventData : any) => void | string),
+    onExecute: null | ((eventData: any) => void | string),
     body: string,
     condition: () => boolean,
     choices: GameChoice[],
     setVars?: () => any,
-    repeatable?: boolean,
+    repeatable?: boolean
   ) {
     super(name, "scheduled", body, condition, choices, setVars, repeatable);
     this.trigger = trigger;
@@ -62,9 +62,9 @@ export class ScheduledEvent extends GameEvent {
   }
 
   shouldTrigger(age: number): boolean {
-    if (typeof this.trigger === 'number') {
+    if (typeof this.trigger === "number") {
       return age === this.trigger && (!this.condition || this.condition());
-    } else if (typeof this.trigger === 'function') {
+    } else if (typeof this.trigger === "function") {
       return this.trigger();
     }
     return false;
@@ -79,19 +79,33 @@ export class ScheduledEvent extends GameEvent {
   }
 }
 
+export class TextEvent extends GameEvent {
+  constructor(body: string) {
+    super("Result", "scheduled", body, () => true, [
+      {
+        label: "Continue",
+        condition: () => true,
+        execute: () => {},
+      },
+    ] as GameChoice[]);
+  }
+  shouldTrigger(_age: number): boolean {return true;}
+  execute(): void {}
+}
+
 export class RandomEvent extends GameEvent {
   weight: number | (() => number);
-  onExecute: null | ((eventData : any) => void | string);
+  onExecute: null | ((eventData: any) => void | string);
 
   constructor(
     name: string,
     weight: number | (() => number),
-    onExecute: null | ((eventData : any) => void | string),
+    onExecute: null | ((eventData: any) => void | string),
     body: string,
     condition: () => boolean,
     choices: GameChoice[],
     setVars?: () => any,
-    repeatable?: boolean,
+    repeatable?: boolean
   ) {
     super(name, "random", body, condition, choices, setVars, repeatable);
     this.weight = weight;
