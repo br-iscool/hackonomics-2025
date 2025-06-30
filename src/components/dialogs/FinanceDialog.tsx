@@ -21,7 +21,6 @@ import {
 	FaDollarSign,
 	FaMoneyBillWave,
 	FaScaleBalanced,
-	FaPiggyBank,
 	FaCreditCard,
 	FaChartLine,
 	FaBuildingColumns,
@@ -49,7 +48,7 @@ export default function FinanceDialog() {
 				<Tabs defaultValue="overview" className="mt-4">
 					<TabsList className="grid w-full grid-cols-5">
 						<TabsTrigger value="overview">Overview</TabsTrigger>
-						<TabsTrigger value="budget">Budget</TabsTrigger>
+						<TabsTrigger value="income">Income</TabsTrigger>
 						<TabsTrigger value="debt">Debt</TabsTrigger>
 						<TabsTrigger value="history">History</TabsTrigger>
 						<TabsTrigger value="expenses">Expenses</TabsTrigger>
@@ -63,11 +62,10 @@ export default function FinanceDialog() {
 						</div>
 					</TabsContent>
 
-					<TabsContent value="budget">
+					<TabsContent value="income">
 						<div className="pt-4 space-y-4">
-							<Section title="Budgeting">
+							<Section title="Income">
 								<InfoRow icon={<FaMoneyBillWave />} label="Income" value={`$${snap.income.toLocaleString()}`} />
-								<InfoRow icon={<FaPiggyBank />} label="Budget" value={`$${snap.budget.toLocaleString()}`} />
 							</Section>
 						</div>
 					</TabsContent>

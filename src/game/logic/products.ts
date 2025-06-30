@@ -8,8 +8,8 @@ export function tickLoan(data: LoanData) {
   const annualPayment = data.balance * data.interestRate;
 
   if (state.money >= annualPayment) {
-    state.money -= annualPayment;
-    data.balance -= annualPayment;
+    state.money = Math.round((state.money - annualPayment) * 100) / 100;
+    data.balance = Math.round((data.balance - annualPayment) * 100) / 100;
     data.yearsElapsed += 1;
 
     if (data.yearsElapsed >= data.termYears || data.balance <= 0) {
@@ -22,11 +22,11 @@ export function tickSavings(data: SavingsAccData) {
   if (!data.active) return;
 
   const interest = state.money * data.interestRate;
-  state.money += interest;
+  state.money = Math.round((state.money + interest) * 100) / 100;
   data.yearsElapsed = (data.yearsElapsed ?? 0) + 1;
 }
 
-export function tickDisease(data : DiseaseData) : boolean | undefined {
+export function tickDisease(data: DiseaseData): boolean | undefined {
   if (!data.active) return;
 
   if (weightedBoolean(data.curability, 1 - data.curability)) {

@@ -45,14 +45,14 @@ export default function EducationDialog({ education }: { education: Education })
 							<span>{education.field}</span>
 						</div>
 					)}
-					{education.tuition !== undefined && (
+					{education.inSchooling && education.tuition !== undefined && (
 						<div className="flex items-center gap-3">
 							<FaDollarSign className="text-muted-foreground"/>
 							<span className="font-medium">Tuition:</span>
 							<span>${education.tuition.toLocaleString()}</span>
 						</div>
 					)}
-					{education.yearsUntilGrad !== undefined && (
+					{education.inSchooling && education.yearsUntilGrad !== undefined && (
 						<div className="flex items-center gap-3">
 							<FaCalendar className="text-muted-foreground"/>
 							<span className="font-medium">Years Until Graduation:</span>

@@ -37,18 +37,17 @@ export const initialState = {
 
   products: {
     creditCard: null as boolean | null,
+    car: null as CarData | null,
     loans: [] as LoanData[],
     savings: null as SavingsAccData | null,
   },
 
   income: 0,
-  budget: 0,
 
   expenses: {
     education: 0,
     housing: 0,
     transportation: 0,
-    other: 0,
   } as Record<string, number>,
 
   paymentHistory: 0,
@@ -62,11 +61,15 @@ export const state = proxy({
   ...initialState,
 
   get debt(): number {
-    return this.products.loans.reduce((acc, l) => acc + l.balance, 0);
+    return Math.round(
+      this.products.loans.reduce((acc, l) => acc + l.balance, 0) * 100
+    ) / 100;
   },
 
   get totalExpenses(): number {
-    return Object.values(this.expenses).reduce((sum, val) => sum + val, 0);
+    return Math.round(
+      Object.values(this.expenses).reduce((sum, val) => sum + val, 0) * 100
+    ) / 100;
   },
 
   get creditScore(): number {

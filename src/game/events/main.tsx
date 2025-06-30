@@ -269,33 +269,32 @@ export const gameEvents: GameEvent[] = [
       <>
         You hear knocking at the door and are approached by a car salesman at your local auto.
         He says that purchasing a car will make transportation in your life significantly more convenient than public transport,
-        and presents you with a list of vehicles to purchase from.
+        and presents you with a list of vehicles to purchase from. Note: depending on the type, your car reduces stress per year!
         <br />
         <br />
         <ol>
           <li>
             <h3>Buy a cheap, used car 🚐</h3>
             Buy a {eventData.cheapCar}, with a markup cost of <Color>${eventData.cheapPrice}</Color>.
-            However, because it's so cheap, you may <b>frequently have to spend money on repairs</b> and it
-            definitely <b>doesn't seem like it'll last very long</b>...
+            However, because it's so cheap, you may <b>frequently have to spend money on repairs</b> and maintenance costs of <Color>${eventData.cheapTransport}</Color> per year.
           </li>
           <li>
             <h3>Buy an average car 🚗</h3>
             Buy a {eventData.averageCar}, with a markup cost of <Color>${eventData.averagePrice}</Color>.
-            It's not the prettiest car, but it looks reliable, durable, and sturdy enough to drive you around.
+            It's not the prettiest car, but it looks reliable, durable, and sturdy enough to drive you around with maintenance costs of <Color>${eventData.averageTransport}</Color> per year.
           </li>
           <li>
             <h3>Buy a luxury car 🏎️</h3>
             Buy a {eventData.luxuryCar}, with a markup cost of <Color>${eventData.luxuryPrice}</Color>.
-            For it's hefty price, it's quality is definitely something to dream of.
+            For it's hefty price, it's quality is definitely something to dream of, with premium maintenance costs of <Color>${eventData.luxuryTransport}</Color> per year.
           </li>
           <li>
             <h3>Stick with public transport 🤷‍♂️</h3>
-            It's not as convenient, but it's definitely cheap.
+            It's not as convenient, but it's definitely cheap at <Color>${eventData.publicTransport}</Color> per year.
           </li>
         </ol>
       </>),
-    () => state.age > 21 && !state.car, // Only show if they don't have a car
+    () => state.age > 21 && !state.car,
     [
       {
         label: "Cheap car",
@@ -305,9 +304,10 @@ export const gameEvents: GameEvent[] = [
             type: "Cheap",
             name: eventData.cheapCar,
             value: eventData.cheapPrice,
-            reliability: "low",
           };
+          state.products.car = state.car;
           state.money -= eventData.cheapPrice;
+          state.expenses["transportation"] = eventData.cheapTransport;
           return (
             <>
               Well- you're not here to buy a showpiece- and if it can be driven, you're sure you can work something out.
@@ -324,9 +324,10 @@ export const gameEvents: GameEvent[] = [
             type: "Average",
             name: eventData.averageCar,
             value: eventData.averagePrice,
-            reliability: "medium",
           };
+          state.products.car = state.car;
           state.money -= eventData.averagePrice;
+          state.expenses["transportation"] = eventData.averageTransport;
           return (
             <>
               Well- you're not here to buy a showpiece- and this car will definitely get you the best mileage.
@@ -343,9 +344,10 @@ export const gameEvents: GameEvent[] = [
             type: "Luxury",
             name: eventData.luxuryCar,
             value: eventData.luxuryPrice,
-            reliability: "high",
           };
+          state.products.car = state.car;
           state.money -= eventData.luxuryPrice;
+          state.expenses["transportation"] = eventData.luxuryTransport;
           return (
             <>
               Bracing your wallet, you purchase the car your eyes have always been set on,
@@ -357,10 +359,11 @@ export const gameEvents: GameEvent[] = [
       {
         label: "None",
         execute: (eventData) => {
+          state.expenses["transportation"] = eventData.publicTransport;
           return (
             <>
               Oh well, a car isn't for everyone.
-              You'll get by with a cheaper options for now
+              You'll stick with public transportation for now at ${eventData.publicTransport} per year.
             </>
           );
         },
@@ -370,6 +373,7 @@ export const gameEvents: GameEvent[] = [
       const cheapCars = ["Honda X", "Subaru V", "Toyota"];
       const averageCars = ["Ford Ranger", "Subaru VI"];
       const luxuryCars = ["Mustard", "Limouseine"];
+
       return {
         cheapCar: chooseRandom(cheapCars),
         averageCar: chooseRandom(averageCars),
@@ -377,6 +381,11 @@ export const gameEvents: GameEvent[] = [
         cheapPrice: randomInterval(25, 30) * 1000,
         averagePrice: randomInterval(35, 45) * 1000,
         luxuryPrice: randomInterval(100, 120) * 1000,
+        // Transportation expense
+        publicTransport: randomInterval(8, 12) * 100, // $800-$1200/year
+        cheapTransport: randomInterval(15, 20) * 100, // $1500-$2000/year 
+        averageTransport: randomInterval(25, 30) * 100, // $2500-$3000/year
+        luxuryTransport: randomInterval(40, 50) * 100, // $4000-$5000/year
       };
     },
     true
@@ -669,6 +678,54 @@ export const gameEvents: GameEvent[] = [
       price: randomInterval(20, 80) * 100,
     }),
     true //repeats
+  ),
+
+  new RandomEvent(
+    "Car repairs",
+    () => (state.car?.type === "Cheap" ? 0.05 : 0),
+    null,
+    (eventData) => (
+      <>
+        Your cheap car, the {state.car?.name}, has broken down unexpectedly! It will cost <Color>${eventData.repairCost}</Color> to get it back on the road. 
+        Otherwise, you will have to go back to using public transport. Do you pay for the repairs?
+      </>
+    ),
+    () => state.car?.type === "Cheap",
+    [
+      {
+        label: "Pay for repairs",
+        condition: (eventData) => canPurchase(eventData.repairCost),
+        execute: (eventData) => {
+          state.money -= eventData.repairCost;
+          state.stress -= 5;
+          return (
+            <>
+              You pay for the repairs and your car is running again, but your wallet feels lighter.
+            </>
+          );
+        },
+      },
+      {
+        label: "Don't repair",
+        execute: (eventData) => {
+          state.car = null;
+          state.products.car = null;
+          state.expenses["transportation"] = eventData.publicTransport;
+          state.stress += 15;
+          return (
+            <>
+              You decide not to repair your car. You'll have to rely on public transportation again, 
+              which will cost you ${eventData.publicTransport} per year and increase your stress.
+            </>
+          );
+        },
+      },
+    ],
+    () => ({
+      repairCost: randomInterval(15, 30) * 100, // $1500-$3000
+      publicTransport: randomInterval(8, 12) * 100, // $800-$1200
+    }),
+    true
   ),
 
   // Flu event

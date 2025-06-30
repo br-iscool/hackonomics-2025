@@ -66,10 +66,9 @@ export interface SavingsAccData {
 }
 
 export interface CarData {
-  type: "Cheap" | "Average" | "Luxury";
+  type: "Cheap" | "Average" | "Luxury" | "None";
   name: string;
   value: number;
-  reliability: "low" | "medium" | "high";
 }
 
 export interface DiseaseData {

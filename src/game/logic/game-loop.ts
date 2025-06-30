@@ -42,13 +42,16 @@ export function gameLoop() {
   updateIncome();
 
   // Update money based on expenses - use cached totalExpenses
-  state.money -= state.totalExpenses;
+  state.money = Math.round((state.money - state.totalExpenses) * 100) / 100;
 
   // Illness related effects
   state.diseases.forEach(tickDisease);
 
   // Trigger events
   handleEvents(state.age);
+
+  // Update transportation stress
+  updateTransportation();
 
   if (state.hasWon && !state.won) {
     state.won = true;
@@ -89,8 +92,27 @@ function updateIncome() {
   if (!state.job) return;
 
   const baseSalary = state.job.salary;
-  state.income = Math.floor(baseSalary);
-  state.money += state.income;
+  state.income = Math.round(baseSalary * 100) / 100;
+  state.money = Math.round((state.money + state.income) * 100) / 100;
+}
+
+function updateTransportation() {
+  if (state.car) {
+    switch (state.car.type) {
+      case "Luxury":
+        state.stress = Math.max(0, state.stress - 7); // Reduces stress significantly
+        break;
+      case "Average":
+        state.stress = Math.max(0, state.stress - 5); // Reduces stress a little
+        break;
+      case "Cheap":
+        state.stress = Math.max(0, state.stress - 3);
+        break;
+    }
+  } else {
+    // Using public transportation increases stress
+    state.stress = Math.min(100, state.stress + 3);
+  }
 }
 
 export function startGame() {
