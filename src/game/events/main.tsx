@@ -5,42 +5,6 @@ import { canPurchase } from "@/game/logic/game-loop";
 import Color from "@/components/ui/color"
 
 export const gameEvents: GameEvent[] = [
-  /* Obsolete due to job dialog system
-  /
-  new RandomEvent(
-    "Part-time Job",
-    () => 0.1, //gets employability from state
-    null,
-    `You have been offered the position of a <b>{eventData.role}</b>
-    at the local {eventData.location}
-    for a starting salary of <b>\${eventData.salary}</b>. Do you accept?`,
-    () => state.job == null && state.education.inSchooling,
-    [
-      {
-        label: "Accept",
-        execute: (eventData) => {
-          state.job = { role: eventData.role, salary: eventData.salary, yearsEmployed: 0 };
-          return `Congrats! You are now employed as a <b>${eventData.role}.</b>`;
-        },
-      },
-      {
-        label: "Decline",
-      },
-    ],
-    () => {
-      const roles = ["Cashier", "Janitor", "Security Guard"];
-      const locations = ["IHoP", "MacDennys", "Sofaway"];
-
-      return {
-        role: chooseRandom(roles),
-        location: chooseRandom(locations),
-        salary: randomInterval(6, 12) * 1000,
-      };
-    },
-    true // repeatable
-  ),
-  */
-
   // University
   new ScheduledEvent(
     "Higher Education",
@@ -129,6 +93,99 @@ export const gameEvents: GameEvent[] = [
     }
   ),
 
+  // Graduate school
+  new ScheduledEvent(
+    "Choose a higher education path",
+    22,
+    () => {
+      state.education.inSchooling = false;
+    },
+    (eventData) => (
+      <div>
+        Now that you've finished with undergraduate schooling, it's time to decide a career path!
+        <br />
+        <br />
+        <ol>
+          <li>
+            <h3>1. Apply for med school 🩺</h3>
+            For a hefty annual tuition of <Color>${eventData.medCost}</Color> for 10 years, you will be able
+            to become a doctor. This guarantees high pay, but potentially high stress and lots of school fees.
+            Is this something you can handle?
+          </li>
+          <li>
+            <h3>2. Apply for law school ⚖️</h3>
+            For the hefty annual tuition of <Color>${eventData.lawCost}</Color> for 4 years, you will be able
+            to become a lawyer. This guarantees high pay, but potentially high stress and lots of school fees.
+            Is this something you can handle?
+          </li>
+          <li>
+            <h3>Go straight to the workforce 💪</h3>
+            With an undergraduate degree, you will be able to find a decent job with good wages. Most importantly,
+            you'll be able to avoid paying years of costly tuition.
+          </li>
+        </ol>
+      </div>
+    ),
+    () => state.education.level === "Undergrad" && state.education.yearsUntilGrad === 0,
+    [
+      {
+        label: "Med School",
+        execute: (eventData) => {
+          state.education = {
+            inSchooling: true,
+            level: "Grad",
+            tuition: eventData.medCost,
+            yearsUntilGrad: 10,
+            field: "Medicine",
+          };
+          state.expenses["education"] = eventData.medCost;
+          return (
+            <>
+              Congratulations on being accepted into med school! For the next 10 years, you will
+              work towards becoming a doctor!
+            </>
+          );
+        },
+      },
+      {
+        label: "Law School",
+        execute: (eventData) => {
+          state.education = {
+            inSchooling: true,
+            level: "Grad",
+            tuition: eventData.lawCost,
+            yearsUntilGrad: 4,
+            field: "Law",
+          };
+          state.expenses["education"] = eventData.lawCost;
+          return (
+            <>
+              Congratulations on being accepted into law school! For the next 4 years, you will
+              work towards becoming a lawyer!
+            </>
+          );
+        },
+      },
+      {
+        label: "Find a job",
+        execute: (eventData) => {
+          return (
+            <>
+              Higher education isn't for everyone - and you know what you're really after - getting the money early.
+              Good luck on finding a job!
+            </>
+          );
+        },
+      },
+    ],
+    () => {
+      return {
+        medCost: randomInterval(20, 24) * 1000,
+        lawCost: randomInterval(25, 30) * 1000,
+      };
+    }
+  ),
+
   // Savings account
   new RandomEvent(
     "Open a Savings Account",
@@ -137,8 +194,8 @@ export const gameEvents: GameEvent[] = [
     (eventData) => (
       <>
         You hear knocking at the door and are approached by a representative of {eventData.bank}.
-        He offers you a deal to open a High Interest Savings Account, with an annual interest rate of
-         {eventData.rate}%. Do you:
+        He offers you a deal to open a High Interest Savings Account, with an annual interest rate of{" "}
+        {eventData.rate}%. Do you accept the deal?
       </>
     ),
     () => state.age > 17 && !state.products.savings,
@@ -388,103 +445,10 @@ export const gameEvents: GameEvent[] = [
     })
   ),
 
-  // Graduate school
-  new ScheduledEvent(
-    "Choose a higher education path",
-    22,
-    () => {
-      state.education.inSchooling = false;
-    },
-    (eventData) => (
-      <div>
-        Now that you've finished with undergraduate schooling, it's time to decide a career path!
-        <br />
-        <br />
-        <ol>
-          <li>
-            <h3>1. Apply for med school 🩺</h3>
-            For a hefty annual tuition of <Color>${eventData.medCost}</Color> for 10 years, you will be able
-            to become a doctor. This guarantees high pay, but potentially high stress and lots of school fees.
-            Is this something you can handle?
-          </li>
-          <li>
-            <h3>2. Apply for law school ⚖️</h3>
-            For the hefty annual tuition of <Color>${eventData.lawCost}</Color> for 4 years, you will be able
-            to become a lawyer. This guarantees high pay, but potentially high stress and lots of school fees.
-            Is this something you can handle?
-          </li>
-          <li>
-            <h3>Go straight to the workforce 💪</h3>
-            With an undergraduate degree, you will be able to find a decent job with good wages. Most importantly,
-            you'll be able to avoid paying years of costly tuition.
-          </li>
-        </ol>
-      </div>
-    ),
-    () => state.education.level === "Undergrad" && state.education.yearsUntilGrad === 0,
-    [
-      {
-        label: "Med School",
-        execute: (eventData) => {
-          state.education = {
-            inSchooling: true,
-            level: "Grad",
-            tuition: eventData.medCost,
-            yearsUntilGrad: 10,
-            field: "Medicine",
-          };
-          state.expenses["education"] = eventData.medCost;
-          return (
-            <>
-              Congratulations on being accepted into med school! For the next 10 years, you will
-              work towards becoming a doctor!
-            </>
-          );
-        },
-      },
-      {
-        label: "Law School",
-        execute: (eventData) => {
-          state.education = {
-            inSchooling: true,
-            level: "Grad",
-            tuition: eventData.lawCost,
-            yearsUntilGrad: 4,
-            field: "Law",
-          };
-          state.expenses["education"] = eventData.lawCost;
-          return (
-            <>
-              Congratulations on being accepted into law school! For the next 4 years, you will
-              work towards becoming a lawyer!
-            </>
-          );
-        },
-      },
-      {
-        label: "Find a job",
-        execute: (eventData) => {
-          return (
-            <>
-              Higher education isn't for everyone - and you know what you're really after - getting the money early.
-              Good luck on finding a job!
-            </>
-          );
-        },
-      },
-    ],
-    () => {
-      return {
-        medCost: randomInterval(20, 24) * 1000,
-        lawCost: randomInterval(25, 30) * 1000,
-      };
-    }
-  ),
-
   // House
   new RandomEvent(
     "Own a home!",
-    () => 0.3,
+    () => (state.housing ? 0 : 0.5),
     null,
     (eventData) => (
       <>
@@ -514,54 +478,8 @@ export const gameEvents: GameEvent[] = [
     true // repeatable
   ),
 
-  // Life insurance
-  /*
-  new RandomEvent(
-    "Insurance Offer",
-    0.1,
-    null,
-    (eventData) => (
-      <>
-        `You hear knocking at the door and are approached by an insurance salesman.
-        He says that purchasing a <b>Term Life Insurance Plan</b> will give you financial security. If you purchase
-        now, you will pay annual premiums amounting to <Color>${eventData.premium}</Color> for the next 30 years, and a payment will be given
-        to your family in the case of an untimely death. If the 30 years expires, you get to collect <b>all of the money you paid,
-          and some extra.</b> This seems like an extremely lucrative deal, especially if you're looking for financial security.
-        Do you take it?
-      </>
-    ),
-    () => state.age > 30 && state.hasChildren && !state.products.insurance, //check if family
-    [
-      {
-        label: "Get insurance",
-        execute: (eventData) => {
-          /*state.products.insurance = new Insurance({
-            active: true,
-            balance: 100, //placeholder, prob will remove this value later
-            interestRate: 1.05,
-            limit: 1000,
-            interestFreePeriod: 1, //idk
-          })
-          return (
-            <>
-              Your next 30 years are now insured!
-            </>
-          );
-        },
-      },
-      {
-        label: "Maybe later",
-      },
-    ],
-    () => ({
-      premium: randomInterval(13, 20) * 100,
-    }),
-    true //repeatable
-  ),
-  */
-
   // All the random, lifestyle events
-
+  // Product event
   new RandomEvent(
     "Good deal or not?",
     0.05,
@@ -608,6 +526,8 @@ export const gameEvents: GameEvent[] = [
     }),
     true //repeats
   ),
+
+  // Product broken event
   new RandomEvent(
     "Unexpected breakdown",
     0.075,
@@ -651,6 +571,8 @@ export const gameEvents: GameEvent[] = [
     }),
     true //repeats
   ),
+
+  // Flu event
   new RandomEvent(
     "Flu season!",
     0.1,
@@ -693,6 +615,102 @@ export const gameEvents: GameEvent[] = [
     () => { },
     true //repeats
   ),
+
+  // Dating
+  new RandomEvent(
+    "Dating",
+    0.1,
+    null,
+    (eventData) => (
+      <>
+        Feeling sick of your singleness, you decide that it might be time to enter the dating
+        market. Although there may be added responsibility and stress, this may be a good opportunity
+        to find new human connection. What do you do?
+      </>
+    ),
+    () => !state.family.spouse, //if single
+    [
+      {
+        label: "Search for a potential date",
+        execute: (eventData) => {
+          //Activates date looking thing, 50 50 chance of finding one
+        },
+      },
+      {
+        label: "No",
+        execute: (eventData) => {
+          return (
+            <>
+              You value being a bachelor. After all, you get more time for yourself, and
+              for your hobbies.
+            </>
+          );
+        },
+      },
+    ],
+    () => { },
+    true //repeats
+  ),
+
+  // Proposal
+  new RandomEvent(
+    "Proposal",
+    0.1,
+    null,
+    (eventData) => (
+      <>
+        Having sufficient time to get to know you, your partner asks youif you would like to get engaged.
+        What do you do?
+      </>
+    ),
+    () => state.family.spouse?.relationship === "Dating", //if dating
+    [
+      {
+        label: "Yes",
+        execute: (eventData) => {
+          //Changes family state to marriage
+          return (
+            <>
+              You get happily married!
+            </>
+          );
+        },
+      },
+      {
+        label: "No",
+      },
+    ],
+    () => { },
+    true //repeats
+  ),
+
+  // Kids
+  new RandomEvent(
+    "Kids?",
+    0.1,
+    null,
+    (eventData) => (
+      <>
+        Your partner asks if you if you would like to have kids. What do you say?
+      </>
+    ),
+    () => state.family.spouse?.relationship == "Spouse", //if married
+    [
+      {
+        label: "Yes",
+        execute: (eventData) => {
+          //Adds kids to family, n stuff
+        },
+      },
+      {
+        label: "No",
+      },
+    ],
+    () => { },
+    true //repeats
+  ),
+
+  // Child flu event
   new RandomEvent(
     "Unexpected emergency",
     0.1,
@@ -735,6 +753,8 @@ export const gameEvents: GameEvent[] = [
     () => { },
     true //repeats
   ),
+
+  // Child product event
   new RandomEvent(
     "To buy or not?",
     0.05,
@@ -780,6 +800,8 @@ export const gameEvents: GameEvent[] = [
     }),
     true //repeats
   ),
+
+  
   new RandomEvent(
     "Surprise vacation",
     0.05,
@@ -819,94 +841,7 @@ export const gameEvents: GameEvent[] = [
     () => { },
     true //repeats
   ),
-  new RandomEvent(
-    "Dating",
-    0.1,
-    null,
-    (eventData) => (
-      <>
-        Feeling sick of your singleness, you decide that it might be time to enter the dating
-        market. Although there may be added responsibility and stress, this may be a good opportunity
-        to find new human connection. What do you do?
-      </>
-    ),
-    () => !state.family.spouse, //if single
-    [
-      {
-        label: "Search for a potential date",
-        execute: (eventData) => {
-          //Activates date looking thing, 50 50 chance of finding one
-        },
-      },
-      {
-        label: "No",
-        execute: (eventData) => {
-          return (
-            <>
-              You value being a bachelor. After all, you get more time for yourself, and
-              for your hobbies.
-            </>
-          );
-        },
-      },
-    ],
-    () => { },
-    true //repeats
-  ),
-  new RandomEvent(
-    "Proposal",
-    0.1,
-    null,
-    (eventData) => (
-      <>
-        Having sufficient time to get to know you, your partner asks youif you would like to get engaged.
-        What do you do?
-      </>
-    ),
-    () => state.family.spouse?.relationship === "Dating", //if dating
-    [
-      {
-        label: "Yes",
-        execute: (eventData) => {
-          //Changes family state to marriage
-          return (
-            <>
-              You get happily married!
-            </>
-          );
-        },
-      },
-      {
-        label: "No",
-      },
-    ],
-    () => { },
-    true //repeats
-  ),
-  new RandomEvent(
-    "Kids?",
-    0.1,
-    null,
-    (eventData) => (
-      <>
-        Your partner asks if you if you would like to have kids. What do you say?
-      </>
-    ),
-    () => state.family.spouse?.relationship == "Spouse", //if married
-    [
-      {
-        label: "Yes",
-        execute: (eventData) => {
-          //Adds kids to family, n stuff
-        },
-      },
-      {
-        label: "No",
-      },
-    ],
-    () => { },
-    true //repeats
-  ),
+  
   /*
   new RandomEvent(
     "Raise",
@@ -1050,3 +985,42 @@ export const gameEvents: GameEvent[] = [
     true //repeats
   ),
 ];
+
+
+// Removed events:
+
+/* Job event, obsolete due to job dialog system
+  /
+  new RandomEvent(
+    "Part-time Job",
+    () => 0.1, //gets employability from state
+    null,
+    `You have been offered the position of a <b>{eventData.role}</b>
+    at the local {eventData.location}
+    for a starting salary of <b>\${eventData.salary}</b>. Do you accept?`,
+    () => state.job == null && state.education.inSchooling,
+    [
+      {
+        label: "Accept",
+        execute: (eventData) => {
+          state.job = { role: eventData.role, salary: eventData.salary, yearsEmployed: 0 };
+          return `Congrats! You are now employed as a <b>${eventData.role}.</b>`;
+        },
+      },
+      {
+        label: "Decline",
+      },
+    ],
+    () => {
+      const roles = ["Cashier", "Janitor", "Security Guard"];
+      const locations = ["IHoP", "MacDennys", "Sofaway"];
+
+      return {
+        role: chooseRandom(roles),
+        location: chooseRandom(locations),
+        salary: randomInterval(6, 12) * 1000,
+      };
+    },
+    true // repeatable
+  ),
+  */

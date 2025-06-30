@@ -31,7 +31,7 @@ export const initialState = {
   triggeredEvents: new Set<string>(),
 
   stress: 1,
-  money: 2500000,
+  money: 5000,
 
   products: {
     creditCard: null as boolean | null,
@@ -53,10 +53,7 @@ export const initialState = {
   totalPayments: 0,
   onTimePayments: 0,
   yearsCredit: 0,
-
-  settings: {
-    autosave: true,
-  },
+  
 };
 
 export const state = proxy({
