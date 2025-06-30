@@ -173,7 +173,7 @@ export const gameEvents: GameEvent[] = [
   // Credit card
   new RandomEvent(
     "Get a Credit Card",
-    () => (state.products.creditCard ? 0 : 0.2),
+    () => (state.products.creditCard ? 0 : 0.5),
     null,
     (eventData) => (
       <>
@@ -326,9 +326,9 @@ export const gameEvents: GameEvent[] = [
   ),
 
   // Apartment
-  new RandomEvent(
+  new ScheduledEvent(
     "Rent an apartment",
-    0.6,
+    25,
     null,
     (eventData) => (
       < >
@@ -515,6 +515,7 @@ export const gameEvents: GameEvent[] = [
   ),
 
   // Life insurance
+  /*
   new RandomEvent(
     "Insurance Offer",
     0.1,
@@ -540,7 +541,7 @@ export const gameEvents: GameEvent[] = [
             interestRate: 1.05,
             limit: 1000,
             interestFreePeriod: 1, //idk
-          })*/
+          })
           return (
             <>
               Your next 30 years are now insured!
@@ -557,6 +558,7 @@ export const gameEvents: GameEvent[] = [
     }),
     true //repeatable
   ),
+  */
 
   // All the random, lifestyle events
 
@@ -633,7 +635,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't repair",
         execute: (eventData) => {
-          state.qualityOfLife -= 10;
+          state.stress += 20;
           return (
             <>
               Well- it isn't a choice you can afford right now. Better to tough it out,
@@ -651,7 +653,7 @@ export const gameEvents: GameEvent[] = [
   ),
   new RandomEvent(
     "Flu season!",
-    0.12,
+    0.1,
     null,
     (eventData) => (
       <>
@@ -666,7 +668,7 @@ export const gameEvents: GameEvent[] = [
         label: "Go ($100)",
         condition: (eventData) => canPurchase(100),
         execute: (eventData) => {
-          state.qualityOfLife += 5;
+          state.stress -= 10;
           state.money -= 100;
           return (
             <>
@@ -678,10 +680,10 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't go",
         execute: (eventData) => {
-          state.qualityOfLife -= 15;
+          state.stress += 15;
           return (
             <>
-              `Unluckily, the flu didn't get any better by itself, and your health
+              Unluckily, the flu didn't get any better by itself, and your health
               got a bit worse.
             </>
           );
@@ -693,7 +695,7 @@ export const gameEvents: GameEvent[] = [
   ),
   new RandomEvent(
     "Unexpected emergency",
-    0.05,
+    0.1,
     null,
     (eventData) => (
       <>
@@ -796,7 +798,7 @@ export const gameEvents: GameEvent[] = [
         condition: (eventData) => canPurchase(5000),
         execute: (eventData) => {
           state.family.value += 15;
-          state.stress -= 20;
+          state.stress -= 30;
           state.money -= 5000;
           return (
             <>
@@ -905,8 +907,9 @@ export const gameEvents: GameEvent[] = [
     () => { },
     true //repeats
   ),
+  /*
   new RandomEvent(
-    "Promotion",
+    "Raise",
     () => 0.05 * (state.job ? Math.max(state.job?.yearsEmployed, 4) : 1),
     (eventData) => {
       if (state.job) state.job.salary += eventData.raise;
@@ -928,14 +931,13 @@ export const gameEvents: GameEvent[] = [
     }),
     true //repeats
   ),
+  */
 
   // Illnesses and Stuff
   new RandomEvent(
     "Major Illness",
-    () => 0.1 * (1 / state.qualityOfLife),
-    (eventData) => {
-      state.qualityOfLife -= 40;
-    },
+    state.stress >= 50 ? 0.1 : 0.01,
+    null,
     (eventData) => (
       <>
         Oh no! You've developed a serious case of {eventData.illness}, and needed to be hospitalized for the
@@ -950,31 +952,32 @@ export const gameEvents: GameEvent[] = [
         label: "Yes",
         condition: (eventData) => canPurchase(eventData.cost),
         execute: (eventData) => {
-          state.qualityOfLife += 45;
+          state.stress -= 45;
           state.money -= eventData.cost;
         },
       },
       {
         label: "No",
+        execute: (eventData) => {
+          state.stress += 40;
+        },
       },
     ],
     () => ({
-      illness: chooseRandom(["Lymphoma", "Kidney Disease", "Type 1 Diabetes"]),
+      illness: chooseRandom(["lymphoma", "kidney disease", "type 1 diabetes"]),
       cost: randomInterval(10, 20) * 1000,
     }),
     true //repeats
   ),
 
   // Punishments
-  new ScheduledEvent(
+  new RandomEvent(
     "Health Scare",
-    () => state.qualityOfLife < 40 && state.qualityOfLife > 20, //and also make sure not ill currently
-    (eventData) => {
-      state.money -= eventData.cost;
-    },
+    state.stress >= 70 ? 0.8 : 0, //and also make sure not ill currently
+    null,
     (eventData) => (
       <>
-        Your poor health has put you into the hospital!
+        Your poor health has temporarily put you in the hospital!
         You pay <Color>${eventData.cost}</Color> for your stay.
       </>
     ),
@@ -982,31 +985,34 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Continue",
+        execute: (eventData) => {
+          state.money -= eventData.cost;
+        },
       },
     ],
     () => ({
-      disease: chooseRandom(["influenza", "sinus infection", "hypertension"]),
       cost: randomInterval(30, 50) * 100,
     }),
     true //repeats
   ),
-  new ScheduledEvent(
+  new RandomEvent(
     "Hospitalized",
-    () => state.qualityOfLife <= 20, //and also make sure not ill currently
-    (eventData) => {
-      state.money -= eventData.cost;
-    },
+    state.stress >= 80 ? 0.9 : 0, //and also make sure not ill currently
+    null,
     (eventData) => (
       <>
-        Your extremely poor health has caused you to be hospitalized with {eventData.disease} under critical condition,
-        until your health can finally recover. Because of this episode, you lose your job, and
-        have no means of supporting yourself temporarily.
+        Your extremely poor health has caused you to be hospitalized with {eventData.disease}. You remained under critical condition 
+        until your health finally recovered. Because of this episode, you have lost your job, and are forced to pay hospital bills.
       </>
     ),
     () => true, //always
     [
       {
         label: "Continue",
+        execute: (eventData) => {
+          state.money -= eventData.cost;
+          state.job = null;
+        },
       },
     ],
     () => ({
@@ -1015,13 +1021,10 @@ export const gameEvents: GameEvent[] = [
     }),
     true //repeats
   ),
-  new ScheduledEvent(
+  new RandomEvent(
     "Mental Breakdown",
-    () => state.stress > 90, //and also make sure not ill currently
-    (eventData) => {
-      state.stress -= 30;
-      state.money -= eventData.cost;
-    },
+    state.stress > 70 ? 0.8 : 0, //and also make sure not ill currently
+    null,
     (eventData) => (
       <>
         Your sustained high-stress lifestyle caused a {eventData.disease} last night.
@@ -1029,14 +1032,18 @@ export const gameEvents: GameEvent[] = [
         Make sure to take care of your mental health.
       </>
     ),
-    () => true, //always
+    () => true, //always  
     [
       {
         label: "Continue",
+        execute: (eventData) => {
+          state.stress -= 30;
+          state.money -= eventData.cost;
+        }
       },
     ],
     () => ({
-      disease: chooseRandom(["anxious breakdown", "psychotic episode", "panic attack"]),
+      disease: chooseRandom(["nervous breakdown", "psychotic episode", "panic attack"]),
       cost: randomInterval(30, 50) * 100,
     }),
     true //repeats

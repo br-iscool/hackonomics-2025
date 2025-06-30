@@ -1,7 +1,6 @@
 import { useSnapshot } from "valtio";
 import { state } from "@/game/state";
 import Image from "next/image";
-import { Progress } from "@/components/ui/progress";
 
 export default function Profile() {
 	const snap = useSnapshot(state);
@@ -28,10 +27,9 @@ export default function Profile() {
 
 					<div className="mt-4">
 						<p className="text-sm mb-1">Stress</p>
-						<div className="relative">
-							<Progress value={stressPercent} className="h-4 bg-gray-700" />
+						<div className="relative h-4 bg-gray-700 rounded-full overflow-hidden">
 							<div
-								className={`absolute inset-0 ${stressColor} h-4 rounded-full`}
+								className={`absolute inset-0 ${stressColor} h-full rounded-full transition-all duration-300`}
 								style={{ width: `${stressPercent}%` }}
 							/>
 						</div>

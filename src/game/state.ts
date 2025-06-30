@@ -29,9 +29,8 @@ export const initialState = {
   events: [] as IEvent[],
   triggeredEvents: new Set<string>(),
 
-  stress: 0,
+  stress: 1,
   money: 5000,
-  qualityOfLife: 0,
 
   products: {
     creditCard: null as boolean | null,
