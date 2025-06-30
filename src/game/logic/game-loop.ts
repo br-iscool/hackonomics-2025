@@ -52,6 +52,7 @@ export function gameLoop() {
 
   // Update transportation stress
   updateTransportation();
+  updateStress();
 
   if (state.hasWon && !state.won) {
     state.won = true;
@@ -113,6 +114,10 @@ function updateTransportation() {
     // Using public transportation increases stress
     state.stress = Math.min(100, state.stress + 3);
   }
+}
+
+function updateStress() {
+    state.stress = Math.max(0, Math.min(state.stress, 100));
 }
 
 export function startGame() {

@@ -492,7 +492,8 @@ export const gameEvents: GameEvent[] = [
           };
           state.expenses["housing"] = eventData.cheapMonthly * 12;
           state.money -= eventData.cheapPayment;
-          state.stress -= 15;
+          state.stress = Math.max(0, Math.min(state.stress - 15, 100));
+          state.family.value = (state.family.value || 0) + 5;
           
           return (
             <>
@@ -510,8 +511,9 @@ export const gameEvents: GameEvent[] = [
           state.housing = {
             type: "House",
           };
-          state.expenses["housing"] = eventData.regularMonthly * 12;
-          state.money -= eventData.regularPayment;
+          state.expenses["housing"] = eventData.luxuryMonthly * 12;
+          state.money -= eventData.luxuryPayment;
+          state.family.value = (state.family.value || 0) + 10;
           
           return (
             <>
@@ -531,7 +533,7 @@ export const gameEvents: GameEvent[] = [
           };
           state.expenses["housing"] = eventData.luxuryMonthly * 12;
           state.money -= eventData.luxuryPayment;
-          state.stress += 15;
+          state.stress = Math.max(0, Math.min(state.stress + 15, 100));
           state.family.value = (state.family.value || 0) + 15;
           
           return (
@@ -605,7 +607,7 @@ export const gameEvents: GameEvent[] = [
         label: "Purchase",
         condition: (eventData) => canPurchase(eventData.price),
         execute: (eventData) => {
-          state.stress -= 20;
+          state.stress = Math.max(0, Math.min(state.stress - 20, 100));
           state.money -= eventData.price;
           return (
             <>
@@ -662,7 +664,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't repair",
         execute: (eventData) => {
-          state.stress += 10;
+          state.stress = Math.max(0, Math.min(state.stress + 10, 100));
           return (
             <>
               Well- it isn't a choice you can afford right now. Better to tough it out,
@@ -696,7 +698,7 @@ export const gameEvents: GameEvent[] = [
         condition: (eventData) => canPurchase(eventData.repairCost),
         execute: (eventData) => {
           state.money -= eventData.repairCost;
-          state.stress -= 5;
+          state.stress = Math.max(0, Math.min(state.stress - 5, 100));
           return (
             <>
               You pay for the repairs and your car is running again, but your wallet feels lighter.
@@ -710,7 +712,7 @@ export const gameEvents: GameEvent[] = [
           state.car = null;
           state.products.car = null;
           state.expenses["transportation"] = eventData.publicTransport;
-          state.stress += 15;
+          state.stress = Math.max(0, Math.min(state.stress + 15, 100));
           return (
             <>
               You decide not to repair your car. You'll have to rely on public transportation again, 
@@ -745,7 +747,7 @@ export const gameEvents: GameEvent[] = [
         label: "Go ($100)",
         condition: (eventData) => canPurchase(100),
         execute: (eventData) => {
-          state.stress -= 10;
+          state.stress = Math.max(0, Math.min(state.stress - 10, 100));
           state.money -= 100;
           return (
             <>
@@ -757,7 +759,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't go",
         execute: (eventData) => {
-          state.stress += 15;
+          state.stress = Math.max(0, Math.min(state.stress + 15, 100));
           return (
             <>
               Unluckily, the flu didn't get any better by itself, and your health
@@ -807,7 +809,7 @@ export const gameEvents: GameEvent[] = [
               </>
             );
           } else {
-            state.stress += 5;
+            state.stress = Math.max(0, Math.min(state.stress + 5, 100));
             return (
               <>
                 Unfortunately, despite your best efforts, you didn't find anyone compatible. 
@@ -861,7 +863,7 @@ export const gameEvents: GameEvent[] = [
             state.family.spouse.spouseStatus = "Married";
           }
           state.family.value = (state.family.value || 0) + 20;
-          state.stress += 5;
+          state.stress = Math.max(0, Math.min(state.stress + 5, 100));
           return (
             <>
               You get happily married!
@@ -925,7 +927,7 @@ export const gameEvents: GameEvent[] = [
           // Immediate costs
           const birthCosts = randomInterval(3, 8) * 1000;
           state.money -= birthCosts;
-          state.stress += 10;
+          state.stress = Math.max(0, Math.min(state.stress + 10, 100));
           state.family.value = (state.family.value || 0) + 25;
 
           return (
@@ -956,9 +958,9 @@ export const gameEvents: GameEvent[] = [
   new RandomEvent(
     "Child Emergency",
     () => {
-      // 5% per child per year
+      // 10% per child per year
       const numChildren = state.family.children?.length ?? 0;
-      return numChildren * 0.05;
+      return numChildren * 0.1;
     },
     null,
     (eventData) => (
@@ -976,7 +978,7 @@ export const gameEvents: GameEvent[] = [
         execute: (eventData) => {
           state.family.value = (state.family.value || 0) + 5;
           state.money -= 200;
-          state.stress -= 5;
+          state.stress = Math.max(0, Math.min(state.stress - 5, 100));
           return (
             <>
               Your child gets checked out by the doctor, he prescribes some medicine, and their flu appears cured.
@@ -991,7 +993,7 @@ export const gameEvents: GameEvent[] = [
           
           if (getsWorse) {
             state.family.value = (state.family.value || 0) - 10;
-            state.stress += 20;
+            state.stress = Math.max(0, Math.min(state.stress + 20, 100));
             const emergencyCost = randomInterval(8, 15) * 100;
             state.money -= emergencyCost;
             
@@ -1002,7 +1004,7 @@ export const gameEvents: GameEvent[] = [
               </>
             );
           } else {
-            state.stress -= 10;
+            state.stress = Math.max(0, Math.min(state.stress - 10, 100));
             return (
               <>
                 You decide to wait and see if your child's condition improves. 
@@ -1083,7 +1085,7 @@ export const gameEvents: GameEvent[] = [
         condition: (eventData) => canPurchase(5000),
         execute: (eventData) => {
           state.family.value = (state.family.value || 0) + 15;
-          state.stress -= 30;
+          state.stress = Math.max(0, Math.min(state.stress - 30, 100));
           state.money -= 5000;
           return (
             <>
@@ -1150,14 +1152,14 @@ export const gameEvents: GameEvent[] = [
         label: "Yes",
         condition: (eventData) => canPurchase(eventData.cost),
         execute: (eventData) => {
-          state.stress -= 45;
+          state.stress = Math.max(0, Math.min(state.stress - 45, 100));
           state.money -= eventData.cost;
         },
       },
       {
         label: "No",
         execute: (eventData) => {
-          state.stress += 40;
+          state.stress = Math.max(0, Math.min(state.stress + 40, 100));
         },
       },
     ],
@@ -1185,7 +1187,7 @@ export const gameEvents: GameEvent[] = [
         label: "Continue",
         execute: (eventData) => {
           state.money -= eventData.cost;
-          state.stress += 10;
+          state.stress = Math.max(0, Math.min(state.stress + 10, 100));
         },
       },
     ],
@@ -1236,7 +1238,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Continue",
         execute: (eventData) => {
-          state.stress -= 30;
+          state.stress = Math.max(0, Math.min(state.stress - 30, 100));
           state.money -= eventData.cost;
         }
       },

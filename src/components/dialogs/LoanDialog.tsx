@@ -45,7 +45,6 @@ export default function LoanDialog() {
 			active: true,
 			balance: option.principal,
 			yearsElapsed: 0,
-			downPayment: 0,
 		};
 		state.money += newLoan.principal;
 		state.products.loans.push(newLoan);

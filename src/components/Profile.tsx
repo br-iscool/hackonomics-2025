@@ -66,10 +66,12 @@ export default function Profile() {
 						<span>{snap.education?.level || "None"}</span>
 					</div>
 
-					<div className="flex justify-between">
-						<span>Credit Score:</span>
-						<span>{Math.round(snap.creditScore)}</span>
-					</div>
+					{snap.products.creditCard && (
+						<div className="flex justify-between">
+							<span>Credit Score:</span>
+							<span>{Math.round(snap.creditScore)}</span>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

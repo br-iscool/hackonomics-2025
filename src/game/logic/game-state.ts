@@ -73,10 +73,17 @@ export const state = proxy({
   },
 
   get creditScore(): number {
-    const paymentHistory = this.onTimePayments / (this.totalPayments || 1);
-    const creditHistory = Math.max(this.yearsCredit / 10, 1);
-    return (paymentHistory * 0.7 + creditHistory * 0.3) * 600 + 300;
-  },
+        if (!this.products.creditCard) {
+            return 0;
+        }
+        if (this.totalPayments === 0 && this.yearsCredit === 0) {
+            return 600;
+        }
+        const paymentHistory = this.onTimePayments / (this.totalPayments || 1);
+        const creditHistory = Math.min(this.yearsCredit / 10, 1.5);
+        const score = (paymentHistory * 0.7 + creditHistory * 0.3) * 550 + 300;
+        return Math.max(300, Math.min(Math.round(score), 850));
+    },
 
   get isBankrupt(): boolean {
     const criticallyNegativeMoney = this.money < -1000;

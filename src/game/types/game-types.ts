@@ -50,10 +50,9 @@ export interface LoanData {
   active: boolean;
   id: string;
   name: string;
-  principal: number; // original amt loaned
-  balance: number; // current loan amount
+  principal: number; // original amount
+  balance: number; // current amount
   interestRate: number; // annual interest rate
-  downPayment: number; // initial down payment amount
   termYears: number; // loan duration
   yearsElapsed: number;
 }
