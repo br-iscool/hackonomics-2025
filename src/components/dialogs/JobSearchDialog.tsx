@@ -9,7 +9,7 @@ import { FaLocationDot } from "react-icons/fa6";
 interface JobListing {
     role: string;
     salary: number;
-    location: string;
+    location?: string;
     requirements: string;
     educationLevel: "Highschool" | "Vocational" | "Undergrad" | "Grad";
     field?: "Medicine" | "Law";
@@ -22,21 +22,20 @@ const jobListings: JobListing[] = [
     { role: "Security Guard", salary: 28000, location: "Sofaway", requirements: "High school diploma", educationLevel: "Highschool" },
     
     // Trade school jobs
-    { role: "Electrician", salary: 55000, location: "", requirements: "Trade school degree", educationLevel: "Vocational" },
-    { role: "Plumber", salary: 52000, location: "", requirements: "Trade school degree", educationLevel: "Vocational" },
-    { role: "HVAC Technician", salary: 48000, location: "", requirements: "Trade school degree", educationLevel: "Vocational" },
-    { role: "Automotive Mechanic", salary: 45000, location: "", requirements: "Trade school degree", educationLevel: "Vocational" },
+    { role: "Electrician", salary: 55000, requirements: "Trade school degree", educationLevel: "Vocational" },
+    { role: "Plumber", salary: 52000, requirements: "Trade school degree", educationLevel: "Vocational" },
+    { role: "HVAC Specialist", salary: 48000, requirements: "Trade school degree", educationLevel: "Vocational" },
+    { role: "Mechanic", salary: 45000, requirements: "Trade school degree", educationLevel: "Vocational" },
     
     // Undergraduate jobs
-    { role: "Software Developer", salary: 75000, location: "", requirements: "University degree", educationLevel: "Undergrad" },
-    { role: "Marketing Coordinator", salary: 45000, location: "", requirements: "University degree", educationLevel: "Undergrad" },
-    { role: "Business Analyst", salary: 65000, location: "", requirements: "University degree", educationLevel: "Undergrad" },
-    { role: "Teacher", salary: 42000, location: "", requirements: "University degree", educationLevel: "Undergrad" },
-    { role: "Accountant", salary: 55000, location: "", requirements: "University degree", educationLevel: "Undergrad" },
+    { role: "Software Developer", salary: 75000, location: "Goggle", requirements: "University degree", educationLevel: "Undergrad" },
+    { role: "Marketing Specialist", salary: 45000, location: "Ads4You", requirements: "University degree", educationLevel: "Undergrad" },
+    { role: "Accountant", salary: 65000, location: "The National Bank", requirements: "University degree", educationLevel: "Undergrad" },
+    { role: "Teacher", salary: 55000, location: "Central High School", requirements: "University degree", educationLevel: "Undergrad" },
     
     // Graduate jobs
-    { role: "Doctor", salary: 200000, location: "", requirements: "Medical degree", educationLevel: "Grad", field: "Medicine" },
-    { role: "Lawyer", salary: 120000, location: "", requirements: "Law degree", educationLevel: "Grad", field: "Law" },
+    { role: "Doctor", salary: 200000, location: "Hospital", requirements: "Medical degree", educationLevel: "Grad", field: "Medicine" },
+    { role: "Lawyer", salary: 120000, location: "Jim's Law Firm", requirements: "Law degree", educationLevel: "Grad", field: "Law" },
     { role: "Research Scientist", salary: 95000, location: "", requirements: "Graduate degree", educationLevel: "Grad" },
 ];
 
@@ -75,7 +74,7 @@ export function JobSearchDialog({ open, onOpenChange, onJobSelected }: {
         };
 
         onOpenChange(false);
-        onJobSelected(`Congratulations! You've been hired as a ${job.role} at ${job.location} with a starting salary of $${job.salary.toLocaleString()} per year!`);
+        onJobSelected(`Congratulations! You've been hired as a ${job.role} with a starting salary of $${job.salary.toLocaleString()} per year!`);
     };
 
     return (
@@ -94,10 +93,12 @@ export function JobSearchDialog({ open, onOpenChange, onJobSelected }: {
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-1">
                                             <h3 className="font-semibold text-lg">{job.role}</h3>
-                                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                                <FaLocationDot />
-                                                <h6 className="text-sm">{job.location}</h6>
-                                            </div>
+                                            {job.location && job.location.trim() !== "" && (
+                                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                                    <FaLocationDot />
+                                                    <h6 className="text-sm">{job.location}</h6>
+                                                </div>
+                                            )}
                                             
                                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                                 <FaGraduationCap />
