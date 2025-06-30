@@ -10,4 +10,5 @@ export { default as WelcomeDialog } from '../dialogs/WelcomeDialog';
 export { default as EndDialog } from '../dialogs/EndDialog';
 export { default as Products } from '../Products';
 export { default as EventManager } from '../EventManager';
+export { default as LifeDialog } from '@/components/dialogs/LifeDialog'
 export { JobSearchDialog } from '../dialogs/JobSearchDialog';

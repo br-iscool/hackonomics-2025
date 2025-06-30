@@ -6,6 +6,7 @@ import { useSnapshot } from "valtio";
 
 import { AgeUp, Profile, Transcripts, EducationDialog, JobDialog, FinanceDialog, Products, GameOverDialog, EventManager, WelcomeDialog, JobSearchDialog, EndDialog } from "@/components/exports";
 import { Notifier } from "@/components/Notifier";
+import LifeDialog from "@/components/dialogs/LifeDialog";
 
 export default function Game() {
     const snap = useSnapshot(state);
@@ -41,6 +42,7 @@ export default function Game() {
                         <EducationDialog education={snap.education} />
                         <JobDialog job={snap.job} />
                         <FinanceDialog />
+                        <LifeDialog />
                         <AgeUp />
                     </div>
                 </div>

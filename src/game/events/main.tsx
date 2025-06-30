@@ -74,7 +74,7 @@ export const gameEvents: GameEvent[] = [
           state.education.inSchooling = false;
           return (
             <>
-              Oh well, university isn't for everyone. There are plenty of ways to succeed without higher education!;
+              Oh well, university isn't for everyone. There are plenty of ways to succeed without higher education!
             </>
           );
         },
@@ -534,7 +534,7 @@ export const gameEvents: GameEvent[] = [
     null,
     (eventData) => (
       <>
-        Uh oh! Your {eventData.product} just broke down, and it'll cost ${eventData.price} to repair it.
+        Uh oh! Your {eventData.product} just broke down, and it'll cost <Color>${eventData.price}</Color> to repair it.
         Not paying for repairs now may have consequences for your quality of life. What do you do?
       </>
     ),
@@ -555,7 +555,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't repair",
         execute: (eventData) => {
-          state.stress += 20;
+          state.stress += 10;
           return (
             <>
               Well- it isn't a choice you can afford right now. Better to tough it out,
@@ -619,7 +619,7 @@ export const gameEvents: GameEvent[] = [
   // Dating
   new RandomEvent(
     "Dating",
-    0.1,
+    () => (state.family.spouse ? 0 : 0.4),
     null,
     (eventData) => (
       <>
@@ -631,9 +631,36 @@ export const gameEvents: GameEvent[] = [
     () => !state.family.spouse, //if single
     [
       {
-        label: "Search for a potential date",
+        label: "Look for a date",
         execute: (eventData) => {
-          //Activates date looking thing, 50 50 chance of finding one
+          // 50% chance of finding someone
+          const successful = Math.random() < 0.5;
+          
+          if (successful) {
+            state.family.spouse = {
+              age: state.age + randomInterval(-3, 3),
+              relationship: "Partner",
+              health: "Healthy",
+              spouseStatus: "Relationship"
+            };
+            state.family.spouse.spouseStatus = "Relationship";
+            state.family.value = 10; // Initial relationship value
+            state.family.spouse.yearsWithPartner = 0; // Track years together
+            
+            return (
+              <>
+                Great news! You met somebody and you've started dating! 
+              </>
+            );
+          } else {
+            state.stress += 5;
+            return (
+              <>
+                Unfortunately, despite your best efforts, you didn't find anyone compatible. 
+                Dating can be tough, but don't give up! There are plenty of fish in the sea.
+              </>
+            );
+          }
         },
       },
       {
@@ -648,27 +675,39 @@ export const gameEvents: GameEvent[] = [
         },
       },
     ],
-    () => { },
-    true //repeats
+    () => {},
+    true // Not repeatable - once you have a partner, this event won't occur again
   ),
 
   // Proposal
   new RandomEvent(
     "Proposal",
-    0.1,
+    () => {
+      // 20% chance if dating for 5+ years and not married
+      if (state.family.spouse?.spouseStatus === "Relationship" && 
+          (state.family.spouse.yearsWithPartner ?? 0) >= 5) {
+        return 0.2;
+      }
+      return 0;
+    },
     null,
     (eventData) => (
       <>
-        Having sufficient time to get to know you, your partner asks youif you would like to get engaged.
+        Having sufficient time to get to know you, your partner asks you if you would like to get engaged.
         What do you do?
       </>
     ),
-    () => state.family.spouse?.relationship === "Dating", //if dating
+    () => state.family.spouse?.spouseStatus === "Relationship" && 
+         (state.family.spouse.yearsWithPartner ?? 0) >= 5, // Dating for 5+ years
     [
       {
         label: "Yes",
         execute: (eventData) => {
-          //Changes family state to marriage
+          if (state.family.spouse) {
+            state.family.spouse.spouseStatus = "Married";
+          }
+          state.family.value += 20;
+          state.stress += 5;
           return (
             <>
               You get happily married!
@@ -678,42 +717,97 @@ export const gameEvents: GameEvent[] = [
       },
       {
         label: "No",
+        execute: (eventData) => {
+          state.family.value -= 20;
+          return (
+            <>
+              You decide it isn't time for marriage yet.
+            </>
+          )
+        }
       },
     ],
-    () => { },
-    true //repeats
+    () => ({}),
+    false // Not repeatable - once married or declined, this event won't occur again
   ),
 
   // Kids
   new RandomEvent(
-    "Kids?",
-    0.1,
+    "Starting a Family",
+    () => {
+      // 50% chance if married and less than 4 kids
+      if (state.family.spouse?.spouseStatus === "Married" && 
+          (state.family.children?.length ?? 0) < 4) {
+        return 0.5;
+      }
+      return 0;
+    },
     null,
     (eventData) => (
       <>
         Your partner asks if you if you would like to have kids. What do you say?
       </>
     ),
-    () => state.family.spouse?.relationship == "Spouse", //if married
+    () => state.family.spouse?.spouseStatus === "Married" && 
+         (state.family.children?.length ?? 0) < 4, // Married and less than 4 kids
     [
       {
         label: "Yes",
         execute: (eventData) => {
-          //Adds kids to family, n stuff
+          const childName = eventData.childName;
+          const childGender = eventData.childGender;
+          
+          // Add child to family
+          if (!state.family.children) {
+            state.family.children = [];
+          }
+          
+          state.family.children.push({
+            age: 0,
+            relationship: "Child",
+            health: "Healthy",
+          });
+          
+          // Immediate costs
+          const birthCosts = randomInterval(3, 8) * 1000;
+          state.money -= birthCosts;
+          state.stress += 10;
+          state.family.value = (state.family.value || 0) + 25;
+          
+          return (
+            <>
+              Congratulations! You and your partner welcomed a beautiful baby! 
+              The birth costs were ${birthCosts.toLocaleString()}. 
+              Your life has changed forever, but seeing your child's smile makes it all worth it.
+            </>
+          );
         },
       },
       {
-        label: "No",
+        label: "Not yet, maybe later",
+        execute: (eventData) => {
+          state.family.value -= 10;
+          return (
+            <>
+              You and your partner decide to wait a bit longer before having children. 
+              There's no rush - you want to make sure you're financially and emotionally ready for such a big step.
+            </>
+          );
+        },
       },
     ],
     () => { },
-    true //repeats
+    true //repeats until 4 kids
   ),
 
   // Child flu event
   new RandomEvent(
-    "Unexpected emergency",
-    0.1,
+    "Child Emergency",
+    () => {
+      // 5% per child per year
+      const numChildren = state.family.children?.length ?? 0;
+      return numChildren * 0.05;
+    },
     null,
     (eventData) => (
       <>
@@ -726,10 +820,11 @@ export const gameEvents: GameEvent[] = [
     [
       {
         label: "Go",
-        condition: (eventData) => canPurchase(100),
+        condition: (eventData) => canPurchase(200),
         execute: (eventData) => {
-          state.family.value += 5;
-          state.money -= 100;
+          state.family.value = (state.family.value || 0) + 5;
+          state.money -= 200;
+          state.stress -= 5;
           return (
             <>
               Your child gets checked out by the doctor, he prescribes some medicine, and their flu appears cured.
@@ -740,18 +835,34 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't go",
         execute: (eventData) => {
-          state.family.value -= 15;
-          return (
-            <>
-              Unluckily, the flu didn't get any better by itself, and your child's health
-              got a bit worse. Was the money you saved worth it?
-            </>
-          );
+          const getsWorse = Math.random() < 0.3;
+          
+          if (getsWorse) {
+            state.family.value = (state.family.value || 0) - 10;
+            state.stress += 20;
+            const emergencyCost = randomInterval(8, 15) * 100;
+            state.money -= emergencyCost;
+            
+            return (
+              <>
+                Unfortunately, your child's condition worsened, and you had to rush them to the emergency room.
+                The medical expenses added a strain to your finances, and it's going to be a tough recovery.
+              </>
+            );
+          } else {
+            state.stress -= 10;
+            return (
+              <>
+                You decide to wait and see if your child's condition improves. 
+                Thankfully, after a few days of rest and home care, they start to feel better.
+              </>
+            );
+          }
         },
       },
     ],
-    () => { },
-    true //repeats
+    () => ({}),
+    true // Repeatable
   ),
 
   // Child product event
@@ -801,7 +912,7 @@ export const gameEvents: GameEvent[] = [
     true //repeats
   ),
 
-  
+
   new RandomEvent(
     "Surprise vacation",
     0.05,
@@ -839,7 +950,7 @@ export const gameEvents: GameEvent[] = [
       },
     ],
     () => { },
-    true //repeats
+    false //repeats
   ),
   
   /*

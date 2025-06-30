@@ -22,7 +22,7 @@ export const initialState = {
   education: { inSchooling: true, level: "Highschool" } as Education,
   car: null as CarData | null,
   housing: { type: "Parents" } as Housing,
-  family: { status: "Single" } as FamilyStatus,
+  family: { value: 0 } as FamilyStatus,
 
   diseases: [] as DiseaseData[],
 

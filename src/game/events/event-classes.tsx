@@ -14,14 +14,16 @@ export abstract class GameEvent implements IEvent {
     body: (eventData: any) => JSX.Element,
     condition: () => boolean,
     choices: ReadonlyArray<Choice>,
-    setVars?: () => void,
+    setVars?: (() => any) | any,
     repeatable?: boolean
   ) {
     this.name = name;
     this.body = body;
     this.condition = condition;
     this.choices = choices;
-    if (setVars) this.eventData = setVars();
+    if (setVars) {
+      this.eventData = typeof setVars === 'function' ? setVars() : setVars;
+    }
     this.repeatable = repeatable;
   }
 
@@ -39,7 +41,7 @@ export class ScheduledEvent extends GameEvent {
     body: (eventData : any) => JSX.Element,
     condition: () => boolean,
     choices: Choice[],
-    setVars?: () => any,
+    setVars?: (() => any) | any,
     repeatable?: boolean
   ) {
     super(name, body, condition, choices, setVars, repeatable);
@@ -76,7 +78,7 @@ export class RandomEvent extends GameEvent {
     body: (eventData : any) => JSX.Element,
     condition: () => boolean,
     choices: Choice[],
-    setVars?: () => any,
+    setVars?: (() => any) | any,
     repeatable?: boolean
   ) {
     super(name, body, condition, choices, setVars, repeatable);
