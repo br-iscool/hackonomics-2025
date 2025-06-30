@@ -476,7 +476,7 @@ export const gameEvents: GameEvent[] = [
     () => state.family.spouse?.spouseStatus === "Married", // Only if married
     [
       {
-        label: "Small Home 🏚️",
+        label: "Small",
         condition: (eventData) => canPurchase(eventData.cheapPayment),
         execute: (eventData) => {
           state.housing = {
@@ -496,7 +496,7 @@ export const gameEvents: GameEvent[] = [
         },
       },
       {
-        label: "Regular Home 🏡",
+        label: "Regular",
         condition: (eventData) => canPurchase(eventData.regularPayment),
         execute: (eventData) => {
           state.housing = {
@@ -515,7 +515,7 @@ export const gameEvents: GameEvent[] = [
         },
       },
       {
-        label: "Luxury Home 🏘️",
+        label: "Luxury",
         condition: (eventData) => canPurchase(eventData.luxuryPayment),
         execute: (eventData) => {
           state.housing = {
@@ -536,7 +536,7 @@ export const gameEvents: GameEvent[] = [
         },
       },
       {
-        label: "Keep renting",
+        label: "None",
         execute: (eventData) => {
           state.family.value = (state.family.value || 0) - 15;
           return (
@@ -674,7 +674,7 @@ export const gameEvents: GameEvent[] = [
   // Flu event
   new RandomEvent(
     "Flu season!",
-    0.1,
+    0.05,
     null,
     (eventData) => (
       <>

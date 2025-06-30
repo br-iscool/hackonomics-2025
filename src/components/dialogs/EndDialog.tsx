@@ -3,7 +3,8 @@ import { state } from "@/game/logic/game-state";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FaTrophy, FaCoins, FaCalendarAlt, FaCreditCard, FaGraduationCap } from "react-icons/fa";
+import { FaTrophy, FaCoins, FaCalendarAlt, FaGraduationCap } from "react-icons/fa";
+import { FaPerson } from "react-icons/fa6";
 
 interface EndDialogProps {
     open: boolean;
@@ -12,6 +13,13 @@ interface EndDialogProps {
 
 export default function EndDialog({ open, onRestart }: EndDialogProps) {
     const snap = useSnapshot(state);
+
+    const getFamilyStatus = () => {
+        if (typeof snap.family.value === "number" && snap.family.value >= 70) return "High";
+        if (typeof snap.family.value === "number" && snap.family.value >= 40) return "Medium";
+        if (typeof snap.family.value === "number" && snap.family.value >= 1) return "Low";
+        return "N/A";
+    }
 
     const handleRestart = () => {
         onRestart();
@@ -57,9 +65,14 @@ export default function EndDialog({ open, onRestart }: EndDialogProps) {
                                     <FaCalendarAlt className="text-blue-500" />
                                     <h3 className="font-semibold">Life Stats</h3>
                                 </div>
-                                <p className="text-sm">Final age: {snap.age}</p>
+                                <p className="text-sm">
+                                    Final age: {snap.age}
+                                </p>
                                 <p className="text-sm">
                                     Final stress: {snap.stress}
+                                </p>
+                                <p className="text-sm">
+                                    Final credit score: {snap.creditScore}
                                 </p>
                             </CardContent>
                         </Card>
@@ -73,25 +86,29 @@ export default function EndDialog({ open, onRestart }: EndDialogProps) {
                                 <p className="text-sm">
                                     Education: {snap.education?.level || "Highschool"}
                                 </p>
-                                <div className="flex items-center gap-1">
-                                    <p className="text-sm">
-                                        Final job: {snap.job?.role || "Unemployed"}
-                                    </p>
-                                </div>
+                                <p className="text-sm">
+                                    Final job: {snap.job?.role || "Unemployed"}
+                                </p>
+                                <p className="text-sm">
+                                    Annual salary: ${snap.job?.salary.toLocaleString()}
+                                </p>
                             </CardContent>
                         </Card>
 
                         <Card>
                             <CardContent className="p-4">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <FaCreditCard className="text-purple-500" />
-                                    <h3 className="font-semibold">Credit Score</h3>
+                                    <FaPerson className="text-purple-500" />
+                                    <h3 className="font-semibold">Relationships</h3>
                                 </div>
                                 <p className="text-sm">
-                                    Final credit score:
+                                    Number of children: {snap.family.children?.length ?? 0}
                                 </p>
-                                <p className="text-xl font-bold">
-                                    {Math.round(snap.creditScore)}
+                                <p className="text-sm">
+                                    Years with partner: {snap.family.spouse?.yearsWithPartner}
+                                </p>
+                                <p className="text-sm">
+                                    Closeness to family: {getFamilyStatus()}
                                 </p>
                             </CardContent>
                         </Card>

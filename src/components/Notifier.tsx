@@ -39,5 +39,18 @@ export function Notifier() {
     }
   });
 
+  useStateChangeNotifier(snap.family.value, (oldVal, newVal) => {
+    const tempOldVal = oldVal ?? 0;
+    const tempNewVal = newVal ?? 0;
+    const diff = tempNewVal - tempOldVal;
+    if (diff !== 0) {
+      const isPositive = diff > 0;
+      const amount = Math.abs(diff);
+      (isPositive ? toast.success : toast.error)(
+        `${isPositive ? "❤️ Closeness to family increased" : "💔 Closeness to family decreased"} by ${amount}`
+      );
+    }
+  });
+
   return null;
 }
