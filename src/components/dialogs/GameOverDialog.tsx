@@ -1,5 +1,5 @@
 import { useSnapshot } from "valtio";
-import { state } from "@/game/state";
+import { state } from "@/game/logic/game-state";
 
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";

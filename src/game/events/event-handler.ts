@@ -1,12 +1,12 @@
-import { state } from "@/game/state";
+import { state } from "@/game/logic/game-state";
 
-import { gameEvents } from "./data";
-import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
-import { Choice, IEvent } from "@/game/types";
+import { gameEvents } from "./main";
+import { ScheduledEvent, RandomEvent } from "./event-classes";
+import { Choice, IEvent } from "@/game/types/game-types";
 import {JSX} from "react";
 
-import { pickWeighted } from "@/utils";
-import { TextEvent } from "./generated";
+import { pickWeighted } from "@/lib/utils";
+import { TextEvent } from "../types/event-types";
 
 export function handleEvents(currentAge: number) {
   // Scheduled Events

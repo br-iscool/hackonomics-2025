@@ -1,4 +1,4 @@
-import { IEvent } from "@/game/types";
+import { IEvent } from "@/game/types/game-types";
 import { JSX } from "react";
 
 export function TextEvent(name: string, body: (data: any) => JSX.Element): IEvent {

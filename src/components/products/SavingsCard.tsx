@@ -1,4 +1,4 @@
-import { SavingsAccData } from "@/game/types";
+import { SavingsAccData } from "@/game/types/game-types";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { FaPiggyBank } from "react-icons/fa";

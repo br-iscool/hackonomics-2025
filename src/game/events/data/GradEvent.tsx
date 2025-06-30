@@ -1,6 +1,6 @@
-import { state } from "@/game/state";
-import { uistate } from "@/state";
-import { IEvent } from "@/game/types";
+import { state } from "@/game/logic/game-state";
+import { uistate } from "@/lib/state";
+import { IEvent } from "@/game/types/game-types";
 
 export function GradEvent(): IEvent {
     return {

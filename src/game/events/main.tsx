@@ -1,7 +1,7 @@
-import { state } from "@/game/state";
-import { GameEvent, ScheduledEvent, RandomEvent } from "./eventsClasses";
-import { chooseRandom, randomInterval } from "@/utils";
-import { canPurchase } from "@/game/logic";
+import { state } from "@/game/logic/game-state";
+import { GameEvent, ScheduledEvent, RandomEvent } from "./event-classes";
+import { chooseRandom, randomInterval } from "@/lib/utils";
+import { canPurchase } from "@/game/logic/game-loop";
 import Color from "@/components/ui/color"
 
 export const gameEvents: GameEvent[] = [

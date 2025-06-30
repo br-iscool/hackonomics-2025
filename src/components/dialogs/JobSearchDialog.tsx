@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSnapshot } from "valtio";
-import { state } from "@/game/state";
+import { state } from "@/game/logic/game-state";
 import { FaBriefcase, FaGraduationCap } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 

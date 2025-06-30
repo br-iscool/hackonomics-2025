@@ -1,6 +1,6 @@
-import { state } from "@/game/state";
+import { state } from "@/game/logic/game-state";
 import { useSnapshot } from "valtio";
-import { gameLoop } from "@/game/logic";
+import { gameLoop } from "@/game/logic/game-loop";
 import { FaArrowUp } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";

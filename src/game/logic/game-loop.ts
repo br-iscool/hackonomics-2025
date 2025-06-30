@@ -1,7 +1,7 @@
-import { state } from "@/game/state";
+import { state } from "@/game/logic/game-state";
 import { tickLoan, tickSavings, tickDisease } from "@/game/logic/products";
-import { handleEvents } from "@/game/logic/events";
-import {GradEvent} from "@/game/logic/events/generated"
+import { handleEvents } from "@/game/events/event-handler";
+import { GradEvent } from "@/game/types/event-types"
 
 export function gameLoop() {
   if (!state.alive) return;

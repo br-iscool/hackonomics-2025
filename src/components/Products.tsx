@@ -1,5 +1,5 @@
 import { useSnapshot } from "valtio";
-import { state } from "@/game/state";
+import { state } from "@/game/logic/game-state";
 
 import { CreditCard } from "@/components/products/CreditCard";
 import { SavingsCard } from "./products/SavingsCard";

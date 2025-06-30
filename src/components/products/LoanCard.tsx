@@ -1,4 +1,4 @@
-import { LoanData } from "@/game/types";
+import { LoanData } from "@/game/types/game-types";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaUniversity } from "react-icons/fa";
 

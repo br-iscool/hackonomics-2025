@@ -1,7 +1,7 @@
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { IEvent } from "@/game/types";
-import { handleChoice } from "@/game/logic/events";
+import { IEvent } from "@/game/types/game-types";
+import { handleChoice } from "@/game/events/event-handler";
 
 interface EventProps {
     event: IEvent;

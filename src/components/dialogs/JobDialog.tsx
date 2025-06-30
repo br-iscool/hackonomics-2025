@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useSnapshot } from "valtio";
 import { FaBriefcase, FaDollarSign, FaRegCalendarCheck } from "react-icons/fa";
 import EventDialog from "./EventDialog";
-import { uistate } from "@/state";
+import { uistate } from "@/lib/state";
 
 export interface JobDialogProps {
 	role: string;

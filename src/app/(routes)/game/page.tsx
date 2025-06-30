@@ -1,7 +1,7 @@
 "use client";
 
-import { uistate } from "@/state"
-import { state } from "@/game/state";
+import { uistate } from "@/lib/state"
+import { state } from "@/game/logic/game-state";
 import { useSnapshot } from "valtio";
 
 import { AgeUp, Profile, Transcripts, EducationDialog, JobDialog, FinanceDialog, Products, GameOverDialog, EventManager, WelcomeDialog, JobSearchDialog, EndDialog } from "@/components/exports";

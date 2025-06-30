@@ -1,6 +1,6 @@
-import { state } from "@/game/state";
-import { LoanData, SavingsAccData, DiseaseData } from "@/game/types";
-import { weightedBoolean } from "@/utils";
+import { state } from "@/game/logic/game-state";
+import { LoanData, SavingsAccData, DiseaseData } from "@/game/types/game-types";
+import { weightedBoolean } from "@/lib/utils";
 
 export function tickLoan(data: LoanData) {
   if (!data.active) return;

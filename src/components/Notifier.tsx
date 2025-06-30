@@ -1,7 +1,7 @@
 import { useSnapshot } from "valtio";
 import { toast } from "sonner";
-import { state } from "@/game/state";
-import { useStateChangeNotifier } from "@/hooks";
+import { state } from "@/game/logic/game-state";
+import { useStateChangeNotifier } from "@/lib/hooks";
 
 export function Notifier() {
   const snap = useSnapshot(state);

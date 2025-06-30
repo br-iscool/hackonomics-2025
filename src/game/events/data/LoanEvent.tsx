@@ -1,5 +1,5 @@
-import { IEvent, LoanData } from "@/game/types";
-import { state } from "@/game/state";
+import { IEvent, LoanData } from "@/game/types/game-types";
+import { state } from "@/game/logic/game-state";
 
 import Color from "@/components/ui/color";
 

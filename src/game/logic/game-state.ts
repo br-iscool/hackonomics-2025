@@ -9,7 +9,7 @@ import {
   CarData,
   DiseaseData,
   IEvent
-} from "./types";
+} from "../types/game-types";
 
 export const initialState = {
   alive: true,

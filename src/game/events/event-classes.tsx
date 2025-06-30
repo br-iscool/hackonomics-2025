@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { IEvent, Choice } from "@/game/types";
+import { IEvent, Choice } from "@/game/types/game-types";
 
 export abstract class GameEvent implements IEvent {
   name: string;

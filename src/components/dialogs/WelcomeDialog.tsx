@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSnapshot } from "valtio";
-import { state } from "@/game/state";
-import { startGame } from "@/game/logic";
+import { state } from "@/game/logic/game-state";
+import { startGame } from "@/game/logic/game-loop";
 
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
