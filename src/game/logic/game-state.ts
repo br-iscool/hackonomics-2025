@@ -10,6 +10,7 @@ import {
   DiseaseData,
   IEvent
 } from "../types/game-types";
+import { randomInterval } from "@/lib/utils";
 
 export const initialState = {
   alive: true,
@@ -23,6 +24,7 @@ export const initialState = {
   car: null as CarData | null,
   housing: { type: "Parents" } as Housing,
   family: { value: 0 } as FamilyStatus,
+  maxChildren: randomInterval(1, 4),
 
   diseases: [] as DiseaseData[],
 

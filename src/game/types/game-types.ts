@@ -22,7 +22,7 @@ export interface FamilyMember {
 }
 
 export interface FamilyStatus {
-  value: number;
+  value?: number;
   spouse?: FamilyMember;
   children?: FamilyMember[];
 }

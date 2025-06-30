@@ -4,6 +4,14 @@ import { handleEvents } from "@/game/events/event-handler";
 import { GradEvent } from "@/game/types/event-types"
 
 export function gameLoop() {
+  // Age partner
+  if (state.family.spouse) {
+    state.family.spouse.age += 1;
+    if (state.family.spouse.yearsWithPartner !== undefined) {
+      state.family.spouse.yearsWithPartner += 1;
+    }
+  }
+
   if (!state.alive) return;
 
   state.age += 1;

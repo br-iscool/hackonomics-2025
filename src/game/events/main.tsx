@@ -641,11 +641,10 @@ export const gameEvents: GameEvent[] = [
               age: state.age + randomInterval(-3, 3),
               relationship: "Partner",
               health: "Healthy",
-              spouseStatus: "Relationship"
+              spouseStatus: "Relationship",
+              yearsWithPartner: 0 // Initialize years together
             };
-            state.family.spouse.spouseStatus = "Relationship";
             state.family.value = 10; // Initial relationship value
-            state.family.spouse.yearsWithPartner = 0; // Track years together
             
             return (
               <>
@@ -675,7 +674,7 @@ export const gameEvents: GameEvent[] = [
         },
       },
     ],
-    () => {},
+    () => ({}),
     true // Not repeatable - once you have a partner, this event won't occur again
   ),
 
@@ -683,10 +682,10 @@ export const gameEvents: GameEvent[] = [
   new RandomEvent(
     "Proposal",
     () => {
-      // 20% chance if dating for 5+ years and not married
+      // Increased to 60% chance if dating for 5+ years and not married
       if (state.family.spouse?.spouseStatus === "Relationship" && 
           (state.family.spouse.yearsWithPartner ?? 0) >= 5) {
-        return 0.2;
+        return 0.6; // Increased from 0.2 to 0.6
       }
       return 0;
     },
@@ -706,7 +705,7 @@ export const gameEvents: GameEvent[] = [
           if (state.family.spouse) {
             state.family.spouse.spouseStatus = "Married";
           }
-          state.family.value += 20;
+          state.family.value = (state.family.value || 0) + 20;
           state.stress += 5;
           return (
             <>
@@ -718,7 +717,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "No",
         execute: (eventData) => {
-          state.family.value -= 20;
+          state.family.value = (state.family.value || 0) - 20;
           return (
             <>
               You decide it isn't time for marriage yet.
@@ -735,9 +734,11 @@ export const gameEvents: GameEvent[] = [
   new RandomEvent(
     "Starting a Family",
     () => {
-      // 50% chance if married and less than 4 kids
-      if (state.family.spouse?.spouseStatus === "Married" && 
-          (state.family.children?.length ?? 0) < 4) {
+      // 80% chance if married and less than maxChildren
+      if (
+        state.family.spouse?.spouseStatus === "Married" &&
+        (state.family.children?.length ?? 0) < state.maxChildren
+      ) {
         return 0.5;
       }
       return 0;
@@ -748,37 +749,34 @@ export const gameEvents: GameEvent[] = [
         Your partner asks if you if you would like to have kids. What do you say?
       </>
     ),
-    () => state.family.spouse?.spouseStatus === "Married" && 
-         (state.family.children?.length ?? 0) < 4, // Married and less than 4 kids
+    () =>
+      state.family.spouse?.spouseStatus === "Married" &&
+      (state.family.children?.length ?? 0) < (state.maxChildren ?? 4), // Use maxChildren if set, default to 4
     [
       {
         label: "Yes",
         execute: (eventData) => {
-          const childName = eventData.childName;
-          const childGender = eventData.childGender;
-          
           // Add child to family
           if (!state.family.children) {
             state.family.children = [];
           }
-          
+
           state.family.children.push({
             age: 0,
             relationship: "Child",
-            health: "Healthy",
+            health: "Healthy"
           });
-          
+
           // Immediate costs
           const birthCosts = randomInterval(3, 8) * 1000;
           state.money -= birthCosts;
           state.stress += 10;
           state.family.value = (state.family.value || 0) + 25;
-          
+
           return (
             <>
               Congratulations! You and your partner welcomed a beautiful baby! 
               The birth costs were ${birthCosts.toLocaleString()}. 
-              Your life has changed forever, but seeing your child's smile makes it all worth it.
             </>
           );
         },
@@ -786,7 +784,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Not yet, maybe later",
         execute: (eventData) => {
-          state.family.value -= 10;
+          state.family.value = (state.family.value || 0) - 10;
           return (
             <>
               You and your partner decide to wait a bit longer before having children. 
@@ -796,10 +794,9 @@ export const gameEvents: GameEvent[] = [
         },
       },
     ],
-    () => { },
-    true //repeats until 4 kids
+    () => ({}),
+    true // Repeats
   ),
-
   // Child flu event
   new RandomEvent(
     "Child Emergency",
@@ -816,7 +813,7 @@ export const gameEvents: GameEvent[] = [
         Do you pay a visit to the doctor?
       </>
     ),
-    () => state.hasChildren, //if has kids
+    () => (state.family.children?.length ?? 0) > 0, 
     [
       {
         label: "Go",
@@ -883,7 +880,7 @@ export const gameEvents: GameEvent[] = [
         label: "Yes",
         condition: (eventData) => canPurchase(150),
         execute: (eventData) => {
-          state.family.value += 5;
+          state.family.value = (state.family.value || 0) + 5;
           state.money -= 150;
           return (
             <>
@@ -896,7 +893,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "No",
         execute: (eventData) => {
-          state.family.value -= 5;
+          state.family.value = (state.family.value || 0) - 5;
           return (
             <>
               You don't want to spoil your child. Sometimes, they have to learn that not everything
@@ -930,7 +927,7 @@ export const gameEvents: GameEvent[] = [
         label: "Go",
         condition: (eventData) => canPurchase(5000),
         execute: (eventData) => {
-          state.family.value += 15;
+          state.family.value = (state.family.value || 0) + 15;
           state.stress -= 30;
           state.money -= 5000;
           return (
@@ -945,7 +942,7 @@ export const gameEvents: GameEvent[] = [
       {
         label: "Don't",
         execute: (eventData) => {
-          state.family.value -= 5;
+          state.family.value = (state.family.value || 0) - 5;
         },
       },
     ],
