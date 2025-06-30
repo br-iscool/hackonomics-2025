@@ -13,6 +13,7 @@ export default function Profile() {
 			<Image
 				src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
 				alt="Profile picture"
+				loading="eager"
 				width={64}
 				height={64}
 				className="rounded-full object-cover border border-white/20"
