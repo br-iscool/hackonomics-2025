@@ -3,7 +3,7 @@ import { FaCreditCard } from "react-icons/fa";
 
 export function CreditCard() {
 	return (
-		<Card className="col-span-1">
+		<Card className="col-span-1 py-0">
 			<CardContent className="p-4">
 				<div className="flex items-center gap-2">
 					<FaCreditCard /> <span className="font-semibold">Credit Card</span>

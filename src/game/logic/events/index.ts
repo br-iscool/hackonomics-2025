@@ -44,14 +44,14 @@ export function handleChoice(choice: Choice, data: any) {
   state.events.shift(); // always remove the current
 
   if (result) {
-    enqueueEvent(result); // abstracted
+    enqueueEvent(result);
   }
 }
 
 function enqueueEvent(result: JSX.Element | IEvent) {
-  if (result instanceof GameEvent) {
-    state.events.unshift(result);
+  if (result && typeof result === 'object' && 'name' in result && 'body' in result && 'choices' in result) {
+    state.events.unshift(result as IEvent);
   } else {
-    state.events.unshift(TextEvent("Result", () => result));
+    state.events.unshift(TextEvent("Result", () => result as JSX.Element));
   }
 }
