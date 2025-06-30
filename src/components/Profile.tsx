@@ -11,7 +11,7 @@ export default function Profile() {
 	return (
 		<div className="w-full max-w-2xl bg-white border border-white/10 rounded-2xl shadow-xl p-6 flex gap-6 items-start">
 			<Image
-				src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
+				src="/profile.png"
 				alt="Profile picture"
 				loading="eager"
 				width={64}

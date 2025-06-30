@@ -33,7 +33,7 @@ export default function WelcomeDialog() {
                 <Card>
                     <CardContent className="space-y-4">
                         <div className="space-y-2 text-sm">
-                            <h4 className="font-semibold">How to Play:</h4>
+                            <p className="font-semibold">How to Play:</p>
                             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                                 <li>Start at age 16 with $5,000, reach $1 million to win</li>
                                 <li>Make financial decisions wisely to grow your wealth</li>
