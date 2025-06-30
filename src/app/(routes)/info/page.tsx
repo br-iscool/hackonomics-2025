@@ -15,7 +15,7 @@ export default function Info() {
                         </div>
                         <div className="mb-10">
                             <h3 className="items-center mb-4 text-lg font-medium">What inspired us to create this project?</h3>
-                            <p className="text-gray-500">The idea for Balancing Act came from our one of our developer's experiences watching others struggling to navigate their own personal finance as a young adult. As a result, we wanted to create a safe and engaging environment where players could experiment with different financial strategies and life paths without real-world risk. </p>
+                            <p className="text-gray-500">The idea for Balancing Act came from our one of our developer's experiences watching others struggling to navigate their own personal finance as a young adult. As a result, we wanted to create a safe and engaging environment where players could experiment with different financial strategies and life paths without real-world risk.</p>
                         </div>
                         <div className="mb-10">
                             <h3 className="items-center mb-4 text-lg font-medium">What was used to create this project?</h3>
