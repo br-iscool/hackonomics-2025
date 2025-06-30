@@ -1,72 +1,56 @@
+import Link from "next/link"
+
 export default function Info() {
     return (
         <>
             <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                 <h2 className="mb-8 text-center text-4xl tracking-tight font-bold">Information</h2>
-                <div className="grid pt-8 text-left border-t border-gray-950/5 md:gap-16 dark:border-white/20 md:grid-cols-2">
+                <div className="grid pt-8 text-left border-t border-gray-950/5 md:gap-16 md:grid-cols-2">
                     <div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">What are we</h3>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur sint error cumque itaque dolorum exercitationem nesciunt dignissimos veniam, assumenda illum deleniti ipsam voluptate minima enim corrupti perferendis voluptatum nobis dolore?
+                            <h3 className="items-center mb-4 text-lg font-medium">What is this project?</h3>
+                            <p className="text-gray-500">
+                                Balancing Act is an interactive financial life simulation game. Players begin their journey at age 16 and navigate through life by making crucial financial and personal decisions. The primary objective is to achieve $1 million while managing stress.
                             </p>
                         </div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">How does it work</h3>
-                            <p className="text-gray-500 dark:text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo earum repellendus fuga rerum alias minus consequatur minima, iste amet voluptate incidunt pariatur fugiat! Magnam, corrupti. Rem architecto accusantium alias libero.</p>
+                            <h3 className="items-center mb-4 text-lg font-medium">What inspired us to create this project?</h3>
+                            <p className="text-gray-500">The idea for Balancing Act came from our one of our developer's experiences watching others struggling to navigate their own personal finance as a young adult. As a result, we wanted to create a safe and engaging environment where players could experiment with different financial strategies and life paths without real-world risk. </p>
                         </div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">What did it take</h3>
-                            <p className="text-gray-500 dark:text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia adipisci rem eius quaerat delectus aliquid suscipit provident possimus, recusandae totam. Voluptatum eius, earum similique fugiat vel maxime doloribus deleniti sint.</p>
+                            <h3 className="items-center mb-4 text-lg font-medium">What was used to create this project?</h3>
+                            <p className="text-gray-500">This project is a web application built with Next.js, Typescript, and TailwindCSS. Additionally, we used various libraries in our game.</p>
                         </div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">I want to build more than one project. Is that allowed?</h3>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                You can use Windster for an unlimited amount of projects, whether it's a personal website, a SaaS app, or a website for a client. As long as you don't build a product that will directly compete with Windster either as a UI
-                                kit, theme, or template, it's fine.
+                            <h3 className="items-center mb-4 text-lg font-medium">How does this project improve the user's financial literacy skills?</h3>
+                            <p className="text-gray-500">
+                                The game improves financial literacy by simulating real-world scenarios. Players learn about the impact of educational choices on career paths, learn to manage income and expenses, and see how their decisions affect their life.
                             </p>{" "}
                         </div>
                     </div>
                     <div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">What does "free updates" include?</h3>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                The free updates that will be provided is based on the{" "}
-                                <a href="#" className="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">
-                                    roadmap
-                                </a>{" "}
-                                that we have laid out for this project. It is also possible that we will provide extra updates outside of the roadmap as well.
+                            <h3 className="items-center mb-4 text-lg font-medium">What were some challenges that we had creating this project?</h3>
+                            <p className="text-gray-500">
+                                One of the biggest challenges was balancing realism with engaging gameplay. We spent a lot of time designing the economic model behind the game—things like salary progression, investment returns, and the impact of life events. Striking that perfect balance to ensure the game was both fun and informative was a key focus of our development process.
                             </p>
                         </div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">What does the free version include?</h3>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                The{" "}
-                                <a href="#" className="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">
-                                    free version
-                                </a>{" "}
-                                of Windster includes a minimal style guidelines, component variants, and a dashboard page with the mobile version alongside it.
+                            <h3 className="items-center mb-4 text-lg font-medium">What did we learn while creating this project?</h3>
+                            <p className="text-gray-500">
+                                Developing this project taught us a great deal about financial systems. We had to do our own research in order to implement the game logic properly and make sure it was as realistic as possible in order to educate users in financial literacy. Also, we learned a lot about state management in React. 
                             </p>
-                            <p className="text-gray-500 dark:text-gray-400">You can use this version for any purposes, because it is open-source under the MIT license.</p>
                         </div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">What is the difference between Windster and Tailwind UI?</h3>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                Although both Windster and Tailwind UI are built for integration with Tailwind CSS, the main difference is in the design, the pages, the extra components and UI elements that Windster includes.
+                            <h3 className="items-center mb-4 text-lg font-medium">What's next for this project?</h3>
+                            <p className="text-gray-500">
+                                Our future includes updating the game with more diverse career paths, investment options like stocks and real estate, and a wider range of random life events to increase replayability. We also plan to share our game with educational places like schools. 
                             </p>
-                            <p className="text-gray-500 dark:text-gray-400">Additionally, Windster is a project that is still in development, and later it will include both the application, marketing, and e-commerce UI interfaces.</p>
                         </div>
                         <div className="mb-10">
-                            <h3 className="items-center mb-4 text-lg font-medium">Can I use Windster in open-source projects?</h3>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                Generally, it is accepted to use Windster in open-source projects, as long as it is not a UI library, a theme, a template, a page-builder that would be considered as an alternative to Windster itself.
-                            </p>
-                            <p className="text-gray-500 dark:text-gray-400">With that being said, feel free to use this design kit for your open-source projects.</p>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                Find out more information by{" "}
-                                <a href="#" className="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">
-                                    reading the license
-                                </a>
+                            <h3 className="items-center mb-4 text-lg font-medium">I have questions. How do I contact you?</h3>
+                            <p className="text-gray-500">
+                                This project is open-source and you can find more information on our GitHub page <Link className="underline" href="https://github.com/br-iscool/hackonomics-2025/" target="_blank" rel="noopener noreferrer">here</Link>. You can also send an email to us at <a href="mailto:brian.d3.2008@gmail.com" className="underline">brian.d3.2008@gmail.com</a>.
                             </p>
                         </div>
                     </div>
