@@ -4,7 +4,7 @@ import { uistate } from "@/state"
 import { state } from "@/game/state";
 import { useSnapshot } from "valtio";
 
-import { AgeUp, Profile, Transcripts, EducationDialog, JobDialog, FinanceDialog, Products, GameOverDialog, EventManager, WelcomeDialog, JobSearchDialog } from "@/components/exports";
+import { AgeUp, Profile, Transcripts, EducationDialog, JobDialog, FinanceDialog, Products, GameOverDialog, EventManager, WelcomeDialog, JobSearchDialog, EndDialog } from "@/components/exports";
 import { Notifier } from "@/components/Notifier";
 
 export default function Game() {
@@ -16,6 +16,10 @@ export default function Game() {
             <Notifier />
             <WelcomeDialog />
             <GameOverDialog />
+            <EndDialog 
+                open={snap.won} 
+                onRestart={() => window.location.reload()} 
+            />
             <EventManager />
             <JobSearchDialog open={uisnap.showJobSearch}
                 onOpenChange={(val) => (uistate.showJobSearch = val)}

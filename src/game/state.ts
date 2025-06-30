@@ -13,6 +13,7 @@ import {
 
 export const initialState = {
   alive: true,
+  won: false,
   name: "Player",
   age: 16,
   opened: true,
@@ -30,7 +31,7 @@ export const initialState = {
   triggeredEvents: new Set<string>(),
 
   stress: 1,
-  money: 5000,
+  money: 2500000,
 
   products: {
     creditCard: null as boolean | null,
@@ -91,6 +92,10 @@ export const state = proxy({
 
   get hasChildren(): boolean {
     return !!(this.family.children?.length);
+  },
+
+  get hasWon(): boolean {
+    return this.money >= 2500000;
   },
 });
 

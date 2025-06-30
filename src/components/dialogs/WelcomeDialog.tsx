@@ -35,7 +35,7 @@ export default function WelcomeDialog() {
                         <div className="space-y-2 text-sm">
                             <h4 className="font-semibold">How to Play:</h4>
                             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                                <li>Start at age 16 with $5,000</li>
+                                <li>Start at age 16 with $5,000, reach $2.5 million to win</li>
                                 <li>Make financial decisions wisely to grow your wealth</li>
                                 <li>The top bar shows your money, stress, and other stats</li>
                                 <li>Avoid bankruptcy to keep playing</li>

@@ -42,6 +42,11 @@ export function gameLoop() {
   // Trigger events
   handleEvents(state.age);
 
+  if (state.hasWon && !state.won) {
+    state.won = true;
+    state.transcript.push("Congratulations! You've reached $2.5 million and achieved financial freedom!");
+  }
+
   if (state.isBankrupt) {
     state.alive = false;
     state.transcript.push("You have gone bankrupt and can no longer continue.");
