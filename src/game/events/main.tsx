@@ -388,7 +388,7 @@ export const gameEvents: GameEvent[] = [
     25,
     null,
     (eventData) => (
-      < >
+      <>
         Your parents have had enough of you staying in their house. It's time you became independent!
         But where to begin? You figure you should look around for some apartments to rent, and luckily find 2 suitable candidates.
         <br />
@@ -396,7 +396,7 @@ export const gameEvents: GameEvent[] = [
         <ol>
           <li>
             <h3>1. Room with strangers 🤔</h3>
-            For <Color>${eventData.cheapCost}</Color> a month, The room looks... kinda dingy to be honest. And it definitely can fit 3 other roommates, but it won't be
+            For <Color>${eventData.cheapCost}</Color> a month, you can room with strangers. The room looks... kinda dingy to be honest. And it definitely can fit 3 other roommates, but it won't be
             comfortable for sure. But, you get what you get for the price, right?
           </li>
           <li>
@@ -405,7 +405,7 @@ export const gameEvents: GameEvent[] = [
             Is the added comfort worth the cost?
           </li>
         </ol>
-      </ >
+      </>
     ),
     () => state.age > 21 && state.housing.type === "Parents",
     //you dont have money -- apply for a loan.
@@ -431,7 +431,7 @@ export const gameEvents: GameEvent[] = [
           state.expenses["housing"] = (eventData.averageCost * 12);
           return (
             <div>
-              Well- you've always been particular about living spaces, and
+              Well - you've always been particular about living spaces, and
               living with other people is just not your style.
               Congratulations! You're now renting an apartment by yourself!
             </div>
@@ -446,36 +446,135 @@ export const gameEvents: GameEvent[] = [
   ),
 
   // House
-  new RandomEvent(
+  new ScheduledEvent(
     "Own a home!",
-    () => (state.housing ? 0 : 0.5),
+    35,
     null,
     (eventData) => (
       <>
         Now that you have a family and are getting settled into independent living,
         you feel that now is the time to purchase a home. However, owning a house, much less
-        the process of buying a house, can be a tedious, expensive, and time-consuming process.
-        Do you go ahead with the search?
-      </>),
-    () =>
-      state.age > 30 &&
-      state.hasChildren &&
-      state.creditScore > 680 &&
-      state.income > 50000 &&
-      !state.housing, //be married
+        the process of buying a house, can be a tedious, expensive, and time-consuming process. Luckily, you find three good options. 
+        <br />
+        <br />
+        <ol>
+          <li>
+            <h3>1. Small Home 🏚️</h3>
+            For <Color>${eventData.cheapPrice.toLocaleString()}</Color> in total with a down payment of <Color>${eventData.cheapPayment.toLocaleString()}</Color> and monthly payments of ${eventData.cheapMonthly.toLocaleString()}, you can afford a small home. The amenities aren't the best, and the condition isn't great, but it will probably be enough to raise a family.
+          </li>
+          <li>
+            <h3>2. Regular Home 🏡</h3>
+            For <Color>${eventData.regularPrice.toLocaleString()}</Color> in total with a down payment of <Color>${eventData.regularPayment.toLocaleString()}</Color> and monthly payments of ${eventData.regularMonthly.toLocaleString()}, you can buy a regular home. This house has a lot more amenities, and it will definitely be enough to raise a family comfortably.
+          </li>
+          <li>
+            <h3>3. Luxury Home 🏘️</h3>
+            For <Color>${eventData.luxuryPrice.toLocaleString()}</Color> in total with a down payment of <Color>${eventData.luxuryPayment.toLocaleString()}</Color> and monthly payments of ${eventData.luxuryMonthly.toLocaleString()}, you can buy a luxury home. This home is one of the best homes money can buy. It features several luxury amenities, and your family will be the happiest.
+          </li>
+        </ol>
+      </>
+    ),
+    () => state.family.spouse?.spouseStatus === "Married", // Only if married
     [
       {
-        label: "Accept",
+        label: "Small Home 🏚️",
+        condition: (eventData) => canPurchase(eventData.cheapPayment),
         execute: (eventData) => {
-          //50 50 chance or something for house hunting
+          state.housing = {
+            type: "House",
+          };
+          state.expenses["housing"] = eventData.cheapMonthly * 12;
+          state.money -= eventData.cheapPayment;
+          state.stress -= 15;
+          
+          return (
+            <>
+              Congratulations! You've purchased the small home for a total price of ${eventData.cheapPrice.toLocaleString()}! 
+              With a down payment of ${eventData.cheapPayment.toLocaleString()} and monthly payments of ${eventData.cheapMonthly.toLocaleString()}, 
+              you're now a homeowner!
+            </>
+          );
         },
       },
       {
-        label: "Decline",
+        label: "Regular Home 🏡",
+        condition: (eventData) => canPurchase(eventData.regularPayment),
+        execute: (eventData) => {
+          state.housing = {
+            type: "House",
+          };
+          state.expenses["housing"] = eventData.regularMonthly * 12;
+          state.money -= eventData.regularPayment;
+          
+          return (
+            <>
+              Congratulations! You've purchased the regular home for ${eventData.regularPrice.toLocaleString()}! 
+              With a down payment of ${eventData.regularPayment.toLocaleString()} and monthly payments of ${eventData.regularMonthly.toLocaleString()}, 
+              you're now a homeowner!
+            </>
+          );
+        },
+      },
+      {
+        label: "Luxury Home 🏘️",
+        condition: (eventData) => canPurchase(eventData.luxuryPayment),
+        execute: (eventData) => {
+          state.housing = {
+            type: "House",
+          };
+          state.expenses["housing"] = eventData.luxuryMonthly * 12;
+          state.money -= eventData.luxuryPayment;
+          state.stress += 15;
+          state.family.value = (state.family.value || 0) + 15;
+          
+          return (
+            <>
+              Congratulations! You've purchased the luxury home for ${eventData.luxuryPrice.toLocaleString()}! 
+              With a down payment of ${eventData.luxuryPayment.toLocaleString()} and monthly payments of ${eventData.luxuryMonthly.toLocaleString()}, 
+              you're now a homeowner! Your family is thrilled with the luxury amenities!
+            </>
+          );
+        },
+      },
+      {
+        label: "Keep renting",
+        execute: (eventData) => {
+          state.family.value = (state.family.value || 0) - 15;
+          return (
+            <>
+              You decide that homeownership isn't for you right now. 
+              Renting gives you more flexibility, and you're not ready for the financial commitment of a mortgage.
+            </>
+          );
+        },
       },
     ],
-    undefined,
-    true // repeatable
+    () => {
+      const cheapPrice = randomInterval(250, 400) * 1000;
+      const regularPrice = randomInterval(400, 650) * 1000;
+      const luxuryPrice = randomInterval(1000, 1500) * 1000;
+
+      // Calculate 20% down payments
+      const cheapPayment = Math.floor(cheapPrice * 0.2);
+      const regularPayment = Math.floor(regularPrice * 0.2);
+      const luxuryPayment = Math.floor(luxuryPrice * 0.2);
+
+      // 20 year mortgage
+      const cheapMonthly = Math.floor((cheapPrice - cheapPayment) * 0.0075);
+      const regularMonthly = Math.floor((regularPrice - regularPayment) * 0.0075);
+      const luxuryMonthly = Math.floor((luxuryPrice - luxuryPayment) * 0.0075);
+
+      return {
+        cheapPrice,
+        regularPrice,
+        luxuryPrice,
+        cheapPayment,
+        regularPayment,
+        luxuryPayment,
+        cheapMonthly,
+        regularMonthly,
+        luxuryMonthly
+      };
+    }
   ),
 
   // All the random, lifestyle events
@@ -628,7 +727,7 @@ export const gameEvents: GameEvent[] = [
         to find new human connection. What do you do?
       </>
     ),
-    () => !state.family.spouse, //if single
+    () => !state.family.spouse && state.age > 23, // if single and age > 23
     [
       {
         label: "Look for a date",

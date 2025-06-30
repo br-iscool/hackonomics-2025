@@ -20,6 +20,13 @@ export default function LifeDialog() {
         return "Good";
     };
 
+    const getFamilyStatus = () => {
+        if (typeof snap.family.value === "number" && snap.family.value >= 70) return "High";
+        if (typeof snap.family.value === "number" && snap.family.value >= 40) return "Medium";
+        if (typeof snap.family.value === "number" && snap.family.value >= 1) return "Low";
+        return "N/A";
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -51,24 +58,15 @@ export default function LifeDialog() {
                         <span className="font-medium">Relationship Status:</span>
                         <span>{getRelationshipStatus()}</span>
                     </div>
-                    {snap.family.spouse && (
-                        <div className="flex items-center gap-3">
-                            <FaUserFriends className="text-muted-foreground"/>
-                            <span className="font-medium">Partner's Age:</span>
-                            <span>{snap.family.spouse.age}</span>
-                        </div>
-                    )}
-                    {snap.family.spouse?.yearsWithPartner !== undefined && (
-                        <div className="flex items-center gap-3">
-                            <FaCalendarAlt className="text-muted-foreground"/>
-                            <span className="font-medium">Years Together:</span>
-                            <span>{snap.family.spouse.yearsWithPartner}</span>
-                        </div>
-                    )}
                     <div className="flex items-center gap-3">
                         <FaBaby className="text-muted-foreground"/>
                         <span className="font-medium">Number of Children:</span>
                         <span>{snap.family.children?.length || 0}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <FaBaby className="text-muted-foreground"/>
+                        <span className="font-medium">Closeness to Family:</span>
+                        <span>{getFamilyStatus()}</span>
                     </div>
                 </div>
             </DialogContent>
