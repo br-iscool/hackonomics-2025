@@ -5,16 +5,34 @@ import { weightedBoolean } from "@/lib/utils";
 export function tickLoan(data: LoanData) {
   if (!data.active) return;
 
-  const annualPayment = Math.round(data.balance * data.interestRate * 100) / 100;
+  // Accrue interest first
+  data.balance = Math.round((data.balance + data.balance * data.interestRate) * 100) / 100;
+
+  // Calculate annual payment (principal + interest over remaining term)
+  const remainingYears = data.termYears - data.yearsElapsed;
+  const annualPayment = remainingYears > 0 ? data.balance / remainingYears : data.balance;
+
+  state.totalPayments++;
 
   if (state.money >= annualPayment) {
-    state.money = Math.round((state.money - annualPayment) * 100) / 100;
-    data.balance = Math.round((data.balance - annualPayment) * 100) / 100;
+    state.money -= annualPayment;
+    data.balance -= annualPayment;
     data.yearsElapsed += 1;
+    state.onTimePayments++;
 
-    if (data.yearsElapsed >= data.termYears || data.balance <= 0) {
+    if (data.balance <= 0) {
       data.active = false;
+      data.balance = 0;
+      state.transcript.push(`You have successfully paid off your loan from ${data.name}. Your payment history has improved.`);
+    } else if (data.yearsElapsed >= data.termYears) {
+      data.active = false;
+      state.transcript.push(`Your loan term for the loan from ${data.name} has concluded.`);
     }
+  } else {
+    // Default on the loan
+    data.active = false;
+    state.money -= data.balance; // Subtract all remaining money
+    state.transcript.push(`You have defaulted on your loan from ${data.name}. Your assets have been seized, and your credit is ruined.`);
   }
 }
 

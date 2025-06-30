@@ -1,5 +1,6 @@
 import { useSnapshot } from "valtio";
 import { state } from "@/game/logic/game-state";
+import { uistate } from "@/lib/state";
 
 import {
 	Dialog,
@@ -26,6 +27,7 @@ import {
 	FaBuildingColumns,
 	FaReceipt,
 } from "react-icons/fa6";
+import LoanDialog from "./LoanDialog";
 
 export default function FinanceDialog() {
 	const snap = useSnapshot(state);
@@ -76,6 +78,11 @@ export default function FinanceDialog() {
 								<InfoRow icon={<FaCreditCard />} label="Debt" value={`$${snap.debt.toLocaleString()}`} />
 								<InfoRow icon={<FaBuildingColumns />} label="Credit Score" value={snap.creditScore} />
 								<InfoRow icon={<FaChartLine />} label="Years of Credit" value={snap.yearsCredit} />
+								{snap.products.savings && snap.products.creditCard && (
+									<Button className="w-full mt-2" onClick={() => uistate.showLoanDialog = true}>
+										Apply for a Loan
+									</Button>
+								)}
 							</Section>
 						</div>
 					</TabsContent>
@@ -110,6 +117,7 @@ export default function FinanceDialog() {
 					</TabsContent>
 				</Tabs>
 			</DialogContent>
+			<LoanDialog />
 		</Dialog>
 	);
 }

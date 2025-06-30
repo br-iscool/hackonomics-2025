@@ -11,4 +11,5 @@ export { default as EndDialog } from '../dialogs/EndDialog';
 export { default as Products } from '../Products';
 export { default as EventManager } from '../EventManager';
 export { default as LifeDialog } from '@/components/dialogs/LifeDialog'
+export { default as LoanDialog } from '../dialogs/LoanDialog';
 export { JobSearchDialog } from '../dialogs/JobSearchDialog';

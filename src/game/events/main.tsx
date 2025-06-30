@@ -235,8 +235,7 @@ export const gameEvents: GameEvent[] = [
     (eventData) => (
       <>
         It's about time you got a credit card! Getting a credit card gives you access to
-        having a <b>credit score</b>, which may be used to evaluate your eligibility in applying for loans,
-        owning cars, and getting a mortgage for a house.
+        having a <b>credit score</b>, which makes you eligible to apply for loans.
       </>
     ),
     () => state.age > 17 && !!state.products.savings && !state.products.creditCard,
