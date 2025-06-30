@@ -5,7 +5,7 @@ import { weightedBoolean } from "@/lib/utils";
 export function tickLoan(data: LoanData) {
   if (!data.active) return;
 
-  const annualPayment = data.balance * data.interestRate;
+  const annualPayment = Math.round(data.balance * data.interestRate * 100) / 100;
 
   if (state.money >= annualPayment) {
     state.money = Math.round((state.money - annualPayment) * 100) / 100;
@@ -21,7 +21,7 @@ export function tickLoan(data: LoanData) {
 export function tickSavings(data: SavingsAccData) {
   if (!data.active) return;
 
-  const interest = state.money * data.interestRate;
+  const interest = Math.round(state.money * data.interestRate * 100) / 100;
   state.money = Math.round((state.money + interest) * 100) / 100;
   data.yearsElapsed = (data.yearsElapsed ?? 0) + 1;
 }

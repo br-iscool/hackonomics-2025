@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-	title: "Financial Literacy App",
-	description: "Learn more about financial literacy",
+	title: "Balancing Act",
+	description: "Learn more about financial literacy with our awesome game! Balancing Act is a financial life simulation game where you make important decisions and balance your life.",
 };
 
 export default function RootLayout({
