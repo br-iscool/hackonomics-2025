@@ -36,7 +36,6 @@ export const initialState = {
     creditCard: null as boolean | null,
     loans: [] as LoanData[],
     savings: null as SavingsAccData | null,
-    investments: [] as any[],
   },
 
   income: 0,
@@ -46,7 +45,6 @@ export const initialState = {
     education: 0,
     housing: 0,
     transportation: 0,
-    entertainment: 0,
     other: 0,
   } as Record<string, number>,
 
@@ -92,7 +90,7 @@ export const state = proxy({
   },
 
   get hasChildren(): boolean {
-    return !!this.family.children?.length;
+    return !!(this.family.children?.length);
   },
 });
 

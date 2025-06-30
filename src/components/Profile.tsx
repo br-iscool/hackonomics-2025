@@ -47,27 +47,27 @@ export default function Profile() {
 
 					<div className="flex justify-between">
 						<span>Debt:</span>
-						<span>${state.debt.toFixed(2)}</span>
+						<span>${snap.debt.toFixed(2)}</span>
 					</div>
 
 					<div className="flex justify-between">
 						<span>Income:</span>
-						<span>${state.income.toFixed(2)}</span>
+						<span>${snap.income.toFixed(2)}</span>
 					</div>
 
 					<div className="flex justify-between">
 						<span>Expenses:</span>
-						<span>${state.totalExpenses.toFixed(2)}</span>
+						<span>${snap.totalExpenses.toFixed(2)}</span>
 					</div>
 
 					<div className="flex justify-between">
 						<span>Education:</span>
-						<span>{state.education?.level || "None"}</span>
+						<span>{snap.education?.level || "None"}</span>
 					</div>
 
 					<div className="flex justify-between">
 						<span>Credit Score:</span>
-						<span>{Math.round(state.creditScore)}</span>
+						<span>{Math.round(snap.creditScore)}</span>
 					</div>
 				</div>
 			</div>

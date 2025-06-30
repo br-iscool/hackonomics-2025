@@ -5,7 +5,7 @@ import { IEvent } from "@/game/types";
 export function GradEvent(): IEvent {
     return {
         name: "Graduation",
-        body: (eventData: any) => (
+        body: () => (
             <>
                 Congratulations! You have graduated {state.education.level}.
                 Please check the <b>jobs</b> tab to view new jobs.
@@ -15,7 +15,7 @@ export function GradEvent(): IEvent {
         choices: [
             {
                 label: "Find new job",
-                execute: (eventData) => {
+                execute: () => {
                     uistate.showJobSearch = true;
                 }
             }

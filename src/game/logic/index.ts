@@ -33,11 +33,8 @@ export function gameLoop() {
 
   updateIncome();
 
-  // Update money based on expenses
-  Object.keys(state.expenses).forEach((category) => {
-    const expenseCost = state.expenses[category];
-    state.money -= expenseCost; // Subtract the expense from the total money
-  });
+  // Update money based on expenses - use cached totalExpenses
+  state.money -= state.totalExpenses;
 
   // Illness related effects
   state.diseases.forEach(tickDisease);

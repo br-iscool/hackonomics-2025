@@ -987,6 +987,7 @@ export const gameEvents: GameEvent[] = [
         label: "Continue",
         execute: (eventData) => {
           state.money -= eventData.cost;
+          state.stress += 10;
         },
       },
     ],

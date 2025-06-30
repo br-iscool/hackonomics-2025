@@ -29,12 +29,10 @@ export function tickSavings(data: SavingsAccData) {
 export function tickDisease(data : DiseaseData) : boolean | undefined {
   if (!data.active) return;
 
-  console.log(data.name);
-
   if (weightedBoolean(data.curability, 1 - data.curability)) {
     data.active = false;
     return true; //is cured
   }
 
-  state.qualityOfLife -= data.damage;
+  state.stress += data.damage;
 }

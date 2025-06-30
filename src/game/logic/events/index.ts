@@ -37,8 +37,6 @@ export function handleEvents(currentAge: number) {
       if (!picked.repeatable) state.triggeredEvents.add(picked.name);
     }
   }
-
-  console.log("Current Events:", state.events);
 }
 
 export function handleChoice(choice: Choice, data: any) {
