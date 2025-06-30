@@ -95,10 +95,6 @@ export const state = proxy({
   },
 
   get hasWon(): boolean {
-    return this.money >= 2500000;
+    return this.money >= 1000000;
   },
 });
-
-export function resetState() {
-  Object.assign(state, initialState);
-}

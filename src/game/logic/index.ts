@@ -44,7 +44,7 @@ export function gameLoop() {
 
   if (state.hasWon && !state.won) {
     state.won = true;
-    state.transcript.push("Congratulations! You've reached $2.5 million and achieved financial freedom!");
+    state.transcript.push("Congratulations! You've reached $1 million and achieved financial freedom!");
   }
 
   if (state.isBankrupt) {

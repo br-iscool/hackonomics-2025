@@ -5,10 +5,16 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, A
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-import { resetState } from "@/game/state";
+interface GameOverDialogProps {
+    onRestart: () => void;
+}
 
-export default function GameOverDialog() {
+export default function GameOverDialog({ onRestart }: GameOverDialogProps) {
 	const snap = useSnapshot(state);
+
+	const handleRestart = () => {
+		onRestart();
+	}
 
 	return (
 		<AlertDialog open={!snap.alive}>
@@ -33,7 +39,7 @@ export default function GameOverDialog() {
 				</Card>
 
 				<AlertDialogFooter>
-					<Button onClick={resetState}>Restart</Button>
+					<Button onClick={handleRestart}>Restart</Button>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

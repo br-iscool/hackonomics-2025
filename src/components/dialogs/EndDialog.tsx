@@ -1,9 +1,9 @@
 import { useSnapshot } from "valtio";
-import { state, resetState } from "@/game/state";
+import { state } from "@/game/state";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FaTrophy, FaCoins, FaCalendarAlt, FaCreditCard, FaGraduationCap, FaBriefcase } from "react-icons/fa";
+import { FaTrophy, FaCoins, FaCalendarAlt, FaCreditCard, FaGraduationCap } from "react-icons/fa";
 
 interface EndDialogProps {
     open: boolean;
@@ -31,7 +31,7 @@ export default function EndDialog({ open, onRestart }: EndDialogProps) {
                 <div className="space-y-4 pt-2">
                     <div className="text-center">
                         <h2 className="font-semibold mb-2">
-                            You've mastered the art of financial management and successfully reached 2.5 million dollars to retire!
+                            You've mastered the art of financial management and successfully reached one million dollars to retire!
                         </h2>
                     </div>
 

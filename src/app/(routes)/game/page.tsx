@@ -15,7 +15,9 @@ export default function Game() {
         <>
             <Notifier />
             <WelcomeDialog />
-            <GameOverDialog />
+            <GameOverDialog
+                onRestart={() => window.location.reload()}
+            />
             <EndDialog 
                 open={snap.won} 
                 onRestart={() => window.location.reload()} 

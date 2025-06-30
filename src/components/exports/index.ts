@@ -7,6 +7,7 @@ export { default as JobDialog } from '../dialogs/JobDialog';
 export { default as FinanceDialog } from '../dialogs/FinanceDialog';
 export { default as GameOverDialog } from '../dialogs/GameOverDialog';
 export { default as WelcomeDialog } from '../dialogs/WelcomeDialog';
+export { default as EndDialog } from '../dialogs/EndDialog';
 export { default as Products } from '../Products';
 export { default as EventManager } from '../EventManager';
 export { JobSearchDialog } from '../dialogs/JobSearchDialog';

@@ -41,7 +41,7 @@ export default function Profile() {
 					<div className="flex justify-between">
 						<span>Money:</span>
 						<span className="font-semibold text-green-400">
-							${snap.money.toFixed(2)}
+							${snap.money.toLocaleString()}
 						</span>
 					</div>
 
