@@ -26,7 +26,7 @@ export default function WelcomeDialog() {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Welcome to Balancing Act!</AlertDialogTitle>
                     <AlertDialogDescription>
-                        A financial life simulation game where you make life decisions and balance your finance.
+                        A financial life simulation game where you make life decisions and balance your finances.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
 

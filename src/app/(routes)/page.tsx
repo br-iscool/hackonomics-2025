@@ -27,7 +27,7 @@ export default function Home() {
 					<h2 className="text-2xl font-semibold mb-2">🎥 Video Demo</h2>
 					<p className="text-gray-700 mb-2">Watch a walkthrough of the gameplay and features:</p>
 					<div className="aspect-video bg-gray-300 rounded-lg flex items-center justify-center text-gray-600">
-						<iframe height="650" width="1500" src="https://www.youtube.com/embed/VE_-2r8XtYc?si=PER2FPUSPuWofw-D" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+						<iframe height="650" width="1500" src="https://www.youtube.com/embed/VE_-2r8XtYc?si=PER2FPUSPuWofw-D" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
 					</div>
 				</div>
 
